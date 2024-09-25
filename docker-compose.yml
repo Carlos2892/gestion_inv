@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  gestion-inventario:
+    build:
+      context: .
+    mem_limit: 512m
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://gestion_inv:3306/gestion_inventario
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Carlos28
+    restart: always
+    depends_on:
+      gestion_inv:
+        condition: service_healthy
+  gestion_inv:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Carlos28
+      MYSQL_PASSWORD: Carlos28
+      MYSQL_DATABASE: gestion_inventario
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10

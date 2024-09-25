@@ -1,0 +1,901 @@
+<!-- Content Header (Page header) -->
+<div class="content-header pb-1">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">ADMINISTRAR CRUCES DE INVENTARIO</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item active">Administrar Cruces</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <!-- TAB LISTADO DE CRUCES -->
+                        <li class="nav-item">
+                            <a class="nav-link active my-0" id="listado-cruces-tab" data-bs-toggle="tab" href="#listado-cruces" role="tab" aria-controls="listado-cruces" aria-selected="true">
+                                <i class="fas fa-list"></i> Listado de Cruces
+                            </a>
+                        </li>
+                        <!-- TAB REALIZAR CRUCE -->
+                        <li class="nav-item">
+                            <a class="nav-link my-0" id="realizar-cruce-tab" data-bs-toggle="tab" href="#realizar-cruce" role="tab" aria-controls="realizar-cruce" aria-selected="false">
+                                <i class="fas fa-file-signature"></i> Realizar Cruce
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                        
+                        <!-- TAB CONTENT LISTADO DE CRUCES -->
+                        <div class="tab-pane fade active show" id="listado-cruces" role="tabpanel" aria-labelledby="listado-cruces-tab">
+                            <div class="row">
+                                <!-- LISTADO DE CRUCES -->
+                                <div class="col-md-12">
+                                    <table id="tbl_cruces" class="table w-100 shadow border border-secondary">
+                                        <thead class="bg-main text-left">
+                                            <th></th>
+                                            <th>Id Cruce</th>
+                                            <th>UsuarioId</th>
+                                            <th>Usuario</th>
+                                            <th>Fecha Cruce</th>
+                                            <th>Estado</th>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TAB CONTENT REALIZAR CRUCE -->
+                        <div class="tab-pane fade" id="realizar-cruce" role="tabpanel" aria-labelledby="realizar-cruce-tab">
+                            <form id="frm-datos-cruce-inventario" class="needs-validation-cruce" novalidate>
+                                <!-- Información general del cruce -->
+                                <input type="hidden" name="id_cruce" id="id_cruce" value="0">
+                                <!-- CRITERIOS DE BÚSQUEDA -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card card-gray shadow">
+                                            <div class="card-header">
+                                                <h3 class="card-title">CRITERIOS DE BÚSQUEDA</h3>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool text-warning" id="btnLimpiarBusqueda">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div> <!-- ./ end card-tools -->
+                                            </div> <!-- ./ end card-header -->
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <!-- Código del Producto -->
+                                                    <div class="col-12 col-lg-3 mb-2">
+                                                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-barcode mr-1 my-text-color"></i>Código del Producto</label>
+                                                        <input data-index="1" type="text" class="form-control form-control-sm" id="iptCodigoBarras" style="border-radius: 20px;" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                                    </div>
+
+                                                    <!-- Categoría -->
+                                                    <div class="col-12 col-lg-3 mb-2">
+                                                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-layer-group mr-1 my-text-color"></i> Categoría</label>
+                                                        <select data-index="6" class="form-select" id="id_categoria_busqueda" aria-label="Floating label select example" required>
+                                                            <!-- Opciones dinámicas aquí -->
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Descripción del Producto -->
+                                                    <div class="col-12 col-lg-6 mb-2">
+                                                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-gifts mr-1 my-text-color"></i>Descripción del Producto</label>
+                                                        <input data-index="2" type="text" class="form-control form-control-sm" id="iptDescripcionProducto" style="border-radius: 20px;" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                                    </div>
+
+                                                    <!-- Marca -->
+                                                    <div class="col-12 col-lg-3 mb-2">
+                                                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-tags mr-1 my-text-color"></i> Marca</label>
+                                                        <select data-index="7" class="form-select" id="id_marca_busqueda" aria-label="Floating label select example" required>
+                                                            <!-- Opciones dinámicas aquí -->
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Talla -->
+                                                    <div class="col-12 col-lg-3 mb-2">
+                                                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-ruler-combined mr-1 my-text-color"></i> Talla</label>
+                                                        <select data-index="8" class="form-select" id="id_talla_busqueda" aria-label="Floating label select example" required>
+                                                            <!-- Opciones dinámicas aquí -->
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-12 col-lg-3 mb-2"></div>
+
+                                                    <!-- BOTÓN PARA BUSCAR PRODUCTOS -->
+                                                    <div class="d-flex align-items-end col-12 col-md-4 col-lg-3 my-lg-3">
+                                                        <a class="btn btn-sm btn-info w-100 fw-bold btnBuscarProducto" style="position: relative;">
+                                                            <span class="text-button">PRODUCTOS SIN STOCK</span>
+                                                            <span class="btn fw-bold icon-btn-custom d-flex align-items-center">
+                                                                <i class="fas fa-search fs-5"></i>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- ./ end card-body -->
+                                        </div> <!-- ./ end card -->
+                                    </div> <!-- ./ end col -->
+                                </div> <!-- ./ end row -->
+
+                            
+
+                                <!-- LISTADO DE PRODUCTOS PARA EL CRUCE -->
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <table id="tbl_productos_cruce" class="table w-100 shadow border border-secondary">
+                                            <thead class="bg-main text-left">
+                                                <th></th>
+                                                <th>Cod Producto</th>
+                                                <th>Producto</th>
+                                                <th>Stock Físico</th>
+                                                <th>Stock en Sistema</th>
+                                                <th>Diferencia</th>
+                                                <th>IdCategoría</th>
+                                                <th>IdMarca</th>
+                                                <th>IdTalla</th>
+                                                <th>IdInventario</th>
+                                                <th>NombreMarca</th>
+                                                <th>NombreTalla</th>
+                                                <th>DescripcionProducto</th>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- BOTONES: CANCELAR - GUARDAR CRUCE -->
+                                <div class="col-12 text-right mt-3 col-botonera">
+                                    <a class="btn btn-sm btn-danger fw-bold" id="btnCancelarCruce" style="position: relative;">
+                                        <span class="text-button">CANCELAR</span>
+                                        <span class="btn fw-bold icon-btn-danger d-flex align-items-center">
+                                            <i class="fas fa-times-circle fs-5"></i>
+                                        </span>
+                                    </a>
+                                    <a class="btn btn-sm btn-success fw-bold" id="btnGuardarCruce" style="position: relative;">
+                                        <span class="text-button">GUARDAR</span>
+                                        <span class="btn fw-bold icon-btn-success d-flex align-items-center">
+                                            <i class="fas fa-save fs-5"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.card -->
+        </div>
+    </div>
+</div>
+
+<!-- =============================================================================================================================
+MODAL MOSTRAR DETALLE DEL CRUCE
+===============================================================================================================================-->
+<!-- Modal para mostrar los detalles del cruce -->
+<div class="modal fade" id="modalDetallesCruce" tabindex="-1" role="dialog" aria-labelledby="modalDetallesCruceLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h5 class="modal-title" id="modalDetallesCruceLabel">Detalles del Cruce de Inventario</h5>
+                <button type="button" class="close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Aquí se mostrará la tabla de detalles del cruce -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <table id="tbl_productos_cruce2" class="table w-100 shadow border border-secondary">
+                            <thead class="bg-main text-left">
+                                <th>Cod Producto</th>
+                                <th>Producto</th>
+                                <th>Stock Físico</th>
+                                <th>Stock en Sistema</th>
+                                <th>Diferencia</th>
+                            </thead>
+                            <tbody></tbody> <!-- Los datos se cargarán aquí -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar el historial de cambios -->
+<div class="modal fade" id="modalHistoricoCambios" tabindex="-1" role="dialog" aria-labelledby="modalHistoricoCambiosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h5 class="modal-title" id="modalHistoricoCambiosLabel">Historial de Cambios del Cruce de Inventario</h5>
+                <button type="button" class="close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Aquí se mostrará la tabla del historial de cambios -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <table id="tbl_historico_cambios" class="table w-100 shadow border border-secondary">
+                            <thead class="bg-main text-left">
+                                <th>Id</th>
+                                <th>Fecha Cambio</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th>Detalle del Resultado</th>
+                            </thead>
+                            <tbody></tbody> <!-- Los datos se cargarán aquí -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    $(document).ready(function() {
+        fnc_CargarDataTableCruces();
+        inicializarDataTableProductos();
+        cargarCategoriasBusqueda();
+        cargarMarcasBusqueda();
+        cargarTallasBusqueda();
+    });
+    
+    $('#realizar-cruce-tab').on('click', function () {
+    // Llamar a la función para cargar los datos
+        cargarDatosDataTableProductos();
+    });
+    
+    $('#listado-cruces-tab').on('click', function () {
+    // Llamar a la función para limpar
+        limpiarFormularioCruce();
+    });
+    
+    
+    
+    
+    function cargarCategoriasBusqueda() {
+        cargarDatosEnSelector('/api/categorias', 'id_categoria_busqueda', '--Todas las categorías--');
+    }
+
+    function cargarMarcasBusqueda() {
+        cargarDatosEnSelector('/api/marcas', 'id_marca_busqueda', '--Todas las marcas--');
+    }
+
+    function cargarTallasBusqueda() {
+        cargarDatosEnSelector('/api/tallas', 'id_talla_busqueda', '--Todas las tallas--');
+    }
+    
+    function cargarDatosEnSelector(url, selectorId, defaultText) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let select = document.getElementById(selectorId);
+                select.innerHTML = ""; // Limpiar opciones previas
+                let defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.text = defaultText;
+                select.appendChild(defaultOption);
+                data.forEach(item => {
+                    let option = document.createElement('option');
+                    option.value = item.id;
+                    option.text = item.nombre;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    // BUSCAR POR CATEGORIA
+    $("#id_categoria_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSCAR POR MARCA
+    $("#id_marca_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSCAR POR TALLA
+    $("#id_talla_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos_cruce').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSQUEDA POR CODIGO DE BARRAS
+    $("#iptCodigoBarras").keyup(function() {
+        $("#tbl_productos_cruce").DataTable().column($(this).data('index')).search(this.value).draw();
+    });
+    
+    // BUSQUEDA POR DESCRIPCION
+    $("#iptDescripcionProducto").keyup(function() {
+        $("#tbl_productos_cruce").DataTable().column($(this).data('index')).search(this.value).draw();
+    });
+    
+    function fnc_CargarDataTableCruces() {
+        // Destruir y vaciar la tabla si ya está inicializada
+        if ($.fn.DataTable.isDataTable('#tbl_cruces')) {
+            $('#tbl_cruces').DataTable().destroy();
+            $('#tbl_cruces tbody').empty();
+        }
+
+        // Inicializar la DataTable
+        $("#tbl_cruces").DataTable({
+            dom: 'Bfrtip',
+            buttons: ['pageLength'],
+            pageLength: 10,
+            processing: true,
+            ajax: {
+                url: "/api/crucesInventario",
+                dataSrc: '',
+                type: "GET"
+            },
+            columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    className: 'control',
+                    render: function(data, type, row) {
+                            return `
+                                <center>
+                                    <span class='btnMostrarCruce px-1' style='cursor:pointer;' data-id='${row.idCruce}' data-bs-toggle='tooltip' data-bs-placement='top' title='Mostrar Cruce'>
+                                        <i class='fas fa-eye fs-5 text-info'></i>
+                                    </span>
+                                    <span class='btnEditarCruce px-1' style='cursor:pointer;' data-id='${row.idCruce}' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar Cruce'>
+                                        <i class='fas fa-edit fs-5 text-primary'></i>
+                                    </span>
+                                    <span class='btnMostrarHistorico px-1' style='cursor:pointer;' data-id='${row.idCruce}' data-bs-toggle='tooltip' data-bs-placement='top' title='Mostrar Histórico'>
+                                        <i class='fas fa-history fs-5 text-warning'></i>
+                                    </span>
+                                </center>`;
+                    }
+                },
+                { data: 'idCruce' },
+                { data: 'usuarioId' },
+                { data: 'usuarioNombre' },
+                { data: 'fecha' },
+                {
+                    data: 'estadoCruce',
+                    render: function(data, type, row) {
+                        if (data == 'CONFORME') {
+                            return '<span class="bg-success px-2 py-1 rounded-pill fw-bold">' + data + '</span>';
+                        } else if (data == 'DISCREPANCIA') {
+                            return '<span class="bg-warning px-2 py-1 rounded-pill fw-bold text-white">' + data + '</span>';
+                        }
+                        return data;
+                    }
+                }
+            ],
+            order: [1],
+            columnDefs: [
+                { targets: [2], visible: false },
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            drawCallback: function(settings) {
+                $('#tbl_cruces').off('click', '.btnMostrarCruce').on('click', '.btnMostrarCruce', function() {
+                    let cruceId = $(this).data('id');
+                    mostrarDetalleCruce(cruceId); // Llamar a la función que obtiene los detalles
+                });
+                
+                $('#tbl_cruces').off('click', '.btnEditarCruce').on('click', '.btnEditarCruce', function() {
+                    let cruceId = $(this).data('id');
+                    $("#realizar-cruce-tab").html('<i class="fas fa-sync-alt"></i> Editar Cruce');
+                    $('#btnGuardarCruce').find('i').removeClass('fa-save').addClass('fa-edit');
+                    $('#btnGuardarCruce span.text-button').text('ACTUALIZAR');
+                    // Cambiar a la pestaña de Registrar Compra
+                    const tabContent = new bootstrap.Tab(document.querySelector('#realizar-cruce-tab'));
+                    tabContent.show();
+                    // Cargar los datos del cruce
+                    cargarDatosCruce(cruceId);
+                });
+                
+                $('#tbl_cruces').off('click', '.btnMostrarHistorico').on('click', '.btnMostrarHistorico', function() {
+                    let cruceId = $(this).data('id');
+                    mostrarHistoricoCambios(cruceId); // Llamar a la función que muestra el historial de cambios
+                });
+            },
+            language: {
+                url: "/json/Spanish.json"
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_cruces"));
+    }
+    
+    function inicializarDataTableProductos() {
+        // Inicializar la DataTable sin datos
+        $("#tbl_productos_cruce").DataTable({
+            dom: 'Bfrtip',
+            buttons: ['pageLength'],
+            pageLength: 10,
+            columns: [
+                { data: null, orderable: false, className: 'control', defaultContent: '' },  // 0
+                { data: 'idProductoTalla' },  // 1
+                { data: 'descripcionCompletaproducto' },  // 2
+                {
+                    data: 'stockFisico',
+                    render: function(data, type, row) {
+                        return `<input type='number' class='form-control text-center iptStockFisico p-0 m-0 px-2' 
+                                        value='${data !== undefined && data !== null ? data : 0}' 
+                                        style='width:80px; height:28px;' />`;
+                    }
+                },  // 3
+                { data: 'stockActual' },  // 4
+                {
+                    data: 'diferencia',
+                    render: function(data, type, row) {
+                        return data !== undefined && data !== null ? data : 0;
+                    }
+                },  // 5
+                { data: 'idCategoria' },  // 6
+                { data: 'idMarca' },  // 7
+                { data: 'idTalla' },  // 8
+                { data: 'idInventario' },  // 9
+                { data: 'nombreMarca' },  // 10
+                { data: 'nombreTalla' },  // 11
+                { data: 'descripcionProducto' }  // 12
+            ],
+            columnDefs: [
+                { targets: [4, 5, 6, 7, 8, 9, 10, 11, 12], visible: false },
+                { targets: 1, width: '50px' },  // Ancho para 'idProductoTalla'
+                { targets: 2, width: '65%' }
+            ],
+            language: {
+                url: "/json/Spanish.json"
+            }
+        });
+
+        ajustarHeadersDataTables($("#tbl_productos_cruce"));
+    }
+    
+    function cargarDatosDataTableProductos() {
+        // Verificar si el DataTable ya está inicializado
+        if ($.fn.DataTable.isDataTable('#tbl_productos_cruce')) {
+            $('#tbl_productos_cruce').DataTable().clear().draw();  // Limpiar los datos actuales
+        }
+
+        // Hacer la llamada `fetch` para obtener los datos del inventario
+        fetch("/api/inventarios/stockDisponible")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta de la API");
+                }
+                return response.json();  // Convertir la respuesta a JSON
+            })
+            .then(data => {
+                let table = $('#tbl_productos_cruce').DataTable();
+                table.rows.add(data).draw();  // Agregar los datos al DataTable
+            })
+            .catch(error => {
+                console.error("Error al cargar los datos:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al cargar los datos de inventario.'
+                });
+            });
+    }
+    
+    // Función para manejar el clic en el botón "Guardar Cruce"
+    $('#btnGuardarCruce').on('click', function(e) {
+        e.preventDefault(); // Evitar el comportamiento por defecto del botón
+
+        // Crear el objeto `cruce` para almacenar toda la información
+        let cruce = {
+            idCruce: $('#id_cruce').val(),  // ID del cruce (si es un cruce existente)
+            estadoCruce: 'CONFORME',  // Inicialmente asumimos que es CONFORME
+            detalleCruces: []  // Array para almacenar los detalles de los productos cruzados
+        };
+
+        // Variable para verificar si hay alguna discrepancia
+        let tieneDiscrepancia = false;
+
+        // Variable para verificar si hay stock físico igual a 0
+        let tieneStockCero = false;
+
+        // Recoger todos los productos del DataTable
+        let productos = $('#tbl_productos_cruce').DataTable().rows().data().toArray();
+
+        // Recorrer cada producto para extraer la información
+        productos.forEach(function(producto, index) {
+            let rowNode = $('#tbl_productos_cruce').DataTable().row(index).node();
+
+            // Buscar el input dentro de esa fila
+            let stockFisico = parseFloat($(rowNode).find('.iptStockFisico').val());
+            let stockSistema = producto.stockActual;  // Stock en sistema
+            let diferencia = stockFisico - stockSistema;  // Diferencia calculada entre el stock físico y el stock en sistema
+
+            // Si alguna diferencia es distinta de 0, el cruce tendrá una discrepancia
+            if (diferencia !== 0) {
+                tieneDiscrepancia = true;
+            }
+
+            // Verificar si hay algún stock físico que sea igual a 0
+            if (stockFisico === 0) {
+                tieneStockCero = true;
+            }
+
+            // Agregar cada detalle al objeto `cruce`
+            cruce.detalleCruces.push({
+                idInventario: producto.idInventario,  // ID del producto y talla
+                stockSistema: stockSistema,  // Stock en sistema
+                stockFisico: stockFisico,  // Stock físico ingresado
+                diferencia: diferencia,  // Diferencia calculada
+                descripcionProducto: producto.descripcionProducto + ' / ' +
+                                     producto.nombreMarca +
+                                     ' / Talla: ' + 
+                                     producto.nombreTalla
+            });
+        });
+
+        // Si hubo alguna diferencia distinta de 0, cambiar el estado del cruce a DISCREPANCIA
+        if (tieneDiscrepancia) {
+            cruce.estadoCruce = 'DISCREPANCIA';
+        }
+
+        // Si hay algún stock físico igual a 0, mostrar el Swal para confirmación
+        if (tieneStockCero) {
+            Swal.fire({
+                title: 'Existen productos que faltan ingresar Stock. ¿Está seguro(a) de registrar el cruce?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, deseo registrarla!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, proceder a guardar el cruce
+                    guardarCruce(cruce);  // Llamar a la función para guardar el cruce
+                }
+            });
+        } else {
+            // Si no hay stock físico igual a 0, proceder a guardar directamente
+            guardarCruce(cruce);
+        }
+    });
+    
+    function guardarCruce(cruce) {
+        // Definir la URL y el método de la petición según si es una edición o creación
+        let url = '/api/crucesInventario'; 
+        let method = 'POST';  // Si es una nueva creación
+
+        if (cruce.idCruce && cruce.idCruce !== '0') { 
+            url += '/editarCruce';  // Si estamos editando un cruce existente
+            method = 'PUT';
+        }else {
+            url += '/guardarCruce';
+        }
+
+        // Hacer la petición `fetch` para enviar los datos al servidor
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cruce)  // Convertir el objeto `cruce` a JSON para enviarlo al backend
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: data.mensaje,
+                    showConfirmButton: true
+                }).then(() => {
+                    limpiarFormularioCruce();
+                    fnc_CargarDataTableCruces();
+                    const tabContent = new bootstrap.Tab(document.querySelector('#listado-cruces-tab'));
+                    tabContent.show();
+                });
+            } else if (data.status === "warning") {
+                let detalleHTML = `
+                <div style="text-align:left; font-family: Arial, sans-serif; font-size: 14px;">
+                    <h4 style="text-align: center; font-size: 23px; font-weight: bold;">Reporte de Discrepancia</h4>
+                    <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+                        <thead>
+                            <tr style="background-color: #f2f2f2;">
+                                <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">PRODUCTO</th> <!-- Cabecera alineada a la izquierda -->
+                                <th style="border: 1px solid #ddd; padding: 12px; text-align: center;">SOBRAN/FALTAN</th> <!-- Cabecera centrada -->
+                                <th style="border: 1px solid #ddd; padding: 12px; text-align: center;">CANTIDAD</th> <!-- Cabecera centrada -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.detalle.split('\n').map(line => {
+                                if (line.includes('Sobrante:')) {
+                                    return `<tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${line.split(' - ')[0].replace('Sobrante:', '')}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center; color: green;">Sobran</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${line.split(' - ')[1].replace('Cantidad:', '')}</td>
+                                    </tr>`;
+                                } else if (line.includes('Faltante:')) {
+                                    return `<tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${line.split(' - ')[0].replace('Faltante:', '')}</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center; color: red;">Faltan</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${line.split(' - ')[1].replace('Cantidad:', '')}</td>
+                                    </tr>`;
+                                }
+                                return '';  // Saltar líneas que no sean ni sobrantes ni faltantes
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                `;
+
+            Swal.fire({
+                position: 'top-center',
+                icon: 'warning',
+                title: data.mensaje,
+                html: detalleHTML,  // Usar HTML para el diseño del reporte
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'swal-wide'  // Clase personalizada
+                }
+            }).then(() => {
+                limpiarFormularioCruce();
+                fnc_CargarDataTableCruces();
+                const tabContent = new bootstrap.Tab(document.querySelector('#listado-cruces-tab'));
+                tabContent.show();
+            });
+            }
+        })
+        .catch(error => {
+            // Manejar los errores
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Error al realizar el cruce: ' + error.message,
+                showConfirmButton: true
+            });
+        });
+    }
+    
+    function mostrarDetalleCruce(cruceId) {
+    // Hacer una petición al backend para obtener los detalles del cruce
+        fetch(`/api/crucesInventario/${cruceId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.detalleCruces) {
+                    // Inicializar DataTable para mostrar los detalles del cruce
+                    let table = $('#tbl_productos_cruce2').DataTable({
+                        destroy: true,  // Destruir la tabla si ya existe
+                        scrollCollapse: true,
+                        scrollX: true,
+                        data: data.detalleCruces,  // Usar los detalles del cruce obtenidos del servidor
+                        columns: [
+                            { data: 'idProductoTalla' },  // Código del producto
+                            { data: 'descripcionProducto' },  // Producto
+                            { data: 'stockFisico' },  // Stock Físico
+                            { data: 'stockSistema' },  // Stock en Sistema
+                            { data: 'diferencia' }  // Diferencia
+                        ],
+                        columnDefs: [
+                            { 
+                                targets: [4],  // Índice de la columna 'Diferencia'
+                                createdCell: function(td, cellData, rowData, row, col) {
+                                    if (parseFloat(rowData['diferencia']) != 0) {
+                                        $(td).parent().css('background', '#F2D7D5');  // Fondo rojo claro
+                                        $(td).parent().css('color', 'black');  // Texto negro
+                                    }
+                                }
+                            }
+                        ],
+                        language: {
+                            url: '/json/Spanish.json'
+                        }
+                    });
+
+                    // Ajustar encabezados de la tabla
+                    ajustarHeadersDataTables($("#tbl_productos_cruce2"));
+
+                    // Mostrar el modal después de cargar los datos
+                    $('#modalDetallesCruce').modal('show');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles para este cruce de inventario.',
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al obtener los detalles del cruce de inventario.',
+                });
+                console.error('Error al obtener los detalles del cruce:', error);
+            });
+    }
+    
+    function cargarDatosCruce(cruceId) {
+    // Hacer una petición al backend para obtener los detalles del cruce
+        fetch(`/api/crucesInventario/${cruceId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.detalleCruces) {
+                    // Rellenar los campos generales del cruce
+                    $('#id_cruce').val(data.idCruce);  // Establecer el ID del cruce
+
+                    // Ahora cargamos los detalles del cruce en la tabla
+                    let table = $('#tbl_productos_cruce').DataTable();
+                    table.clear().draw();
+
+                    // Recorrer los detalles del cruce y añadirlos a la tabla
+                    data.detalleCruces.forEach(detalle => {
+                        table.row.add({
+                            idProductoTalla: detalle.idProductoTalla,
+                            descripcionCompletaproducto: detalle.descripcionProducto + " - " + detalle.nombreMarca + " - Talla: " + detalle.nombreTalla, // Agregar la descripción del producto
+                            stockFisico: detalle.stockFisico,
+                            stockActual: detalle.stockSistema,  // Stock en el sistema
+                            diferencia: detalle.diferencia,
+                            idCategoria: detalle.idCategoria,
+                            idMarca: detalle.idMarca,
+                            idTalla: detalle.idTalla,
+                            idInventario: detalle.idInventario,
+                            nombreMarca: detalle.nombreMarca,
+                            nombreTalla: detalle.nombreTalla,
+                            descripcionProducto: detalle.descripcionProducto
+                        }).draw();
+                    });
+
+                    // Ajustar los encabezados de la tabla si es necesario
+                    ajustarHeadersDataTables($("#tbl_productos_cruce"));
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles para este cruce de inventario.',
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al obtener los detalles del cruce de inventario.',
+                });
+                console.error('Error al obtener los detalles del cruce:', error);
+            });
+    }
+    
+    function mostrarHistoricoCambios(cruceId) {
+        fetch(`/api/historicoCambios/${cruceId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    // Inicializar DataTable para mostrar el historial de cambios
+                    let table = $('#tbl_historico_cambios').DataTable({
+                        destroy: true,  // Destruir la tabla si ya existe
+                        scrollCollapse: true,
+                        scrollX: true,
+                        lengthChange: false,
+                        searching: false,
+                        data: data,  // Usar los datos obtenidos del servidor
+                        order: [0],
+                        columns: [
+                            { data: 'id' },
+                            { data: 'fechaCambio' },  // Fecha del cambio
+                            { data: 'usuarioNombre' },  // Nombre del usuario
+                            { data: 'estado' },  // Estado (CONFORME o DISCREPANCIA)
+                            { data: 'detalleResultado' }  // Detalle del resultado
+                        ],
+                        columnDefs: [
+                            { targets: [0], visible: false },
+                            {
+                                targets: 3, // Columna del estado
+                                render: function (data, type, row) {
+                                    if (data === 'CONFORME') {
+                                        return '<span class="badge bg-success text-uppercase px-2 py-1 fs-6">' + data + '</span>';
+                                    } else if (data === 'DISCREPANCIA') {
+                                        return '<span class="badge bg-warning text-white text-uppercase px-2 py-1 fs-6">' + data + '</span>';
+                                    }
+                                    return data;
+                                }
+                            },
+                            {
+                                targets: 4,  // Columna de detalle_resultado
+                                render: function (data, type, row) {
+                                    // Formatear el detalle para que se vea mejor
+                                    return '<pre class="text-start" style="font-family: Arial, sans-serif; font-size: 0.875rem">' + data + '</pre>';
+                                }
+                            }
+                        ],
+                        language: {
+                            url: "/json/Spanish.json"  // Ajusta al idioma español
+                        }
+                    });
+
+                    // Mostrar el modal después de cargar los datos
+                    $('#modalHistoricoCambios').modal('show');
+                    ajustarHeadersDataTables($("#tbl_historico_cambios"));
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron cambios históricos para este cruce.'
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al obtener el historial de cambios del cruce.'
+                });
+                console.error('Error al obtener el historial:', error);
+            });
+    }
+    
+    function limpiarFormularioCruce() {
+        //Regresa el valor de la pestaña a Registrar Cruce
+        $("#realizar-cruce-tab").html('<i class="fas fa-file-signature"></i> Realizar Cruce');
+        $('#btnGuardarCruce').find('i').removeClass('fa-edit').addClass('fa-save');
+        $('#btnGuardarCruce span.text-button').text('GUARDAR');
+        
+        // Limpiar todos los campos de texto, select y hidden en el formulario
+        $('#frm-datos-cruce-inventario').find('input[type="text"], input[type="hidden"], input[type="number"], select').val('');
+
+        // Restablecer los select a su opción por defecto
+        $('#frm-datos-cruce-inventario').find('select').prop('selectedIndex', 0);
+
+        // Limpiar las validaciones anteriores
+        $('#frm-datos-cruce-inventario').removeClass('was-validated');
+
+    }
+    
+    function ajustarHeadersDataTables(element) {
+        var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+            entries.forEach(function(entry) {
+                $(entry.target).DataTable().columns.adjust();
+            });
+        }) : null;
+        // Function to add a datatable to the ResizeObserver entries array
+        resizeHandler = function($table) {
+            if (observer)
+                observer.observe($table[0]);
+        };
+        // Initiate additional resize handling on datatable
+        resizeHandler(element);
+    }
+</script><!-- comment -->

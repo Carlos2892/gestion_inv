@@ -1,0 +1,962 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">INVENTARIO / PRODUCTOS</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item active">Inventario / Productos</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content mb-3">
+
+    <div class="container-fluid">
+
+        <!-- row para criterios de busqueda -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">CRITERIOS DE BÚSQUEDA</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool text-warning" id="btnLimpiarBusqueda">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div> <!-- ./ end card-tools -->
+                    </div> <!-- ./ end card-header -->
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-12 col-lg-3 mb-2">
+
+                                <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-barcode mr-1 my-text-color"></i>Código del Producto</label>
+                                <input data-index="2" type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="iptCodigoBarras" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+
+                            <div class="col-12 col-lg-3 mb-2">
+                                <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-layer-group mr-1 my-text-color"></i> Categorías</label>
+                                <select data-index="4" class="form-select" id="id_categoria_busqueda" aria-label="Floating label select example" required>
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-2">
+                                <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-gifts mr-1 my-text-color"></i>Descripción del Producto</label>
+                                <input data-index="3" type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="iptDescripcionProducto" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            
+                            <div class="col-12 col-lg-3 mb-2">
+                                <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-layer-group mr-1 my-text-color"></i> Marcas</label>
+                                <select data-index="6" class="form-select" id="id_marca_busqueda" aria-label="Floating label select example" required>
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-lg-3 mb-2">
+                                <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-layer-group mr-1 my-text-color"></i> Tallas</label>
+                                <select data-index="8" class="form-select" id="id_talla_busqueda" aria-label="Floating label select example" required>
+                                </select>
+                            </div>
+                            
+                        </div>
+
+                    </div> <!-- ./ end card-body -->
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- row para listado de productos/inventario -->
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="tbl_productos" class="table w-100 shadow border border-secondary">
+                    <thead class="bg-main">
+                        <tr style="font-size: 15px;">
+                            <th> </th> <!-- 0 -->
+                            <th class="text-cetner">Opciones</th> <!-- 1 -->
+                            <th>Codigo</th> <!-- 2 -->
+                            <th>Descripción</th> <!-- 3 -->
+                            <th>IdCategoría</th>
+                            <th>Categoría</th> <!-- 4 -->
+                            <th>IdMarca</th>
+                            <th>Marca</th> <!-- 5 -->
+                            <th>IdTalla</th>
+                            <th>Talla</th> <!-- 6 -->
+                            <th>Precio Compra</th> <!-- 7 -->
+                            <th>Precio Venta</th> <!-- 8 -->
+                            <th>Stock</th> <!-- 9 -->
+                            <th>Stock Mínimo</th> <!-- 10 -->
+                            <th>Fecha Actualización</th> <!-- 11 -->
+                            <th>Estado</th> <!-- 12 -->
+                        </tr>
+                    </thead>
+                    <tbody class="text-small">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+
+</div>
+<!-- /.content -->
+
+<!-- =============================================================================================================================
+VENTA MODAL PARA REGISTRAR O ACTUALIZAR UN PRODUCTO 
+===============================================================================================================================-->
+<div class="modal fade" id="mdlGestionarProducto" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <!-- contenido del modal -->
+        <div class="modal-content">
+            <!-- cabecera del modal -->
+            <div class="modal-header bg-gray py-1">
+                <h5 class="modal-title text-white text-lg titulo-modal-productos">Registro de Producto</h5>
+                <button type="button" class="btn btn-danger btn-sm text-white text-sm" data-bs-dismiss="modal" id="btnCerrarModal">
+                    <i class="fas fa-times text-sm m-0 p-0"></i>
+                </button>
+            </div>
+
+            <!-- cuerpo del modal -->
+            <div class="modal-body">
+                <form id="frm-datos-producto" class="needs-validation" novalidate>
+                    <!-- Abrimos una fila -->
+                    <div class="row">
+                        
+                        <!-- CODIGO DE PRODUCTO OCULTO -->
+                        <input type="hidden" name="id_productoTalla" id="id_productoTalla">
+
+                        <!-- DESCRIPCION DEL PRODUCTO -->
+                        <div class="col-12 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-gifts mr-1 my-text-color"></i>Descripción</label>
+                            <input type="text" placeholder="Ingrese la descripción del producto" class="form-control form-control-sm" id="descripcion" name="descripcion" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                            <div class="invalid-feedback">Ingrese descripción del producto</div>
+                        </div>
+
+                        <!-- PRECIO DE VENTA (INC. IGV) -->
+                        <div class="col-12 col-lg-6 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-dollar-sign mr-1 my-text-color"></i>Precio de Venta</label>
+                            <input type="number" min="0" step="0.01" value="0.00" placeholder="Ingrese Precio de Venta" class="form-control form-control-sm" id="precio_venta" name="precio_venta" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                        </div>
+
+                        <!-- STOCK MINIMO -->
+                        <div class="col-12 col-lg-6 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-boxes mr-1 my-text-color"></i>Stock Mínimo</label>
+                            <input type="number" min="0" step="0.01" value="0.00" placeholder="Ingrese stock mínimo" class="form-control form-control-sm" id="minimo_stock" name="minimo_stock" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                        </div>
+
+                        <!-- CATEGORIAS -->
+                        <div class="col-12 col-lg-6 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-layer-group mr-1 my-text-color"></i>Categoría</label>
+                            <select class="form-select" id="id_categoria" name="id_categoria" aria-label="Floating label select example" required>
+                                <!-- Opciones de categoría aquí -->
+                            </select>
+                            <div class="invalid-feedback">Seleccione la categoría</div>
+                        </div>
+
+                        <!-- MARCA -->
+                        <div class="col-12 col-lg-6 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-tags mr-1 my-text-color"></i>Marca</label>
+                            <select class="form-select" id="id_marca" name="id_marca" aria-label="Floating label select example" required>
+                                <!-- Opciones de marca aquí -->
+                            </select>
+                            <div class="invalid-feedback">Seleccione la marca</div>
+                        </div>
+
+                        <!-- TALLAS -->
+                        <div class="col-12 mb-2">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-ruler-combined mr-1 my-text-color"></i>Tallas</label>
+                            <select multiple class="form-select" id="id_tallas" name="id_tallas[]" aria-label="Floating label select example" required>
+                                <!-- Opciones de tallas aquí -->
+                            </select>
+                            <div class="invalid-feedback">Seleccione al menos una talla</div>
+                        </div>
+
+                        <!-- BOTONERA -->
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-danger btn-sm fw-bold me-2 btn-modern" data-bs-dismiss="modal" id="btnCancelarRegistro">
+                                <i class="fas fa-times"></i> CANCELAR
+                            </button>
+                            <button type="submit" class="btn btn-success btn-sm fw-bold btn-modern" id="btnGuardarProducto">
+                                <i class="fas fa-save"></i> GUARDAR
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /. End -->
+
+<!-- =============================================================================================================================
+VENTA MODAL PARA AUMENTAR O DISMINUIR EL STOCK DEL PRODUCTO
+===============================================================================================================================-->
+<div class="modal fade" id="mdlGestionarStock" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-gray py-2">
+                <h6 class="modal-title" id="titulo_modal_stock">Adicionar Stock</h6>
+                <button type="button" class="btn-close text-white fs-6" data-bs-dismiss="modal" aria-label="Close" id="btnCerrarModalStock">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-12 mb-3">
+                        <label for="" class="form-label text-primary d-block">Codigo: <span id="stock_codigoProducto" class="text-secondary"></span></label>
+                        <label for="" class="form-label text-primary d-block">Producto: <span id="stock_Producto" class="text-secondary"></span></label>
+                        <label for="" class="form-label text-primary d-block">Stock: <span id="stock_Stock" class="text-secondary"></span></label>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group mb-2">
+                            <label class="" for="iptStockSumar">
+                                <i class="fas fa-plus-circle fs-6"></i> <span class="small" id="titulo_modal_label">Agregar al Stock</span>
+                            </label>
+                            <input type="number" min="0" class="form-control form-control-sm" id="iptStockSumar" placeholder="Ingrese cantidad a agregar al Stock">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="" class="form-label text-danger">Nuevo Stock: <span id="stock_NuevoStock" class="text-secondary"></span></label><br>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="btnCancelarRegistroStock">Cancelar</a>
+                <a class="btn btn-primary btn-sm" id="btnGuardarNuevoStock">Guardar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Ver Kardex -->
+<div class="modal fade" id="mdlVerKardex" tabindex="-1" aria-labelledby="kardexModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-white justify-content-center" style="background-color: #0f3b50;">
+                <h5 class="modal-title" id="kardexModalLabel">Kardex de Producto</h5>
+                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Información del Producto -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Código:</strong> <span id="codigoProducto"></span><br>
+                        <strong>Descripción:</strong> <span id="descripcionProducto"></span>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <strong>Fecha del Reporte:</strong> <span id="fechaReporte"></span>
+                    </div>
+                </div>
+
+                <!-- Filtros de Búsqueda -->
+                <form id="frmFiltroKardex" class="mb-4">
+                    <div class="row align-items-end g-3">
+                        <!-- Fecha de Inicio -->
+                        <div class="col-12 col-md-4 col-lg-3 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color">
+                                <i class="fas fa-calendar-alt mr-1 my-text-color"></i> Fecha de Inicio
+                            </label>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                    <i class="fas fa-calendar-alt text-white"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-sm datetimepicker-input" 
+                                    style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;" 
+                                    id="fechaInicio" name="fechaInicio" aria-describedby="inputGroup-sizing-sm" 
+                                    required data-target="#fechaInicio" data-toggle="datetimepicker">
+                                <div class="invalid-feedback">Ingrese Fecha de Inicio</div>
+                            </div>
+                        </div>
+
+                        <!-- Fecha de Fin -->
+                        <div class="col-12 col-md-4 col-lg-3 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color">
+                                <i class="fas fa-calendar-alt mr-1 my-text-color"></i> Fecha de Fin
+                            </label>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                    <i class="fas fa-calendar-alt text-white"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-sm datetimepicker-input" 
+                                    style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;" 
+                                    id="fechaFin" name="fechaFin" aria-describedby="inputGroup-sizing-sm" 
+                                    required data-target="#fechaFin" data-toggle="datetimepicker">
+                                <div class="invalid-feedback">Ingrese Fecha de Fin</div>
+                            </div>
+                        </div>
+
+                        <!-- Tipo de Movimiento -->
+                        <div class="col-md-4 col-lg-3 mb-2">
+                            <label class="mb-0 ml-1 text-sm my-text-color">Tipo de Movimiento</label>
+                            <select id="tipoMovimiento" class="form-select form-select-sm">
+                                <option value="">--Todos los conceptos--</option>
+                                <option value="COMPRA">ENTRADA</option>
+                                <option value="VENTA">SALIDA</option>
+                            </select>
+                        </div>
+
+                        <!-- Botón Filtrar -->
+                        <div class="col-md-12 col-lg-3 mb-2 text-end">
+                            <button type="button" class="btn btn-primary btn-sm w-100" id="btnFiltrarKardex" style="background-color: #0f3b50;">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Tabla del Kardex -->
+                <table id="tbl_kardex" class="table table-striped w-100 shadow border border-secondary">
+                    <thead>
+                        <tr style="font-size: 15px;">
+                            <th> </th>
+                            <th>Fecha Movimiento</th>
+                            <th>Concepto</th>
+                            <th>Referencia</th>
+                            <th>Precio Unitario</th>
+                            <th>Cantidad</th>
+                            <th>Stock Anterior</th>
+                            <th>Stock Actual</th>
+                            <th>Importe Total</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /. End -->
+<script>
+    
+    $(document).ready(function() {
+        cargarCategoriasBusqueda();
+        cargarMarcasBusqueda();
+        cargarTallasBusqueda();
+        fnc_CargarDataTableInventario();
+        
+        inicializarDataTableKardex();
+
+        // Inicializar Select2 para el modal
+        $('#id_tallas').select2({
+            width: '100%',
+            placeholder: "Seleccione una o más tallas"
+        });
+
+        // Cargar datos en el modal al mostrarlo
+        $('#mdlGestionarProducto').on('show.bs.modal', function (event) {
+            cargarDatosModal();
+            $('#id_tallas').prop('disabled', false);
+            $('#id_tallas').select2({
+                width: '100%',
+                placeholder: "Seleccione una o más tallas"
+            });
+        });
+    });
+    
+    function cargarCategoriasBusqueda() {
+        cargarDatosEnSelector('/api/categorias', 'id_categoria_busqueda', '--Todas las categorías--');
+    }
+
+    function cargarMarcasBusqueda() {
+        cargarDatosEnSelector('/api/marcas', 'id_marca_busqueda', '--Todas las marcas--');
+    }
+
+    function cargarTallasBusqueda() {
+        cargarDatosEnSelector('/api/tallas', 'id_talla_busqueda', '--Todas las tallas--');
+    }
+    
+    function cargarDatosModal() {
+        cargarDatosEnSelector('/api/categorias/activas', 'id_categoria', '--Seleccione una categoría--');
+        cargarDatosEnSelector('/api/marcas', 'id_marca', '--Seleccione una marca--');
+        cargarDatosEnSelector('/api/tallas', 'id_tallas', '--Seleccione una talla--');
+    }
+    
+    function limpiarFormulario() {
+        document.getElementById('frm-datos-producto').reset();
+        document.getElementById('id_productoTalla').value = '';
+        $('#id_tallas').val(null).trigger('change');  // Para limpiar el select múltiple de tallas
+    }
+    
+    document.getElementById('btnCerrarModal').addEventListener('click', function() {
+        limpiarFormulario();
+    });
+
+    $('#mdlGestionarProducto').on('show.bs.modal', function (event) {
+        cargarDatosModal();
+    });
+
+    function cargarDatosEnSelector(url, selectorId, defaultText) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let select = document.getElementById(selectorId);
+                select.innerHTML = ""; // Limpiar opciones previas
+                let defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.text = defaultText;
+                select.appendChild(defaultOption);
+                data.forEach(item => {
+                    let option = document.createElement('option');
+                    option.value = item.id;
+                    option.text = item.nombre;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    function fnc_CargarDataTableInventario() {
+        if ($.fn.DataTable.isDataTable('#tbl_productos')) {
+            $('#tbl_productos').DataTable().destroy();
+            $('#tbl_productos tbody').empty();
+        }
+
+        $("#tbl_productos").DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: '<i class="fas fa-sync-alt"></i>',
+                    className: 'bg-secondary',
+                    action: function(e, dt, node, config) {
+                        fnc_CargarDataTableInventario();
+                    }
+                },
+                {
+                    text: 'Agregar Producto',
+                    className: 'addNewRecord',
+                    action: function(e, dt, node, config) {
+                        $(".titulo-modal-productos").html("Registrar Producto");
+                        $("#mdlGestionarProducto").modal('show');
+                        $(".needs-validation").removeClass("was-validated");
+                        limpiarFormulario();
+                        $('#frm-datos-producto').find(':input').prop('disabled', false);
+                    }
+                },
+                {
+                    extend: 'excel',
+                    title: function() {
+                        return 'LISTADO DE PRODUCTOS';
+                    }
+                },
+                {
+                    extend: 'print',
+                    title: function() {
+                        return 'LISTADO DE PRODUCTOS';
+                    }
+                },
+                'pageLength'
+            ],
+            pageLength: 10,
+            ajax: {
+                url: "/api/inventarios",
+                dataSrc: '',
+                type: "GET"
+            },
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            columns: [
+                { data: null, orderable: false, className: 'control', defaultContent: '' },  // 0
+                { data: null, orderable: false,  // 1
+                    render: function(data, type, row) {
+                        let buttons = "<span class='btnEditarProducto text-primary px-1' style='cursor:pointer;'><i class='fas fa-pencil-alt fs-5'></i></span>";
+
+                        if (parseInt(row.precioCompra) > 0) {
+                            buttons += "<span class='btnAumentarStock text-success px-1' style='cursor:pointer;' title='Aumentar Stock'><i class='fas fa-plus-circle fs-5'></i></span>";
+                            buttons += "<span class='btnDisminuirStock text-warning px-1' style='cursor:pointer;' title='Disminuir Stock'><i class='fas fa-minus-circle fs-5'></i></span>";
+                            buttons += "<span class='btnVerKardex text-primary px-1' style='cursor:pointer; display:inline-flex; align-items:center;' data-bs-toggle='tooltip' data-bs-placement='top' title='Ver Kardex'>\
+                                            <i class='fas fa-clipboard-list fs-4'></i>\
+                                        </span>";
+                        }
+                        if (row.estadoProductoTalla == 'I') {
+                            buttons += "<span class='btnActivarProducto text-danger px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Activar Producto'><i class='fas fa-toggle-off fs-5 text-danger'></i></span>";
+                        } else {
+                            buttons += "<span class='btnDesactivarProducto text-danger px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Desactivar Producto'><i class='fas fa-toggle-on fs-5 text-success'></i></span>";
+                        }
+                        return buttons;
+                    }
+                },
+                { data: 'idProductoTalla' },  // 2
+                { data: 'descripcionProducto', width: '20%' },  // 3
+                { data: 'idCategoria' },  //4
+                { data: 'nombreCategoria' },  // 5
+                { data: 'idMarca' },  // 6
+                { data: 'nombreMarca' }, // 7
+                { data: 'idTalla' },  // 8
+                { data: 'nombreTalla' }, // 9
+                { data: 'precioCompra' },  // 10
+                { data: 'precioVenta' },  // 11
+                { data: 'stockActual' },  // 12
+                { data: 'stockMinimo' },  // 13
+                { data: 'fechaActualizacion' },  // 14
+                { 
+                    data: 'estadoProductoTalla',
+                    render: function(data, type, row) {
+                        return data === 'A' ? 'ACTIVO' : 'INACTIVO';
+                    }
+                }  
+            ],
+            columnDefs: [
+                { targets: [4, 6, 8], visible: false },
+                { 
+                    targets: [9],  // Índice de la columna 'stockActual'
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        if (parseFloat(rowData['stockActual']) <= parseFloat(rowData['stockMinimo'])) {
+                            $(td).parent().css('background', '#F2D7D5');  // Fondo rojo claro
+                            $(td).parent().css('color', 'black');  // Texto negro
+                        }
+                    }
+                }
+            ],
+            language: {
+                url: "/json/Spanish.json"
+            },
+            // FUNCIONALIDAD AL BOTON EDITAR PRODUCTO PARA ABRIR EL MODAL DE EDITAR Y CARGAR LOS DATOS DEL PRODUCTO SELECCIONADO
+            drawCallback: function(settings) {
+                $('#tbl_productos').off('click', '.btnEditarProducto').on('click', '.btnEditarProducto', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    $("#mdlGestionarProducto").modal('show');
+                    cargarDatosProducto(data);  // Función para cargar los datos del producto
+                });
+                
+                $('#tbl_productos').off('click', '.btnAumentarStock').on('click', '.btnAumentarStock', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    abrirModalStock(data, 'add');  // Función para aumentar el stock
+                });
+
+                $('#tbl_productos').off('click', '.btnDisminuirStock').on('click', '.btnDisminuirStock', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    abrirModalStock(data, 'subtract');  // Función para disminuir el stock
+                });
+                
+                $('#tbl_productos').off('click', '.btnActivarProducto').on('click', '.btnActivarProducto', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    cambiarEstadoProducto(data.idProductoTalla, 'A');  // Activar producto
+                });
+
+                $('#tbl_productos').off('click', '.btnDesactivarProducto').on('click', '.btnDesactivarProducto', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    cambiarEstadoProducto(data.idProductoTalla, 'I');  // Desactivar producto
+                });
+                
+                $('#tbl_productos').off('click', '.btnVerKardex').on('click', '.btnVerKardex', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).closest('tr')).data();
+                    abrirModalKardex(data.idProductoTalla, data.descripcionProducto, data.nombreMarca, data.nombreTalla);  // Función para abrir el modal y mostrar el Kardex
+                });
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_productos"));
+    }
+    
+    // BUSCAR POR CATEGORIA
+    $("#id_categoria_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSCAR POR MARCA
+    $("#id_marca_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSCAR POR TALLA
+    $("#id_talla_busqueda").change(function() {
+        var selectedValue = this.value; // Obtener el valor seleccionado
+        if (Number(selectedValue) !== 0) {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search('^' + selectedValue + '$', true, false).draw();
+        } else {
+            $('#tbl_productos').DataTable().column($(this).data('index')).search("").draw();
+        }
+    });
+    
+    // BUSQUEDA POR CODIGO DE BARRAS
+    $("#iptCodigoBarras").keyup(function() {
+        $("#tbl_productos").DataTable().column($(this).data('index')).search(this.value).draw();
+    });
+    
+    // BUSQUEDA POR DESCRIPCION
+    $("#iptDescripcionProducto").keyup(function() {
+        $("#tbl_productos").DataTable().column($(this).data('index')).search(this.value).draw();
+    });
+    
+    // GRABAR NUEVO PRODUCTO
+    document.getElementById('frm-datos-producto').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (this.checkValidity() === false) {
+            this.classList.add('was-validated');
+            event.stopPropagation();
+        } else {
+            enviarDatosProducto();
+            limpiarFormulario();
+        }
+    });
+    
+    //ENVIAR DATOS AL ENDPOINT
+    function enviarDatosProducto() {
+        let formData = new FormData(document.getElementById('frm-datos-producto'));
+        let data = {
+            idProductoTalla: formData.get('id_productoTalla') ? parseInt(formData.get('id_productoTalla')) : null,
+            descripcion: formData.get('descripcion'),
+            precioVenta: parseFloat(formData.get('precio_venta')),
+            minimoStock: parseInt(formData.get('minimo_stock')),
+            idCategoria: parseInt(formData.get('id_categoria')),
+            idMarca: parseInt(formData.get('id_marca')),
+            idTallas: formData.getAll('id_tallas[]').map(Number)
+        };
+        
+        let url = data.idProductoTalla ? `/api/inventarios/${data.idProductoTalla}` : '/api/inventarios';
+        let method = data.idProductoTalla ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error al registrar el producto');
+            }
+        })
+        .then(data => {
+            mensajeToast("success", data.mensaje);
+            $('#mdlGestionarProducto').modal('hide');
+            fnc_CargarDataTableInventario();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al registrar el producto');
+        });
+    }
+    
+    function cargarDatosProducto(data) {
+
+        // Cargar los datos del producto
+        $('#id_productoTalla').val(data.idProductoTalla);
+        $('#descripcion').val(data.descripcionProducto).prop('disabled', true);;
+        $('#precio_venta').val(data.precioVenta);
+        $('#minimo_stock').val(data.stockMinimo);
+
+        // Esperar a que los selects se hayan cargado
+        setTimeout(() => {
+            // Seleccionar la marca
+            $('#id_marca').val(data.idMarca).prop('disabled', true);
+
+            // Seleccionar la categoría
+            $('#id_categoria').val(data.idCategoria).prop('disabled', true);
+
+            // Seleccionar la talla
+            $('#id_tallas').val(data.idTalla).trigger('change').prop('disabled', true);;
+        }, 700); // Ajustar el tiempo de espera según sea necesario
+        
+        $(".titulo-modal-productos").html("Actualizar inventario de Producto");
+    }
+    
+    function abrirModalStock(data, action) {
+        document.getElementById('stock_codigoProducto').textContent = data.idProductoTalla;
+        
+        let productoDescripcion = `${data.descripcionProducto} - ${data.nombreMarca} - ${data.nombreTalla}`;
+        document.getElementById('stock_Producto').textContent = productoDescripcion;
+        
+        document.getElementById('stock_Stock').textContent = data.stockActual;
+        document.getElementById('stock_NuevoStock').textContent = data.stockActual;
+
+        // Limpiar el campo de entrada
+        document.getElementById('iptStockSumar').value = '';
+
+        // Configurar título y comportamiento del modal
+        if (action === 'add') {
+            document.getElementById('titulo_modal_stock').textContent = 'Adicionar Stock';
+            document.getElementById('titulo_modal_label').textContent = 'Agregar al Stock';
+        } else {
+            document.getElementById('titulo_modal_stock').textContent = 'Disminuir Stock';
+            document.getElementById('titulo_modal_label').textContent = 'Quitar del Stock';
+        }
+
+        // Actualizar el nuevo stock cada vez que se cambia el valor en el input
+        document.getElementById('iptStockSumar').addEventListener('input', function() {
+            let currentStock = parseInt(data.stockActual);
+            let stockChange = parseInt(this.value);
+            if (isNaN(stockChange)) stockChange = 0;
+
+            let newStock = action === 'add' ? currentStock + stockChange : currentStock - stockChange;
+            document.getElementById('stock_NuevoStock').textContent = newStock;
+        });
+
+        // Abrir el modal
+        $('#mdlGestionarStock').modal('show');
+    }
+    
+    document.getElementById('btnGuardarNuevoStock').addEventListener('click', function() {
+        // Obtener los valores necesarios
+        const stockChange = parseInt(document.getElementById('iptStockSumar').value);
+        const idProductoTalla = document.getElementById('stock_codigoProducto').textContent;
+        const newStock = parseInt(document.getElementById('stock_NuevoStock').textContent);
+
+        // Validar el valor de stockChange
+        if (isNaN(stockChange) || stockChange <= 0) {
+            alert('Por favor, ingrese una cantidad válida.');
+            return;
+        }
+
+        // Realizar la solicitud fetch
+        fetch(`/api/inventarios/updateStock/${idProductoTalla}`, {
+            method: 'PUT', // O 'POST' si tu API lo requiere
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ stockActual: newStock })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error al actualizar el stock');
+                
+            }
+        })
+        .then(data => {
+            mensajeToast("success", data.mensaje);
+            $('#mdlGestionarStock').modal('hide');
+            fnc_CargarDataTableInventario();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al actualizar el stock');
+        });
+    });
+    
+    function cambiarEstadoProducto(idProductoTalla, nuevoEstado) {
+        fetch(`/api/inventarios/toggle/${idProductoTalla}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ estadoProductoTalla: nuevoEstado })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error al cambiar estado de producto');
+                
+            }
+        })
+        .then(data => {
+            mensajeToast("success", data.mensaje);
+            fnc_CargarDataTableInventario();
+        })
+        .catch(error => {
+            //alert('Error al actualizar el estado del producto: ' + error.message);
+        });
+    }
+    
+    // Inicializar el DataTable (hacer esto solo una vez)
+    function inicializarDataTableKardex() {
+        $('#tbl_kardex').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: function() {
+                        return 'KARDEX DE PRODUCTOS';
+                    }
+                },
+                {
+                    extend: 'print',
+                    title: function() {
+                        return 'KARDEX DE PRODUCTOS';
+                    }
+                },
+                'pageLength'
+            ],
+            pageLength: 5,
+            data: [], // Inicialmente vacío
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            columns: [
+                { data: null, orderable: false, className: 'control', defaultContent: '' },
+                { data: 'fechaMovimiento' },
+                { data: 'concepto' },
+                { data: 'referencia' },
+                { data: 'precioUnitario' },
+                { data: 'cantidad' },
+                { data: 'stockAnterior' },
+                { data: 'stockActual' },
+                { data: 'importeTotal' }
+            ],
+            columnDefs: [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            order: [1],
+            language: {
+                url: "/json/Spanish.json"
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_kardex"));
+    }
+
+    // Función para refrescar el DataTable con nuevos datos
+    function refrescarDataTableKardex(data) {
+        const table = $('#tbl_kardex').DataTable();
+        table.clear();         // Limpiar los datos actuales
+        table.rows.add(data);  // Agregar los nuevos datos
+        table.draw();          // Dibujar la tabla con los nuevos datos
+    }
+
+    // Función para abrir el modal del kardex
+    function abrirModalKardex(idProductoTalla, descripcionProducto, nombreMarca, nombreTalla) {
+        // Obtener la fecha actual en formato YYYY-MM-DD
+        var fechaActual = moment().format('YYYY-MM-DD');
+
+        // Restablecer los valores de los datetimepickers a la fecha actual
+        $('#fechaInicio').val(fechaActual);
+        $('#fechaFin').val(fechaActual);
+
+        // Inicializar los datetimepickers después de restablecer los valores
+        inicializarDatetimePickers();
+
+        // Colocar los datos en la cabecera del modal
+        $('#codigoProducto').text(idProductoTalla);
+        $('#descripcionProducto').text(descripcionProducto + " - " + nombreMarca + " - Talla: " + nombreTalla);
+        $('#fechaReporte').text(new Date().toLocaleDateString());
+
+        // Obtener los datos vía AJAX y luego refrescar el DataTable
+        $.ajax({
+            url: `/api/kardex/${idProductoTalla}`,
+            type: 'GET',
+            success: function(data) {
+                refrescarDataTableKardex(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cargar el kardex:', error);
+            }
+        });
+
+        // Mostrar el modal
+        $('#mdlVerKardex').modal('show');
+    }
+
+    // Filtrar Kardex por fechas
+    $('#btnFiltrarKardex').on('click', function () {
+        
+        // Obtener los valores de las fechas
+        var fechaInicio = $('#fechaInicio').val();
+        var fechaFin = $('#fechaFin').val();
+
+        // Verificar si la fecha de inicio es mayor que la fecha de fin
+        if (moment(fechaInicio).isAfter(fechaFin)) {
+            mensajeToast("warning", "La fecha de inicio no puede ser mayor que la fecha de fin.");
+            $('#fechaInicio').val(fechaFin);
+            return; // Detener la ejecución si las fechas son inválidas
+        }
+        // Capturar los valores de los filtros
+        const filtro = {
+            productoTallaId: $('#codigoProducto').text(),  // Asumimos que el idProductoTalla está en el campo códigoProducto
+            fechaInicio: fechaInicio,
+            fechaFin: fechaFin,
+            concepto: $('#tipoMovimiento').val()
+        };
+
+        // Realizar la petición AJAX al backend
+        $.ajax({
+            url: '/api/kardex/filtrar',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(filtro),
+            success: function(data) {
+                refrescarDataTableKardex(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al filtrar el kardex:', error);
+            }
+        });
+    });
+    
+    function inicializarDatetimePickers() {
+
+        // Inicializa los datetimepickers para fecha de inicio y fecha de fin con la fecha actual
+        $('#fechaInicio, #fechaFin').datetimepicker({
+            format: 'YYYY-MM-DD', // Formato de fecha
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
+        });
+
+        // Asocia el icono del calendario para abrir el selector de fecha
+        $('#inputGroup-sizing-sm').click(function(){
+            $('#fechaInicio').datetimepicker('show');
+        });
+    }
+    
+    function ajustarHeadersDataTables(element) {
+        var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+            entries.forEach(function(entry) {
+                $(entry.target).DataTable().columns.adjust();
+            });
+        }) : null;
+        // Function to add a datatable to the ResizeObserver entries array
+        resizeHandler = function($table) {
+            if (observer)
+                observer.observe($table[0]);
+        };
+        // Initiate additional resize handling on datatable
+        resizeHandler(element);
+    }
+
+</script>
