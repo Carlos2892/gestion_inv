@@ -1,0 +1,855 @@
+<div class="content-header pb-1">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">COMPROBANTE</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                    <li class="breadcrumb-item active">Ventas / Boleta</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nuevo contenido con pestañas -->
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <!-- TAB REGISTRO DE VENTAS -->
+                        <li class="nav-item">
+                            <a class="nav-link active my-0" id="registrar-ventas-tab" data-bs-toggle="tab" href="#registrar-ventas" role="tab" aria-controls="registrar-ventas" aria-selected="true"><i class="fas fa-file-signature"></i> Registrar Comprobante</a>
+                        </li>
+                        <!-- TAB LISTADO DE VENTAS -->
+                        <li class="nav-item">
+                            <a class="nav-link my-0" id="listado-ventas-tab" data-bs-toggle="tab" href="#listado-ventas" role="tab" aria-controls="listado-ventas" aria-selected="false"><i class="fas fa-list"></i> Listado de Comprobantes</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                        <!-- CONTENIDO DE REGISTRO DE VENTAS -->
+                        <div class="tab-pane fade show active" id="registrar-ventas" role="tabpanel" aria-labelledby="registrar-ventas-tab">
+                            <!-- Aquí comienza el contenido de "Registrar Venta" -->
+                            <!-- Contenedor similar a la imagen -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <div class="card card-primary custom-bordered">
+                                            <div class="card-header" style="background-color: #0f3b50;">
+                                                <h3 class="card-title">Registro de Venta</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Formulario de información de la venta -->
+                                                <form id="frm-datos-registro-ventas" class="needs-validation-registro-ventas" novalidate>
+                                                    <input type="hidden" name="id_venta" id="id_venta" value="0">
+                                                    <input type="hidden" name="id_cliente" id="id_cliente" value="0">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="fechaVenta">Fecha de Venta:</label>
+                                                                <div class="input-group mb-3" style="height: 40px;"> <!-- Ajusta la altura aquí -->
+                                                                    <span class="input-group-text" id="inputGroup-fechaVenta" style="cursor: pointer; height: 100%; align-items: center;">
+                                                                        <i class="fas fa-calendar-alt ml-1 text-white"></i>
+                                                                    </span>
+                                                                    <input type="text" class="form-control datetimepicker-input" style="height: 100%; border-top-right-radius: 20px; border-bottom-right-radius: 20px;" id="fechaVenta" name="fechaVenta" aria-describedby="inputGroup-fechaVenta" required data-target="#fechaVenta" data-toggle="datetimepicker">
+                                                                    <div class="invalid-feedback">Ingrese Fecha de Venta</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="correlativoVenta">Correlativo:</label>
+                                                                <input type="text" class="form-control" id="correlativoVenta" name="correlativoVenta" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Campos de datos del cliente -->
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="tipoDocumento">Tipo de Documento:</label>
+                                                                <select class="form-control" id="tipoDocumento" name="tipoDocumento">
+                                                                    <option value="0">Seleccione...</option> <!-- Cambié el valor a 0 para manejar la lógica -->
+                                                                    <option value="1">DNI</option>
+                                                                    <option value="2">RUC</option>
+                                                                    <option value="3">CE</option>
+                                                                    <option value="4">0-DOC.N.DOMICILIADO</option> <!-- Nueva opción para clientes sin registro -->
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="nroDocumento">Nro Documento:</label>
+                                                                <input type="number" class="form-control" id="nroDocumento" name="nroDocumento" disabled>
+                                                                <div class="invalid-feedback">Ingrese Número de Documento</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="nombreCliente">Nombre:</label>
+                                                                <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" disabled>
+                                                                <div class="invalid-feedback">Ingrese Nombre del Cliente</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="apellidoCliente">Apellido:</label>
+                                                                <input type="text" class="form-control" id="apellidoCliente" name="apellidoCliente" disabled>
+                                                                <div class="invalid-feedback">Ingrese Apellido del Cliente</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>   
+                                                <!-- Buscar producto -->
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="buscarProducto">Digite el Producto a vender:</label>
+                                                            <input type="text" class="form-control" id="buscarProducto" placeholder="Buscar producto">
+                                                            <!-- Contenedor para los resultados de la búsqueda -->
+                                                            <div id="searchResults" class="dropdown-menu" style="display: none;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="formaPago">Forma de Pago:</label>
+                                                            <select class="form-control" id="formaPago">
+                                                                <option>Contado</option>
+                                                                <option>Crédito</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Mostrar total de la venta -->
+                                                <div class="row mt-3">
+                                                    <div class="col-md-8">
+                                                        <div class="card bg-dark">
+                                                            <div class="card-body">
+                                                                <h2 class="text-yellow text-center">
+                                                                    <strong><span id="big_resumen_total_venta">S/ 0.00</span></strong>
+                                                                </h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Gestionar forma de pago, total recibido y vuelto -->
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="totalRecibido">Total Recibido:</label>
+                                                            <input type="text" class="form-control" id="totalRecibido" value="0.00">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="vuelto">Vuelto:</label>
+                                                            <input type="text" class="form-control" id="vuelto" value="0" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>    
+
+                                    <div class="card card-primary custom-bordered">
+                                        <div class="card-header" style="background-color: #0f3b50;">
+                                            <h3 class="card-title">Listado de Productos</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <table id="tbl_ListadoProductos" class="table w-100 shadow border border-secondary">
+                                                        <thead class="bg-main text-left">
+                                                            <th>Código</th>
+                                                            <th>Descripción</th>
+                                                            <th>Precio Unit.</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Descuento</th>
+                                                            <th>Total</th>
+                                                            <th>SubTotal</th>
+                                                            <th>PrecioCompra</th>
+                                                            <th></th>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Resumen de la venta -->
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <!-- Espacio vacío o contenido adicional aquí -->
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card-primary custom-bordered">
+                                                <div class="card-header text-white" style="background-color: #0f3b50;">
+                                                    <h3 class="card-title">RESUMEN</h3>
+                                                </div>
+                                                <div class="card-body py-2">
+                                                    <div class="row fw-bold">
+                                                        <div class="col-12">
+                                                            <span>SUBTOTAL</span>
+                                                            <span class="float-right" id="resumen_subtotal">S/ 0.00</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <span>DESCUENTO</span>
+                                                            <span class="float-right" id="resumen_descuento">S/ 0.00</span>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr style="border-top: 1px solid #ccc;">
+                                                        </div>
+                                                        <div class="col-12 fs-5">
+                                                            <span>TOTAL</span>
+                                                            <span class="float-right" id="resumen_total_venta">S/ 0.00</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="btn btn-success btn-block" id="btn_generar_venta">
+                                                        <i class="fas fa-shopping-cart"></i> GENERAR VENTA
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTENIDO DE LISTADO DE VENTAS -->
+                        <div class="tab-pane fade" id="listado-ventas" role="tabpanel" aria-labelledby="listado-ventas-tab">
+                            <!-- Aquí puedes agregar el contenido para "Listado de Ventas" -->
+                            <!-- Ejemplo de tabla de listado de ventas -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Listado de Ventas</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-bordered">
+                                                <thead class="bg-primary text-white">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Fecha</th>
+                                                        <th>Cliente</th>
+                                                        <th>Tipo Documento</th>
+                                                        <th>Nro Documento</th>
+                                                        <th>Total</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Detalles de ventas -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- Fin de tab-content -->
+                </div> <!-- Fin de card-body -->
+            </div> <!-- Fin de card -->
+        </div> <!-- Fin de col-12 -->
+    </div> <!-- Fin de row -->
+</div>
+
+<script>
+    
+    $(document).ready(function() {
+        cargarDatos('/api/tipodocumentos', 'tipoDocumento');
+        cargarDatos('/api/formaspago', 'formaPago');
+        cargarCorrelativo();
+        
+        // Inicializar el estado de los labels al cargar la página
+        alternarDatosCliente(0);
+        
+        if ($.fn.DataTable.isDataTable('#tbl_ListadoProductos')) {
+            $('#tbl_ListadoProductos').DataTable().destroy();
+            $('#tbl_ListadoProductos tbody').empty();
+        }
+        
+        $('#tbl_ListadoProductos').DataTable({
+            scrollCollapse: true,
+            scrollX: true,
+            lengthChange: false,
+            searching: false,
+            ordering: false,
+            columns: [
+                { data: 'codigo' },
+                { data: 'descripcion' },
+                { data: 'precioUnit' },
+                { data: 'cantidad', defaultContent: '1' },
+                { data: 'descuento', defaultContent: '0.00' },
+                { data: 'total' },
+                { data: 'subtotal' },
+                { data: 'precioCompra' },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return "<span class='btnEliminarProducto text-danger px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Eliminar producto'>" +
+                               "<i class='fas fa-trash fs-6'></i>" +
+                               "</span>";
+                    },
+                    orderable: false
+                }
+            ],
+            columnDefs: [
+                { targets: [6, 7], visible: false },
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            language: {
+                url: '/json/Spanish.json'
+            },
+            drawCallback: function(settings) {
+                actualizarEventos();
+            }
+        });
+
+        // Evento para eliminar productos de la tabla
+        $('#tbl_ListadoProductos').on('click', '.btnEliminarProducto', function () {
+            const tblListadoProductos = $('#tbl_ListadoProductos').DataTable();
+            tblListadoProductos.row($(this).parents('tr')).remove().draw();
+            actualizarResumenVenta();
+        });
+        
+        let nuevoCorrelativo;
+    });
+    
+    
+    
+    $('#tipoDocumento').change(function() {
+        const selectedValue = $(this).val();
+        alternarDatosCliente(selectedValue);
+
+        // Limpiar los valores de los campos cuando cambie el tipo de documento
+        $('#nroDocumento').val('');
+        $('#nombreCliente').val('');
+        $('#apellidoCliente').val('');
+    });
+
+    function alternarDatosCliente(tipoDocumentoId) {
+        const shouldEnable = Number(tipoDocumentoId) !== 0;
+
+        $('#nroDocumento').prop('disabled', !shouldEnable);
+        $('#nombreCliente').prop('disabled', !shouldEnable);
+        $('#apellidoCliente').prop('disabled', !shouldEnable);
+
+        if (shouldEnable) {
+            // Si se debe habilitar, agregar el atributo 'required'
+            $('#nroDocumento').attr('required', true);
+            $('#nombreCliente').attr('required', true);
+            $('#apellidoCliente').attr('required', true);
+        } else {
+            // Si no se debe habilitar, quitar el atributo 'required' y establecer #id_cliente en 0
+            $('#nroDocumento').removeAttr('required');
+            $('#nombreCliente').removeAttr('required');
+            $('#apellidoCliente').removeAttr('required');
+            $('#id_cliente').val(0);
+        }
+    }
+
+    function cargarDatos(url, selectId) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const selectElement = document.getElementById(selectId);
+                selectElement.innerHTML = '';
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.text = item.descripcion;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error(`Error al cargar datos desde ${url}:`, error);
+            });
+    }
+    
+    function cargarCorrelativo() {
+        fetch('/api/ventas/correlativo')
+            .then(response => response.json())
+            .then(data => {
+                const correlativoInput = document.getElementById('correlativoVenta');
+                nuevoCorrelativo = data.ultimoCorrelativo + 1;  // Si es 0, se convertirá en 1
+                correlativoInput.value = `Comprobante ${nuevoCorrelativo}`;
+            })
+            .catch(error => {
+                console.error('Error al cargar el correlativo:', error);
+            });
+    }
+    
+    // evento al ingresar una tecla en el input dni
+    $('#nroDocumento').on('keyup', function() {
+        const tipoDocumentoId = $('#tipoDocumento').val();
+        const numeroDocumento = $(this).val();
+
+        // Si se borra el contenido del campo o el número es demasiado corto para una búsqueda
+        if (numeroDocumento.length === 0) {
+            limpiarCamposCliente(); // Limpia los campos si no hay texto en el campo
+        } else {
+            buscarCliente(tipoDocumentoId, numeroDocumento);
+        }
+    });
+
+    function buscarCliente(tipoDocumentoId, numeroDocumento) {
+        fetch(`/api/clientes/buscar?tipoDocumentoId=${tipoDocumentoId}&numeroDocumento=${numeroDocumento}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la búsqueda del cliente');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && numeroDocumento === $('#nroDocumento').val()) { // Verifica que el número no ha cambiado
+                    // Llenar los campos de nombre y apellido si se encuentra el cliente
+                    $('#nombreCliente').val(data.nombre).prop('disabled', true);
+                    $('#apellidoCliente').val(data.apellido).prop('disabled', true);
+                    $('#id_cliente').val(data.id);
+                } else {
+                    // Limpiar los campos si no se encuentra el cliente
+                    limpiarCamposCliente();
+                }
+            })
+            .catch(error => {
+                console.error('Error al buscar el cliente:', error);
+                limpiarCamposCliente(); // Limpia campos en caso de error
+            });
+    }
+    
+    $('#buscarProducto').on('keyup', function() {
+        const buscarProductoInput = document.getElementById('buscarProducto');
+        const searchResults = document.getElementById('searchResults');
+        const query = buscarProductoInput.value.trim();
+
+        if (query.length > 0) {
+            buscarProducto(query);
+        } else {
+            searchResults.style.display = 'none';
+        }
+    });
+    
+    function buscarProducto(query) {
+        fetch(`/api/productos/buscar?q=${encodeURIComponent(query)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let results = '';
+                data.forEach(producto => {
+                    results += `<div class="dropdown-item" data-producto='${JSON.stringify(producto)}'>
+                                    <strong>Código:</strong> ${producto.id} - <strong>Producto:</strong> ${producto.descripcionProducto}<br>
+                                    <strong>Stock:</strong> ${producto.stockActual} - <strong>Costo Unit.:</strong> ${producto.precioVenta.toFixed(2)}
+                                </div>`;
+                });
+
+                const searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = results;
+                searchResults.style.display = 'block';
+                
+                // Agregar evento de clic a cada resultado usando jQuery
+                $('.dropdown-item').on('click', function () {
+                    const producto = $(this).data('producto');
+                    agregarProductoATabla(producto);
+                    searchResults.style.display = 'none'; // Ocultar resultados de búsqueda
+                    $('#buscarProducto').val('').focus(); // Limpiar el input de búsqueda
+                });
+            })
+            .catch(error => {
+                console.error('Error al realizar la búsqueda:', error);
+                document.getElementById('searchResults').style.display = 'none';
+            });
+    }
+    
+    function agregarProductoATabla(producto) {
+        // Calcula el total para la fila
+        let tblListadoProductos = $('#tbl_ListadoProductos').DataTable();
+        let existingProduct = tblListadoProductos
+            .rows()
+            .data()
+            .toArray()
+            .some(row => row.codigo === producto.id);
+
+        if (existingProduct) {
+            mensajeToast("warning", "El producto ya fue agregado al listado");
+            return;
+        }
+        let cantidad = 1;
+        let descuento = 0.00;
+        let precioCompra = producto.precioCompra.toFixed(2);
+        let precioUnitario = producto.precioVenta.toFixed(2);
+        let total = precioUnitario;
+        let stock = producto.stockActual;
+
+        // Agregar fila al DataTable
+        tblListadoProductos.row.add({
+            codigo: producto.id,
+            descripcion: producto.descripcionProducto,
+            //precioUnit: `S/ ${precioUnitario}`,
+            precioUnit: precioUnitario,
+            cantidad: `<input type='number' class='form-control text-center iptCantidad p-0 m-0 px-2' value='${cantidad}' style='width:80px; height:28px;' data-stock='${stock}' />`,  // Agregar atributo data-stock
+            descuento: `<input type='number' class='form-control text-center iptDescuento p-0 m-0 px-2' value='${descuento}' style='width:80px; height:28px;' data-stock='${stock}'/>`,
+            total: total,
+            subtotal: total,
+            precioCompra: precioCompra,
+            acciones: null
+        }).draw();
+        
+        actualizarEventos();
+        actualizarResumenVenta();
+    }
+    
+    function actualizarEventos() {
+        $('.iptCantidad, .iptDescuento').off('blur').on('blur', function() {
+            if ($(this).hasClass('iptCantidad')) {
+                validarCantidad(this);
+            }
+            let rowElement = $(this).closest('tr');
+            let table = $('#tbl_ListadoProductos').DataTable();
+            let row = table.row(rowElement);
+            let data = row.data();
+
+            let precioUnitarioText = rowElement.find('td').eq(2).text(); // asumiendo que es la tercera columna (indice 2)
+            let precioUnitario = parseFloat(precioUnitarioText.replace('S/ ', ''));
+            let cantidad = parseFloat(rowElement.find('.iptCantidad').val());
+            let descuento = parseFloat(rowElement.find('.iptDescuento').val());
+            let stock = parseInt($(this).data('stock'));
+
+            if (!isNaN(cantidad) && !isNaN(descuento)) {
+                let total = (precioUnitario * cantidad) - descuento;
+                let subtotal = precioUnitario * cantidad;
+
+                // Actualizar sólo las celdas específicas
+                data.cantidad = `<input type='number' class='form-control text-center iptCantidad p-0 m-0 px-2' value='${cantidad}' style='width:80px; height:28px;' data-stock='${stock}' />`;
+                data.descuento = `<input type='number' class='form-control text-center iptDescuento p-0 m-0 px-2' value='${descuento.toFixed(2)}' style='width:80px; height:28px;' data-stock='${stock}' />`;
+                rowElement.find('td:eq(5)').text(total.toFixed(2));
+                rowElement.find('td:eq(6)').text(subtotal.toFixed(2));
+
+                // Actualizar los datos en la tabla sin redibujar toda la fila
+                data.total = total.toFixed(2);
+                data.subtotal = subtotal.toFixed(2);
+                row.data(data).draw(false);
+
+                // Actualizar el resumen de la compra
+                actualizarResumenVenta();
+            }
+        });
+    }
+    
+    function validarCantidad(input) {
+        let cantidad = parseInt(input.value);
+        let stock = parseInt($(input).data('stock'));
+
+        if (cantidad > stock) {
+            mensajeToast("warning", `La cantidad no puede ser mayor al stock disponible (${stock} unidades).`);
+            // Restablecer el valor a la cantidad máxima permitida
+            input.value = stock;
+        }
+    }
+    
+    function actualizarResumenVenta() {
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+        let data = tblProductos.rows().nodes(); 
+        let subtotal = 0;
+        let descuento = 0;
+        let total = 0;
+
+         $(data).each(function(index, rowElement) {
+            let row = tblProductos.row(rowElement).data();
+            subtotal += parseFloat(row.subtotal);
+            // Acceder al valor del input de descuento en la fila
+            let descuentoValue = parseFloat($(rowElement).find('.iptDescuento').val()) || 0; // Si está vacío o inválido, usa 0
+            descuento += descuentoValue;
+            total += parseFloat(row.total);
+        });
+        
+        $('#resumen_subtotal').text('S/ ' + subtotal.toFixed(2));
+        $('#resumen_descuento').text('S/ ' + descuento.toFixed(2));
+        $('#resumen_total_venta').text('S/ ' + total.toFixed(2));
+        $('#big_resumen_total_venta').text('S/ ' + total.toFixed(2));
+        $('#totalRecibido').val(total);
+    }
+    
+    // FUNCION PARA EL BOTON DE GRABAR COMPRA
+    $('#btn_generar_venta').on('click', function(e) {
+        e.preventDefault();
+
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+
+        // Validar formulario
+        if (!$('#frm-datos-registro-ventas')[0].checkValidity()) {
+            e.stopPropagation();
+            $('#frm-datos-registro-ventas').addClass('was-validated');
+            mensajeToast("error", "Complete los datos obligatorios");
+            return;
+        }
+
+        // Validar existencia de items y sus valores en la lista de compra
+        let numRows = tblProductos.rows().count();
+        let valoresEnCero = false;
+
+        // Verificar si hay productos en la tabla
+        if (numRows === 0) {
+            mensajeToast("error", "Ingrese los productos de la venta");
+            return;
+        }
+
+        // Validar que cantidad y costo unitario no sean 0, vacíos o un punto
+        tblProductos.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            let data = this.data();
+            let cantidad = $(data.cantidad).val().trim();
+            let descuento = $(data.descuento).val().trim();
+
+            let cantidadNumerica = parseFloat(cantidad);
+            let descuentoNumerico = parseFloat(descuento);
+
+            if (
+                cantidad === "" || descuento === "" || 
+                cantidad === "." || descuento === "." || 
+                isNaN(cantidadNumerica) || cantidadNumerica <= 0 || 
+                isNaN(descuentoNumerico) || descuentoNumerico < 0
+            ) {
+                valoresEnCero = true;
+                return false; // Terminar el loop si se encuentra un valor inválido
+            }
+        });
+
+        if (valoresEnCero) {
+            mensajeToast("error", "La cantidad mínima debe ser 1, descuento min 0");
+            return;
+        }
+
+        Swal.fire({
+            title: '¿Está seguro(a) de registrar la Venta?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo registrarla!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let venta = {
+                    id: $('#id_venta').val(),
+                    clienteId: $('#id_cliente').val(),
+                    fecha: $('#fechaVenta').val(),
+                    correlativo: nuevoCorrelativo,
+                    formaPagoId: $('#formaPago').val(),
+                    subtotal: 0,
+                    descuento: 0,
+                    importeTotal: 0,
+                    detalleVentas: []
+                };
+
+                let productos = tblProductos.rows().data().toArray();
+
+                productos.forEach(function(producto) {
+                    let cantidad = parseFloat($(producto.cantidad).val());
+                    let precioUnitario = parseFloat(producto.precioUnit);
+                    let importeTotal = parseFloat(producto.total);
+                    let subtotal = parseFloat(producto.subtotal);
+                    let descuento = parseFloat($(producto.descuento).val());
+                    let precioCompra = parseFloat(producto.precioCompra);
+
+                    venta.detalleVentas.push({
+                        productoTallaId: producto.codigo,
+                        cantidad: cantidad,
+                        precioUnitario: precioUnitario,
+                        subtotal: subtotal,
+                        precioCompra: precioCompra,
+                        descuento: descuento,
+                        importeTotal: importeTotal
+                    });
+                    venta.subtotal += subtotal;
+                    venta.descuento += descuento;
+                    venta.importeTotal += importeTotal;
+                });
+
+                // Verificar si el cliente es nuevo
+                if ($('#id_cliente').val() === "0" && $('#nroDocumento').val().trim() !== "") {
+                    // Crear cliente
+                    let nuevoCliente = {
+                        tipoDocumentoId: $('#tipoDocumento').val(),
+                        numeroDocumento: $('#nroDocumento').val().trim(),
+                        nombre: $('#nombreCliente').val().trim(),
+                        apellido: $('#apellidoCliente').val().trim()
+                    };
+                    crearCliente(nuevoCliente, venta);
+                } else {
+                    // Registrar la venta directamente
+                    registrarVenta(venta);
+                }
+            }
+        });
+    });
+
+    function crearCliente(cliente, venta) {
+        fetch('/api/clientes/crear', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cliente)
+        })
+        .then(response => response.json())
+        .then(clienteData => {
+            if (clienteData.status === "success") {
+                // Asignar el nuevo ID de cliente a la venta
+                venta.clienteId = Number(clienteData.id);
+                // Registrar la venta con el nuevo cliente
+                registrarVenta(venta);
+            } else {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Error al registrar el cliente: ' + clienteData.mensaje,
+                    showConfirmButton: true
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Error al registrar el cliente: ' + error.message,
+                showConfirmButton: true
+            });
+        });
+    }
+
+    function registrarVenta(venta) {
+        fetch('/api/ventas/registrar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(venta)
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.fire({
+                position: 'top-center',
+                icon: data.status, // 'success' o 'error'
+                title: data.mensaje,
+                showConfirmButton: true
+            }).then(() => {
+                if (data.status === "success") {
+                    // Limpiar el formulario de ventas
+                    limpiarFormularioVentas();
+                    // Recargar el DataTable de ventas
+                    fnc_CargarDataTableVentas();
+                }
+            });
+        })
+        .catch(error => {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Error al registrar la venta: ' + error.message,
+                showConfirmButton: true
+            });
+        });
+    }
+    
+    function limpiarFormularioVentas() {
+        // Limpiar los campos de texto y selects
+        $('#frm-datos-registro-ventas')[0].reset();
+
+        // Restablecer el valor del ID de la venta y cliente a 0
+        $('#id_venta').val(0);
+        $('#id_cliente').val(0);
+        
+        // Remover la clase 'was-validated'
+        $('#frm-datos-registro-ventas').removeClass('was-validated');
+
+        // Deshabilitar los campos de cliente nuevamente
+        $('#nroDocumento').prop('disabled', true);
+        $('#nombreCliente').prop('disabled', true);
+        $('#apellidoCliente').prop('disabled', true);
+
+        // Limpiar los resultados de búsqueda de productos
+        $('#buscarProducto').val('');
+        $('#searchResults').empty().hide();
+
+        // Vaciar la tabla de productos
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+        tblProductos.clear().draw();
+
+        // Restablecer los valores de resumen de venta
+        $('#resumen_subtotal').text('S/ 0.00');
+        $('#resumen_descuento').text('S/ 0.00');
+        $('#resumen_total_venta').text('S/ 0.00');
+        $('#big_resumen_total_venta').text('S/ 0.00');
+
+        // Restablecer los valores de total recibido y vuelto
+        $('#totalRecibido').val('0.00');
+        $('#vuelto').val('0.00');
+
+        // Restablecer el correlativo (opcional, si quieres generar un nuevo correlativo)
+        cargarCorrelativo();
+    }
+    
+    //calcular el valor del vuelto
+    $('#totalRecibido').on('blur', function() {
+        const totalVenta = parseFloat($('#big_resumen_total_venta').text().replace('S/', '').trim());
+        const totalRecibido = parseFloat($(this).val());
+
+        if (isNaN(totalRecibido) || totalRecibido < totalVenta) {
+            mensajeToast("warning", "El monto recibido no puede ser menor al total de la venta");
+            $('#vuelto').val('0.00');  // Restablecer el valor de vuelto
+            $(this).val(totalVenta.toFixed(2));  // Restablecer el valor de totalRecibido al total de la venta
+        } else {
+            // Calcular el vuelto
+            const vuelto = totalRecibido - totalVenta;
+            $('#vuelto').val(vuelto.toFixed(2));
+        }
+    });
+
+
+    function limpiarCamposCliente() {
+        $('#nombreCliente').val('').prop('disabled', false);
+        $('#apellidoCliente').val('').prop('disabled', false);
+        $('#id_cliente').val('0');
+    }
+    
+    $(function () {
+        $('#fechaVenta').datetimepicker({
+            format: 'YYYY-MM-DD', // Formato de fecha que desees
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
+        });
+
+        // Asocia el icono del calendario para abrir el selector de fecha
+        $('#inputGroup-fechaVenta').click(function(){
+            $('#fechaVenta').datetimepicker('show');
+        });
+    });
+
+</script>

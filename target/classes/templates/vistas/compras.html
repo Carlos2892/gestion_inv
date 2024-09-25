@@ -1,0 +1,1564 @@
+<!-- Content Header (Page header) -->
+<div class="content-header pb-1">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">ADMINISTRAR COMPRAS</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item active">Administrar Compras</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <!-- TAB LISTADO DE COMPRAS -->
+                        <li class="nav-item">
+                            <a class="nav-link active my-0" id="listado-compras-tab" data-bs-toggle="tab" href="#listado-compras" role="tab" aria-controls="listado-compras" aria-selected="true"><i class="fas fa-list"></i> Listado de Compras</a>
+                        </li>
+                        <!-- TAB REGISTRO DE COMPRAS -->
+                        <li class="nav-item">
+                            <a class="nav-link my-0" id="registrar-compras-tab" data-bs-toggle="tab" href="#registrar-compras" role="tab" aria-controls="registrar-compras" aria-selected="false"><i class="fas fa-file-signature"></i> Registrar Compra</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                        <!-- TAB CONTENT LISTADO DE COMPRAS -->
+                        <div class="tab-pane fade active show" id="listado-compras" role="tabpanel" aria-labelledby="listado-compras-tab">
+                            <div class="row">
+                                <!-- LISTADO DE BOLETAS -->
+                                <div class="col-md-12">
+                                    <table id="tbl_compras" class="table w-100 shadow border border-secondary">
+                                        <thead class="bg-main text-left">
+                                            <th></th>
+                                            <th>Id</th>
+                                            <th>Id Proveedor</th>
+                                            <th>Proveedor</th>
+                                            <th>Fec. Compra</th>
+                                            <th>Id Tipo Comprobante</th>
+                                            <th>Comprobante</th>
+                                            <th>Serie</th>
+                                            <th>Correlativo</th>
+                                            <th>Total Compra</th>
+                                            <th>Estado</th>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TAB CONTENT REGISTRO DE COMPRAS -->
+                        <div class="tab-pane fade" id="registrar-compras" role="tabpanel" aria-labelledby="registrar-compras-tab">
+                            <!-- COMPROBANTE DE PAGO -->
+                            <form id="frm-datos-registro-compras" class="needs-validation-registro-compras" novalidate>
+                                <input type="hidden" name="id_compra" id="id_compra" value="0">
+                                <input type="hidden" name="id_proveedor" id="id_proveedor" value="0">
+                                <div class="row mb-2">
+                                    <!-- RUC PROVEEDOR -->
+                                    <div class="col-12 col-md-5 col-lg-3 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lbldocumento"><i class="fas fa-id-card mr-1 my-text-color"></i> Nro Documento</label>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <span class="input-group-text btnBuscarProveedor" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                                <i class="fas fa-search ml-1 text-white"></i>
+                                            </span>
+                                            <input type="text" class="form-control form-control-sm readonly" style="border-top-right-radius: 20px;border-bottom-right-radius: 20px;" id="proveedor" name="proveedor" aria-describedby="inputGroup-sizing-sm" required>
+                                            <div class="invalid-feedback">Ingrese al Proveedor</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RAZON SOCIAL -->
+                                    <div class="col-12 col-md-5 col-lg-6 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lblrazonsocial"><i class="fas fa-file-signature mr-1 my-text-color"></i> Razón Social/Nombre Completo</label>
+                                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="razon_social" name="razon_social" disabled>
+                                    </div>
+
+                                    <!-- FECHA DE COMPRA -->
+                                    <div class="col-12 col-md-4 col-lg-3 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lblfecharegistro">
+                                            <i class="fas fa-id-card mr-1 my-text-color"></i> Fecha Registro
+                                        </label>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                                <i class="fas fa-calendar-alt ml-1 text-white"></i>
+                                            </span>
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;" id="fecha_registro" name="fecha_registro" aria-describedby="inputGroup-sizing-sm" required data-target="#fecha_registro" data-toggle="datetimepicker">
+                                            <div class="invalid-feedback">Ingrese Fecha de Registro</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TIPO COMPROBANTE -->
+                                    <div class="col-12 col-md-4 col-lg-3 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lblcomprobante"><i class="fas fa-file-alt mr-1 my-text-color"></i> Comprobante</label>
+                                        <select class="form-select" id="tipo_comprobante" name="tipo_comprobante" required></select>
+                                        <div class="invalid-feedback">Seleccione Tipo de Comprobante</div>
+                                    </div>
+
+                                    <!-- SERIE -->
+                                    <div class="col-12 col-md-4 col-lg-3 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lblserie"><i class="fas fa-barcode mr-1 my-text-color"></i> Serie</label>
+                                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm text-uppercase" id="serie" name="serie" required>
+                                        <div class="invalid-feedback">Ingrese la serie</div>
+                                    </div>
+
+                                    <!-- CORRELATIVO -->
+                                    <div class="col-12 col-md-4 col-lg-3 mb-2">
+                                        <label class="mb-0 ml-1 text-sm my-text-color" name="lblcorrelativo"><i class="fas fa-list-ol mr-1 my-text-color"></i> Correlativo</label>
+                                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" maxlength="8" name="correlativo" id="correlativo" required>
+                                        <div class="invalid-feedback">Ingrese el correlativo</div>
+                                    </div>
+                                    
+                                    <!-- ESPACIO PARA MANTENER EL BOTÓN ALINEADO -->
+                                    <div class="col-12 col-md-4 col-lg-3 mb-2"></div>
+
+                                    <!-- BUSCAR PRODUCTO -->
+                                    <div class="d-flex align-items-end col-12 col-md-4 col-lg-3 my-lg-3">
+                                        <a class="btn btn-sm btn-info w-100 fw-bold btnBuscarProducto" style="position: relative;">
+                                            <span class="text-button">BUSCAR PRODUCTOS</span>
+                                            <span class="btn fw-bold icon-btn-custom d-flex align-items-center">
+                                                <i class="fas fa-search fs-5"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    <!-- BOTONES: CANCELAR - GUARDAR -->
+                                    <div class="col-12 col-lg-9 text-right mt-3 col-botonera">
+                                        <a class="btn btn-sm btn-danger fw-bold" id="btnCancelarCompra" style="position: relative;">
+                                            <span class="text-button">CANCELAR</span>
+                                            <span class="btn fw-bold icon-btn-danger d-flex align-items-center">
+                                                <i class="fas fa-times-circle fs-5"></i>
+                                            </span>
+                                        </a>
+                                        <a class="btn btn-sm btn-success fw-bold" id="btnGuardarCompra" style="position: relative;">
+                                            <span class="text-button">GUARDAR</span>
+                                            <span class="btn fw-bold icon-btn-success d-flex align-items-center">
+                                                <i class="fas fa-save fs-5"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- LISTADO DE PRODUCTOS -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <table id="tbl_ListadoProductos" class="table w-100 shadow border border-secondary">
+                                        <thead class="bg-main text-left">
+                                            <th></th>
+                                            <th>Cod Producto</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Costo Unit.</th>
+                                            <th>SubTotal</th>
+                                            <th>Impuesto</th>
+                                            <th>Total</th>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- RESUMEN DE LA COMPRA -->
+                            <div class="row">
+                                <div class="col-12 offset-md-6 col-md-6 offset-lg-8 col-lg-4">
+                                    <div class="card card-gray shadow float-right">
+                                        <div class="card-header">
+                                            <h3 class="card-title fs-6">RESUMEN</h3>
+                                        </div>
+                                        <div class="card-body py-2">
+                                            <div class="row fw-bold">
+                                                <div class="col-12">
+                                                    <span>SUBTOTAL</span>
+                                                    <span class="float-right" id="resumen_subtotal">S/ 0.00</span>
+                                                </div>
+                                                <!-- IGV -->
+                                                <div class="col-12">
+                                                    <span>IGV</span>
+                                                    <span class="float-right" id="resumen_total_igv">S/ 0.00</span>
+                                                </div>
+                                                <!-- DESCUENTO -->
+                                                <!-- TOTAL -->
+                                                <div class="col-12 fs-5">
+                                                    <span>TOTAL</span>
+                                                    <span class="float-right" id="resumen_total_venta">S/ 0.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.card -->
+        </div>
+    </div>
+</div>
+
+
+<!-- =============================================================================================================================
+MODAL LISTADO DE PROVEEDORES
+===============================================================================================================================-->
+<div class="modal fade" id="mdlListadoProveedores" role="dialog" tabindex="-1">
+
+    <div class="modal-dialog modal-xl" role="document">
+
+        <!-- contenido del modal -->
+        <div class="modal-content">
+
+            <!-- cabecera del modal -->
+            <div class="modal-header bg-gray py-1">
+
+                <h5 class="modal-title">Listado de Proveedores</h5>
+
+                <button type="button" class="btn btn-danger text-white border-0 fs-5" data-bs-dismiss="modal">
+                    <i class="far fa-times-circle"></i>
+                </button>
+
+            </div>
+
+            <!-- cuerpo del modal -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <!--LISTADO DE PROVEEDORES -->
+                        <table id="tbl_proveedores" class="table table-striped w-100 shadow border border-secondary">
+                            <thead class="bg-main text-left">
+                                <th> </th> <!-- 0 -->
+                                <th>id</th>
+                                <th>Tipo Doc.</th>
+                                <th>RUC</th>
+                                <th>Razón Social</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Estado</th>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- /. End -->
+
+<!-- =============================================================================================================================
+MODAL LISTADO DE PRODUCTOS
+===============================================================================================================================-->
+<div class="modal fade" id="mdlListadoProductos" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-xl" role="document">
+        <!-- contenido del modal -->
+        <div class="modal-content">
+            <!-- cabecera del modal -->
+            <div class="modal-header bg-gray py-1">
+                <h5 class="modal-title">Listado de Productos</h5>
+                <button type="button" class="btn btn-danger text-white border-0 fs-5" data-bs-dismiss="modal">
+                    <i class="far fa-times-circle"></i>
+                </button>
+            </div>
+            <!-- cuerpo del modal -->
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <!--LISTADO DE PRODUCTOS -->
+                        <table id="tbl_productos" class="table table-striped w-100 shadow border border-secondary">
+                            <thead class="bg-main">
+                                <tr style="font-size: 15px;">
+                                    <th class="text-cetner"></th> <!-- 0 -->
+                                    <th>Codigo</th> <!-- 1 -->
+                                    <th>Id Categoria</th> <!-- 2 -->
+                                    <th>Categoría</th> <!-- 3 -->
+                                    <th>Producto</th> <!-- 4 -->
+                                    <th>Costo Unit.</th> <!-- 5 -->
+                                    <th>Stock</th> <!-- 6 -->
+                                    <th>Min. Stock</th> <!-- 7 -->
+                                    <th>Estado</th> <!-- 8 -->
+                                </tr>
+                            </thead>
+                            <tbody class="text-small">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /. End -->
+
+<!-- =============================================================================================================================
+VENTA MODAL PARA REGISTRAR O ACTUALIZAR UN PRODUCTO 
+===============================================================================================================================-->
+<div class="modal fade" id="mdlGestionarProducto" role="dialog" tabindex="-1">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!-- contenido del modal -->
+        <div class="modal-content">
+
+            <!-- cabecera del modal -->
+            <div class="modal-header bg-gray py-1">
+
+                <h5 class="modal-title titulo-modal-productos">Agregar Producto</h5>
+
+                <button type="button" class="btn btn-danger text-white border-0 fs-5" data-bs-dismiss="modal" id="btnCerrarModal">
+                    <i class="far fa-times-circle"></i>
+                </button>
+
+            </div>
+
+            <!-- cuerpo del modal -->
+            <div class="modal-body">
+
+                <form id="frm-datos-producto" class="needs-validation" novalidate>
+
+                    <!-- Abrimos una fila -->
+                    <div class="row">
+
+                        <input type="hidden" name="impuesto_producto" id="impuesto_producto">
+
+                        <!-- CODIGO DE BARRAS -->
+                        <div class="col-12 col-lg-6">
+
+                            <div class="form-floating mb-2">
+
+                                <input type="text" id="codigo_producto" class="form-control" onchange="validateJS(event, 'codigo_producto')" name="codigo_producto" required>
+                                <label for="codigo_producto">Código de Barras</label>
+
+                                <div class="invalid-feedback">Ingrese el codigo del Producto</div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- CATEGORIAS -->
+                        <div class="col-12 col-lg-6">
+
+                            <div class="form-floating mb-2">
+
+                                <select class="form-select select2" id="id_categoria" name="id_categoria" aria-label="Floating label select example" required>
+                                </select>
+                                <label for="id_categoria">Categorías</label>
+
+                                <div class="invalid-feedback">Seleccione la categoría</div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- DESCRIPCION DEL PRODUCTO -->
+                        <div class="col-12">
+
+                            <div class="form-floating mb-2">
+
+                                <input type="text" class="form-control text-uppercase" id="descripcion" name="descripcion" required>
+                                <label for="descripcion">Descripción</label>
+
+                                <div class="invalid-feedback">Ingrese la descripción</div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- TIPO AFECTACIÓN -->
+                        <div class="col-12 col-lg-6">
+
+                            <div class="form-floating mb-2">
+
+                                <select class="form-select select2" id="id_tipo_afectacion_igv" name="id_tipo_afectacion_igv" aria-label="Floating label select example" required>
+                                </select>
+                                <label for="id_tipo_afectacion_igv">Tipo Afectación</label>
+
+                                <div class="invalid-feedback">Seleccione el Tipo de Afectación</div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- IMPUESTO -->
+                        <div class="col-12 col-lg-2">
+                            <div class="form-floating mb-2">
+                                <input type="text" class="form-control form-control-sm" id="impuesto" name="impuesto" readonly>
+                                <label for="impuesto">IGV (%) </label>
+                            </div>
+                        </div>
+
+                        <!-- UNIDAD MEDIDA -->
+                        <div class="col-12 col-lg-4">
+
+                            <div class="form-floating mb-2">
+
+                                <select class="form-select select2" id="id_unidad_medida" name="id_unidad_medida" aria-label="Floating label select example" required>
+                                </select>
+                                <label for="id_unidad_medida">Unidad/Medida</label>
+
+                                <div class="invalid-feedback">Seleccione la Unidad de Medida</div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- IMAGEN -->
+                        <div class="col-12">
+                            <div class="form-group mb-2">
+                                <input type="file" class="form-control form-control-sm" id="imagen" name="imagen" accept="image/*" onchange="previewFile(this)">
+                            </div>
+                        </div>
+
+                        <!-- PREVIEW IMAGEN -->
+                        <div class="col-12 col-lg-5">
+                            <div style="width: 100%; height: 255px;">
+                                <img id="previewImg" src="/img/no_image.jpg" class="border border-secondary" style="object-fit: fill; width: 100%; height: 100%;" alt="">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+
+                            <div class="row">
+
+                                <!-- PRECIO DE VENTA (INC. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" class="form-control form-control-sm" id="precio_unitario_con_igv" name="precio_unitario_con_igv" step="0.01" required>
+                                        <label for="precio_unitario_con_igv">Precio (con IGV)</label>
+                                        <div class="invalid-feedback">Ingrese el Precio del Producto</div>
+                                    </div>
+
+                                </div>
+
+                                <!-- PRECIO DE VENTA (SIN. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" value="0" class="form-control form-control-sm" id="precio_unitario_sin_igv" name="precio_unitario_sin_igv" step="0.01" readonly>
+                                        <label for="precio_unitario_sin_igv">Precio (sin IGV)</label>
+                                    </div>
+
+                                </div>
+
+                                <!-- PRECIO DE VENTA x MAYOR (INC. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" class="form-control form-control-sm" id="precio_unitario_mayor_con_igv" name="precio_unitario_mayor_con_igv" step="0.01">
+                                        <label for="precio_unitario_mayor_con_igv">Precio x Mayor (con IGV)</label>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PRECIO DE VENTA x MAYOR (SIN. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" value="0" class="form-control form-control-sm" id="precio_unitario_mayor_sin_igv" name="precio_unitario_mayor_sin_igv" step="0.01" readonly>
+                                        <label for="precio_unitario_mayor_sin_igv">Precio x Mayor (sin IGV)</label>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PRECIO VENTA EN OFERTA (INC. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" class="form-control form-control-sm" id="precio_unitario_oferta_con_igv" name="precio_unitario_oferta_con_igv" step="0.01">
+                                        <label for="precio_unitario_oferta_con_igv">Precio Oferta (con IGV)</label>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- PRECIO VENTA EN OFERTA (SIN. IGV) -->
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-floating mb-2">
+
+                                        <input type="number" min="0" class="form-control form-control-sm" id="precio_unitario_oferta_sin_igv" name="precio_unitario_oferta_sin_igv" value="0" step="0.01" readonly>
+                                        <label for="precio_unitario_oferta_sin_igv">Precio Oferta (sin IGV)</label>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- MINIMO STOCK -->
+                                <div class="col-12 col-lg-12">
+                                    <div class="form-floating mb-2">
+                                        <input type="number" min="0" class="form-control form-control-sm" id="minimo_stock" name="minimo_stock">
+                                        <label for="minimo_stock">Mínimo Stock</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BOTONERA -->
+                        <div class="col-12 text-right">
+                            <!-- <a type="button" class="btn btn-danger mt-1 mx-1" style="width:170px;" data-bs-dismiss="modal" id="btnCancelarRegistro">Cancelar</a> -->
+                            <a class="btn btn-danger w-25 fw-bold " id="btnCancelarRegistro" style="position: relative;">
+                                <span class="text-button">CANCELAR</span>
+                                <span class="btn fw-bold icon-btn-danger">
+                                    <i class="fas fa-window-close fs-5"></i>
+                                </span>
+
+                            </a>
+
+                            <!-- <a style="width:170px;" class="btn btn-success mt-1 mx-1" >Guardar Producto</a> -->
+                            <a class="btn btn-success w-25 fw-bold" id="btnGuardarProducto" style="position: relative;">
+                                <span class="text-button">GUARDAR</span>
+                                <span class="btn fw-bold icon-btn-success">
+                                    <i class="fas fa-save fs-5"></i>
+                                </span>
+
+                            </a>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /. End -->
+
+<!-- =============================================================================================================================
+MODAL MOSTRAR DETALLE DE COMPRA
+===============================================================================================================================-->
+<div class="modal fade" id="mdlMostrarCompra" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-xl" role="document">
+        <!-- cntenido del modal -->
+        <div class="modal-content">
+            <!-- cabecera del modal -->
+            <div class="modal-header my-bg py-1">
+                <h5 class="modal-title text-white text-lg">Detalle de la Compra</h5>
+                <button type="button" class="btn btn-danger btn-sm text-white text-sm" data-bs-dismiss="modal">
+                    <i class="fas fa-times text-sm m-0 p-0"></i>
+                </button>
+            </div>
+            <!-- cuerpo del modal -->
+            <div class="modal-body">
+                <div class="row mb-2">
+                    <!-- RUC PROVEEDOR -->
+                    <div class="col-12 col-md-5 col-lg-3 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-id-card mr-1 my-text-color"></i> Ruc</label>
+                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="mostrar_ruc" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                    </div>
+                    <!-- RAZON SOCIAL -->
+                    <div class="col-12 col-md-5 col-lg-6 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-file-signature mr-1 my-text-color"></i> Razón Social</label>
+                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="mostrar_razon_social" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                    </div>
+                    <!-- FECHA COMPRA -->
+                    <div class="col-12 col-md-5 col-lg-3 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-calendar-alt mr-1 my-text-color"></i>Fecha Compra</label>
+                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="mostrar_fecha_compra" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                    </div>
+                    <!-- COMPROBANTE -->
+                    <div class="col-12 col-md-5 col-lg-3 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-file-alt mr-1 my-text-color"></i> Comprobante</label>
+                        <select class="form-select" id="mostrar_comprobante" aria-label="Floating label select example" disabled>
+                        </select>
+                    </div>
+                    <!-- SERIE -->
+                    <div class="col-12 col-md-5 col-lg-3 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-barcode mr-1 my-text-color"></i>Serie</label>
+                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="mostrar_serie" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                    </div>
+                    <!-- CORRELATIVO -->
+                    <div class="col-12 col-md-5 col-lg-3 mb-1">
+                        <label class="mb-0 ml-1 text-sm my-text-color"><i class="fas fa-list-ol mr-1 my-text-color"></i>Correlativo</label>
+                        <input type="text" style="border-radius: 20px;" class="form-control form-control-sm" id="mostrar_correlativo" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <!--LISTADO DE PRODUCTOS COMPRADOS -->
+                    <div class="col-md-12">
+                        <table id="tbl_MostrarListadoProductos" class="table w-100 shadow border border-secondary">
+                            <thead class="bg-main text-left">
+                                <th>Cod Producto</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Costo Unit.</th>
+                                <th>SubTotal</th>
+                                <th>Impuesto</th>
+                                <th>Total</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Delegación de eventos para manejar el cambio de pestañas
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('#registrar-compras-tab')) {
+            event.preventDefault();
+            const tabContent = new bootstrap.Tab(document.querySelector('#registrar-compras-tab'));
+            tabContent.show();
+        } else if (event.target.closest('#listado-compras-tab')) {
+            event.preventDefault();
+            const tabContent = new bootstrap.Tab(document.querySelector('#listado-compras-tab'));
+            limpiarFormularioCompras();
+            tabContent.show();
+        }
+    });
+    
+    $(document).ready(function() {
+        fnc_CargarDataTableCompras();
+        cargarTiposComprobante();
+        inicializarTablaListProductos();
+    });
+    
+    
+    function fnc_CargarDataTableCompras() {
+        // Destruir y vaciar la tabla si ya está inicializada
+        if ($.fn.DataTable.isDataTable('#tbl_compras')) {
+            $('#tbl_compras').DataTable().destroy();
+            $('#tbl_compras tbody').empty();
+        }
+
+        // Inicializar la DataTable
+        $("#tbl_compras").DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'excel',
+                title: function() {
+                    return 'LISTADO DE COMPRAS';
+                }
+            }, 'pageLength'],
+            fixedColumns: {
+                leftColumns: 2,
+                rightColumns: 2
+            },
+            scrollCollapse: true,
+            scrollX: true,
+            pageLength: 10,
+            processing: true,
+            ajax: {
+                url: "/api/compras",
+                dataSrc: '',
+                type: "GET"
+            },
+            columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    className: 'control',
+                    render: function(data, type, row) {
+                        if (row.estado != 'CONFIRMADO') {
+                            return `
+                                <center>
+                                    <span class='btnMostrarCompra px-1' style='cursor:pointer;' data-id='${row.id}' data-bs-toggle='tooltip' data-bs-placement='top' title='Mostrar Compra'>
+                                        <i class='fas fa-eye fs-5 text-info'></i>
+                                    </span>
+                                    <span class='btnImprimirCompra px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Imprimir Compra'>
+                                        <i class='fas fa-file-pdf fs-5 text-danger'></i>
+                                    </span>
+                                    <span class='btnEditarCompra px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar Compra'>
+                                        <i class='fas fa-edit fs-5 text-primary'></i>
+                                    </span>
+                                    <span class='btnConfirmarCompra px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Confirmar Compra / Actualizar Stock'>
+                                        <i class='fas fa-check-double fs-5 text-success'></i>
+                                    </span>
+                                </center>`;
+                        } else {
+                            return `
+                                <center>
+                                    <span class='btnMostrarCompra px-1' style='cursor:pointer;' data-id='${row.id}' data-bs-toggle='tooltip' data-bs-placement='top' title='Mostrar Compra'>
+                                        <i class='fas fa-eye fs-5 text-info'></i>
+                                    </span>
+                                    <span class='btnImprimirCompra px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Imprimir Compra'>
+                                        <i class='fas fa-file-pdf fs-5 text-danger'></i>
+                                    </span>
+                                </center>`;
+                        }
+                    }
+                },
+                { data: 'id' },
+                { data: 'proveedorId' },
+                { data: 'proveedor' },
+                { data: 'fechaCompra' },
+                { data: 'tipoComprobanteId' },
+                { data: 'comprobante' },
+                { data: 'serie' },
+                { data: 'correlativo' },
+                { data: 'totalCompra' },
+                {
+                    data: 'estado',
+                    render: function(data, type, row) {
+                        if (data == 'CONFIRMADO') {
+                            return '<span class="bg-success px-2 py-1 rounded-pill fw-bold">' + data + '</span>';
+                        } else if (data == 'REGISTRADO') {
+                            return '<span class="my-bg px-2 py-1 rounded-pill fw-bold text-white">' + data + '</span>';
+                        }
+                        return data;
+                    }
+                }
+            ],
+            order: [1],
+            columnDefs: [
+                { targets: [2, 5], visible: false },
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            drawCallback: function(settings) {
+                // Agregar evento a los botones de mostrar compra
+                $('#tbl_compras').off('click', '.btnMostrarCompra').on('click', '.btnMostrarCompra', function() {
+                    let compraId = $(this).data('id');
+                    obtenerDetallesCompra(compraId); // Llamar a la función que obtiene los detalles
+                    $('#mdlMostrarCompra').modal('show'); // Mostrar el modal
+                });
+                
+                $('#tbl_compras').off('click', '.btnEditarCompra').on('click', '.btnEditarCompra', function() {
+                    let compraId = $(this).closest('tr').find('td:eq(1)').text(); // Obtener el ID de la compra desde la columna correspondiente
+                    inicializarTablaListProductos();
+                    // Cambiar el título e ícono del botón de guardar
+                    $("#registrar-compras-tab").html('<i class="fas fa-sync-alt"></i> Actualizar Compra');
+                    $('#btnGuardarCompra').find('i').removeClass('fa-save').addClass('fa-edit');
+                    $('#btnGuardarCompra span.text-button').text('ACTUALIZAR');
+
+                    // Cambiar a la pestaña de Registrar Compra
+                    const tabContent = new bootstrap.Tab(document.querySelector('#registrar-compras-tab'));
+                    tabContent.show();
+
+                    // Cargar los datos de la compra
+                    cargarDatosCompra(compraId);
+                });
+                
+                $('#tbl_compras').off('click', '.btnConfirmarCompra').on('click', '.btnConfirmarCompra', function() {
+                    let compraId = $(this).closest('tr').find('td:eq(1)').text(); // Obtener el ID de la compra desde la columna correspondiente
+                    Swal.fire({
+                        title: '¿Está seguro(a) de confirmar esta compra?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, confirmar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            confirmarCompra(compraId); // Llamar a la función para confirmar la compra
+                        }
+                    });
+                });
+                
+                // Evento para imprimir compra
+                $('#tbl_compras').off('click', '.btnImprimirCompra').on('click', '.btnImprimirCompra', function() {
+                    let compraId = $(this).closest('tr').find('td:eq(1)').text();
+                    imprimirCompra(compraId); // Llamada a la función que generará el PDF
+                });
+            },
+            language: {
+                url: "/json/Spanish.json"
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_compras"));
+    }
+    
+    // Script para abrir el modal proveedores
+    $('.btnBuscarProveedor').on('click', function() {
+        $('#mdlListadoProveedores').modal('show');
+        cargarTablaProveedores();
+    });
+    
+    function cargarTablaProveedores() {
+        if ($.fn.DataTable.isDataTable('#tbl_proveedores')) {
+            $('#tbl_proveedores').DataTable().destroy();
+            $('#tbl_proveedores tbody').empty();
+        }
+
+        $("#tbl_proveedores").DataTable({
+            dom: 'Bfrtip',
+            buttons: ['pageLength'],
+            scrollX: true,
+            autoWidth: true,
+            ajax: {
+                url: "/api/proveedores",
+                dataSrc: '',
+                type: "GET"
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if (row.estado === 'A') {
+                            return "<span class='btnSeleccionarProveedor text-primary px-1' style='cursor:pointer;'>" +
+                                   "<i class='fas fa-check-circle fs-6 text-center text-success'></i>" +
+                                   "</span>";
+                        }
+                        return '';
+                    },
+                    orderable: false
+                },
+                { data: 'id' },
+                { data: 'tipoDocumento.descripcion' },
+                { data: 'numeroDocumento' },
+                { data: 'razonSocial' },
+                { data: 'direccion' },
+                { data: 'telefono' },
+                { data: 'estado' }
+            ],
+            columnDefs: [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                },
+                {
+                    targets: 7, // Índice de la columna 'estado'
+                    render: function(data, type, row) {
+                        return data === 'A' ? 'ACTIVO' : 'INACTIVO';
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        if (rowData.estado !== 'A') {
+                            $(td).parent().css('background', '#F2D7D5');  // Fondo rojo claro
+                            $(td).parent().css('color', 'black');  // Texto negro
+                        }
+                    }
+                }
+            ],
+            language: {
+                url: '/json/Spanish.json'
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_proveedores"));
+    }
+    
+    // EVENTO AL CLICK EN EL SELECCIONAR PROVEEDOR DE LA LISTA
+    $(document).on('click', '.btnSeleccionarProveedor', function() {
+        let data = $('#tbl_proveedores').DataTable().row($(this).parents('tr')).data();
+        seleccionarProveedor(data);
+    });
+    
+    function seleccionarProveedor(proveedor) {
+        // Llenar los campos del formulario con los datos del proveedor seleccionado
+        $('#id_proveedor').val(proveedor.id);
+        $('#proveedor').val(proveedor.numeroDocumento);
+        $('#razon_social').val(proveedor.razonSocial);
+
+        // Cierra el modal después de la selección
+        $('#mdlListadoProveedores').modal('hide');
+    }
+    
+    function cargarTiposComprobante() {
+        fetch('/api/tipocomprobantes')
+            .then(response => response.json())
+            .then(data => {
+                // IDs de los <select> a los que se les va a cargar las opciones
+                const selectIds = ['tipo_comprobante', 'mostrar_comprobante'];
+
+                // Para cada ID de <select>, cargar las opciones
+                selectIds.forEach(selectId => {
+                    let select = document.getElementById(selectId);
+                    select.innerHTML = ""; // Limpiar opciones previas
+
+                    // Agregar la opción por defecto
+                    let defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.text = '--Tipo de Comprobante--';
+                    select.appendChild(defaultOption);
+
+                    // Agregar las opciones obtenidas del servidor
+                    data.forEach(comprobante => {
+                        let option = document.createElement('option');
+                        option.value = comprobante.id;
+                        option.text = comprobante.descripcion;
+                        select.appendChild(option);
+                    });
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    //evento al escoger una opcion del select de COMPROBANTE
+    $('#tipo_comprobante').on('change', function() {
+        // Limpiar el valor del campo de entrada 'serie'
+        $('#serie').val('');
+    });
+    
+    // funcion para inicializar el datapicker
+    $(function () {
+        $('#fecha_registro').datetimepicker({
+            format: 'YYYY-MM-DD', // Formato de fecha que desees
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
+        });
+
+        // Asocia el icono del calendario para abrir el selector de fecha
+        $('#inputGroup-sizing-sm').click(function(){
+            $('#fecha_registro').datetimepicker('show');
+        });
+    });
+    
+    function validarSerie() {
+        var tipoComprobante = $("#tipo_comprobante").val();
+        var serie = $("#serie").val().toUpperCase();
+        if (!tipoComprobante) {
+            mensajeToast("warning", "Seleccione el Tipo de Comprobante");
+            return false;
+        }
+        if (serie.length < 1) {
+            return true; // No hay nada que validar si la serie está vacía
+        }
+        if (tipoComprobante == "2" && serie.charAt(0) !== 'F') { // FACTURA
+            mensajeToast("warning", "La serie de la Factura debe empezar con la letra F");
+            return false;
+        } else if (tipoComprobante == "1" && serie.charAt(0) !== 'B') { // BOLETA
+            mensajeToast("warning", "La serie de la Boleta debe empezar con la letra B");
+            return false;
+        } else if (tipoComprobante == "3" && serie.charAt(0) !== 'G') { // GUIA DE REMISION
+            mensajeToast("warning", "La serie de la Guía de Remisión debe empezar con la letra G");
+            return false;
+        }
+        return true;
+    }
+
+    $("#serie").on('keypress input paste change', function(e) {
+        if (e.type === 'keypress') {
+            const KEY_F = 70; // F
+            const KEY_B = 66; // B
+            const KEY_G = 71; // G
+            var key = e.keyCode || e.which;
+            if ($("#serie").val().length < 1) {
+                if ($("#tipo_comprobante").val() == "2" && (key !== KEY_F && key !== KEY_F + 32)) { // FACTURA
+                    mensajeToast("warning", "La serie de la Factura debe empezar con la letra F");
+                    e.preventDefault();
+                } else if ($("#tipo_comprobante").val() == "1" && (key !== KEY_B && key !== KEY_B + 32)) { // BOLETA
+                    mensajeToast("warning", "La serie de la Boleta debe empezar con la letra B");
+                    e.preventDefault();
+                } else if ($("#tipo_comprobante").val() == "3" && (key !== KEY_G && key !== KEY_G + 32)) { // GUIA DE REMISION
+                    mensajeToast("warning", "La serie de la Guía de Remisión debe empezar con la letra G");
+                    e.preventDefault();
+                }
+            }
+        } else {
+            if (!validarSerie()) {
+                $("#serie").val('');
+                e.preventDefault();
+            }
+        }
+    });
+    
+    // Evento para abrir el modal de listado de productos
+    $('.btnBuscarProducto').on('click', function() {
+        $('#mdlListadoProductos').modal('show');
+        cargarTablaProductos();
+    });
+    
+    function cargarTablaProductos() {
+        if ($.fn.DataTable.isDataTable('#tbl_productos')) {
+            $('#tbl_productos').DataTable().destroy();
+            $('#tbl_productos tbody').empty();
+        }
+
+        $("#tbl_productos").DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Agregar Producto',
+                    className: 'addNewRecord',
+                    action: function(e, dt, node, config) {
+                        $(".titulo-modal-productos").html("Registrar Producto");
+                        $("#mdlGestionarProducto").modal('show');
+                    }
+                },
+                'pageLength'
+            ],
+            scrollX: true,
+            autoWidth: true,
+            ajax: {
+                url: "/api/inventarios",
+                dataSrc: '',
+                type: "GET"
+            },
+
+            columns: [
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        if (row.estadoProductoTalla === 'A') {
+                            return "<span class='btnSeleccionarProducto text-primary px-1' style='cursor:pointer;'>" +
+                                   "<i class='fas fa-check-circle fs-6 text-center text-success'></i>" +
+                                   "</span>";
+                        }
+                        return '';
+                    },
+                    orderable: false
+                },
+                { data: 'idProductoTalla' },
+                { data: 'idCategoria' },
+                { data: 'nombreCategoria' },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return row.descripcionProducto + ' - ' + row.nombreMarca + ' - ' + row.nombreTalla; // Concatenar descripcionProducto y nombreCategoria
+                    }
+                },
+                { data: 'precioCompra' },
+                { data: 'stockActual' },
+                { data: 'stockMinimo' },
+                {
+                    data: 'estadoProductoTalla',
+                    render: function(data, type, row) {
+                        return data === 'A' ? 'ACTIVO' : 'INACTIVO';
+                    },
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        if (rowData.estadoProductoTalla !== 'A') {
+                            $(td).parent().css('background', '#F2D7D5'); // Fondo rojo claro
+                            $(td).parent().css('color', 'black'); // Texto negro
+                        }
+                    }
+                }
+            ],
+            order: [1, "asc"],
+            columnDefs: [
+                { targets: [2], visible: false }, // Oculta la columna de Id Categoria
+                { targets: [3], visible: false },  // Oculta la columna de Categoría
+                { targets: [7], visible: false }
+            ],
+            language: {
+                url: '/json/Spanish.json' // Asegúrate de tener el archivo de traducción al español
+            },
+            drawCallback: function(settings) {
+                $('.btnSeleccionarProducto').on('click', function() {
+                    let data = $('#tbl_productos').DataTable().row($(this).parents('tr')).data();
+                    seleccionarProducto(data);
+                });
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_productos"));
+    }
+    
+    // Función para seleccionar un producto y agregarlo a la tabla de productos seleccionados
+    function seleccionarProducto(producto) {
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+        let existingProduct = tblProductos
+            .rows()
+            .data()
+            .toArray()
+            .some(row => row.idProductoTalla === producto.idProductoTalla);
+
+        if (existingProduct) {
+            mensajeToast("warning", "El producto ya fue agregado al listado");
+            return;
+        }
+
+        let cantidad = 1; // Puedes cambiar la cantidad según tus necesidades
+        let precioUnitario = producto.precioCompra;
+        let subtotal = (precioUnitario / 1.18).toFixed(2); // Suponiendo 18% IGV
+        let impuesto = (precioUnitario - subtotal).toFixed(2);
+        let total = precioUnitario;
+
+        tblProductos.row.add({
+            idProductoTalla: producto.idProductoTalla,
+            descripcionProducto: producto.descripcionProducto + ' - ' + producto.nombreMarca + ' - ' + producto.nombreTalla,
+            cantidad: `<input type='number' class='form-control text-center iptCantidad p-0 m-0 px-2' value='${cantidad}' style='width:80px; height:28px;' />`,
+            precioUnitario: `<input type='number' class='form-control text-center iptCostoUnitario p-0 m-0 px-2' value='${precioUnitario.toFixed(2)}' style='width:80px; height:28px;' />`,
+            subtotal: subtotal,
+            impuesto: impuesto,
+            total: total.toFixed(2)
+        }).draw();
+
+        mensajeToast("success", "Producto agregado");
+        actualizarResumenCompra();
+        
+        // Agregar eventos para actualizar los valores cuando se cambian cantidad o precio unitario
+        actualizarEventos();
+    }
+
+    function actualizarEventos() {
+        $('.iptCantidad, .iptCostoUnitario').off('blur').on('blur', function() {
+            let rowElement = $(this).closest('tr');
+            let table = $('#tbl_ListadoProductos').DataTable();
+            let row = table.row(rowElement);
+            let data = row.data();
+
+            let cantidad = parseFloat(rowElement.find('.iptCantidad').val());
+            let precioUnitario = parseFloat(rowElement.find('.iptCostoUnitario').val());
+
+            if (!isNaN(cantidad) && !isNaN(precioUnitario)) {
+                let subtotal = (precioUnitario / 1.18) * cantidad;
+                let impuesto = (precioUnitario - (precioUnitario / 1.18)) * cantidad;
+                let total = precioUnitario * cantidad;
+
+                // Actualizar sólo las celdas específicas
+                data.cantidad = `<input type='number' class='form-control text-center iptCantidad p-0 m-0 px-2' value='${cantidad}' style='width:80px; height:28px;' />`;
+                data.precioUnitario = `<input type='number' class='form-control text-center iptCostoUnitario p-0 m-0 px-2' value='${precioUnitario.toFixed(2)}' style='width:80px; height:28px;' />`;
+                rowElement.find('td:eq(5)').text(subtotal.toFixed(2));
+                rowElement.find('td:eq(6)').text(impuesto.toFixed(2));
+                rowElement.find('td:eq(7)').text(total.toFixed(2));
+
+                // Actualizar los datos en la tabla sin redibujar toda la fila
+                data.subtotal = subtotal.toFixed(2);
+                data.impuesto = impuesto.toFixed(2);
+                data.total = total.toFixed(2);
+                row.data(data).draw(false);
+
+                // Actualizar el resumen de la compra
+                actualizarResumenCompra();
+            }
+        });
+
+        $('.btnEliminarProducto').on('click', function() {
+            let row = $('#tbl_ListadoProductos').DataTable().row($(this).parents('tr'));
+            row.remove().draw();
+            actualizarResumenCompra();
+        });
+    }
+
+    // Función para actualizar el resumen de la compra
+    function actualizarResumenCompra() {
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+        let data = tblProductos.rows().data();
+        let subtotal = 0;
+        let totalImpuesto = 0;
+        let total = 0;
+
+        data.each(function(row) {
+            subtotal += parseFloat(row.subtotal);
+            totalImpuesto += parseFloat(row.impuesto);
+            total += parseFloat(row.total);
+        });
+        
+        $('#resumen_subtotal').text('S/ ' + subtotal.toFixed(2));
+        $('#resumen_total_igv').text('S/ ' + totalImpuesto.toFixed(2));
+        $('#resumen_total_venta').text('S/ ' + total.toFixed(2));
+    }
+
+    // Inicializar DataTable para tbl_ListadoProductos para listar productos seleccionados
+    function inicializarTablaListProductos() {
+        if ($.fn.DataTable.isDataTable('#tbl_ListadoProductos')) {
+            $('#tbl_ListadoProductos').DataTable().destroy();
+            $('#tbl_ListadoProductos tbody').empty();
+        }
+        $('#tbl_ListadoProductos').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['pageLength'],
+            scrollX: true,
+            columns: [
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return "<span class='btnEliminarProducto text-danger px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Eliminar producto'>" +
+                               "<i class='fas fa-trash fs-6'></i>" +
+                               "</span>";
+                    },
+                    orderable: false
+                },
+                { data: 'idProductoTalla' },
+                { data: 'descripcionProducto' },
+                { data: 'cantidad', orderable: false },
+                { data: 'precioUnitario', orderable: false },
+                { data: 'subtotal' },
+                { data: 'impuesto' },
+                { data: 'total' }
+            ],
+            columnDefs: [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            language: {
+                url: '/json/Spanish.json'
+            },
+            drawCallback: function(settings) {
+                actualizarEventos();
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_ListadoProductos"));
+    }
+    
+    $('#btnCancelarCompra').on('click', function(e) {
+        e.preventDefault();
+        limpiarFormularioCompras();
+        const tabContent = new bootstrap.Tab(document.querySelector('#listado-compras-tab'));
+        tabContent.show();
+    });
+    
+    // FUNCION PARA EL BOTON DE GRABAR COMPRA
+    $('#btnGuardarCompra').on('click', function(e) {
+        e.preventDefault();
+
+        let tblProductos = $('#tbl_ListadoProductos').DataTable();
+
+        // Validar formulario
+        if (!$('#frm-datos-registro-compras')[0].checkValidity()) {
+            e.stopPropagation();
+            $('#frm-datos-registro-compras').addClass('was-validated');
+            mensajeToast("error", "Complete los datos obligatorios");
+            return;
+        }
+
+        // Validar existencia de items y sus valores en la lista de compra
+        let numRows = tblProductos.rows().count();
+        let valoresEnCero = false;
+
+        // Verificar si hay productos en la tabla
+        if (numRows === 0) {
+            mensajeToast("error", "Ingrese los productos de la compra");
+            return;
+        }
+
+        // Validar que cantidad y costo unitario no sean 0, vacíos o un punto
+        tblProductos.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            let data = this.data();
+            let cantidad = $(data.cantidad).val().trim();
+            let costoUnitario = $(data.precioUnitario).val().trim();
+
+            let cantidadNumerica = parseFloat(cantidad);
+            let costoUnitarioNumerico = parseFloat(costoUnitario);
+
+            if (
+                cantidad === "" || costoUnitario === "" || 
+                cantidad === "." || costoUnitario === "." || 
+                isNaN(cantidadNumerica) || cantidadNumerica <= 0 || 
+                isNaN(costoUnitarioNumerico) || costoUnitarioNumerico <= 0
+            ) {
+                valoresEnCero = true;
+                return false; // Terminar el loop si se encuentra un valor inválido
+            }
+        });
+
+        if (valoresEnCero) {
+            mensajeToast("error", "Los valores de cantidad o costo unitario deben ser mínimo de 1");
+            return;
+        }
+
+        Swal.fire({
+            title: '¿Está seguro(a) de registrar la Compra?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, deseo registrarla!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                let compra = {
+                    id: $('#id_compra').val(),
+                    proveedorId: $('#id_proveedor').val(),
+                    fecha: $('#fecha_registro').val(),
+                    tipoComprobanteId: $('#tipo_comprobante').val(),
+                    serie: $('#serie').val(),
+                    correlativo: $('#correlativo').val(),
+                    subtotal: 0,
+                    impuesto: 0,
+                    importeTotal: 0,
+                    detalleCompras: []
+                };
+
+                let productos = tblProductos.rows().data().toArray();
+
+                productos.forEach(function(producto) {
+                    let cantidad = parseFloat($(producto.cantidad).val());
+                    let precioUnitario = parseFloat($(producto.precioUnitario).val());
+                    let importeTotal = parseFloat(producto.total);
+                    let subtotal = parseFloat(producto.subtotal);
+                    let impuesto = parseFloat(producto.impuesto);
+
+                    compra.detalleCompras.push({
+                        productoTallaId: producto.idProductoTalla,
+                        cantidad: cantidad,
+                        precioUnitario: precioUnitario,
+                        subtotal: subtotal,
+                        impuesto: impuesto,
+                        importeTotal: importeTotal
+                    });
+                    compra.subtotal += subtotal;
+                    compra.impuesto += impuesto;
+                    compra.importeTotal += importeTotal;
+                });
+
+                let url = '/api/compras';
+                let method = 'POST';
+
+                // Si existe un ID, significa que es una edición
+                if (compra.id && compra.id != '0') {
+                    url += '/editar';
+                    method = 'PUT';
+                } else {
+                    url += '/registrar';
+                }
+
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(compra)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: data.status, // 'success' o 'error'
+                        title: data.mensaje,
+                        showConfirmButton: true
+                    }).then(() => {
+                        if (data.status === "success") {
+                            limpiarFormularioCompras();
+                            fnc_CargarDataTableCompras();
+                            const tabContent = new bootstrap.Tab(document.querySelector('#listado-compras-tab'));
+                            tabContent.show();
+                        }
+                    });
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Error al registrar la compra: ' + error.message,
+                        showConfirmButton: true
+                    });
+                });
+            }
+        });
+    });
+    
+    //FUNCION PARA MOSTRAR COMPRA
+    function obtenerDetallesCompra(compraId) {
+        fetch(`/api/compras/${compraId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.detalleCompras) {
+                    // Llenar los campos del modal con los datos de la compra
+                    document.getElementById('mostrar_ruc').value = data.proveedorRuc;
+                    document.getElementById('mostrar_razon_social').value = data.proveedor;
+                    document.getElementById('mostrar_fecha_compra').value = data.fechaCompra;
+                    document.getElementById('mostrar_comprobante').value = data.tipoComprobanteId;
+                    document.getElementById('mostrar_serie').value = data.serie;
+                    document.getElementById('mostrar_correlativo').value = data.correlativo;
+
+                    // Inicializar DataTable para mostrar los detalles de la compra
+                    let table = $('#tbl_MostrarListadoProductos').DataTable({
+                        destroy: true,
+                        scrollCollapse: true,
+                        scrollX: true,
+                        lengthChange: false,
+                        searching: false,
+                        data: data.detalleCompras,  // Aquí se usan los detalles de la compra obtenidos del servidor
+                        columns: [
+                            { data: 'productoTallaId' },
+                            { data: 'descripcionProducto' },
+                            { data: 'cantidad' },
+                            { data: 'precioUnitario' },
+                            { data: 'subtotal' },
+                            { data: 'impuesto' },
+                            { data: 'importeTotal' }
+                        ],
+                        columnDefs: [
+                            {
+                                "className": "dt-center",
+                                "targets": "_all"
+                            }
+                        ],
+                        language: {
+                            url: '/json/Spanish.json'
+                        }
+                    });
+
+                    // Ajustar el diseño de los encabezados después de cargar la tabla
+                    ajustarHeadersDataTables($("#tbl_MostrarListadoProductos"));
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles para esta compra.',
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al obtener los detalles de la compra.'
+                });
+                console.error('Error al obtener los detalles de la compra:', error);
+            });
+    }
+    
+    function cargarDatosCompra(compraId) {
+        fetch(`/api/compras/${compraId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Rellenar el formulario con los datos obtenidos
+                document.getElementById('id_compra').value = data.id;
+                document.getElementById('id_proveedor').value = data.proveedorId;
+                document.getElementById('proveedor').value = data.proveedorRuc;
+                document.getElementById('razon_social').value = data.proveedor;
+                document.getElementById('fecha_registro').value = data.fechaCompra;
+                document.getElementById('tipo_comprobante').value = data.tipoComprobanteId;
+                document.getElementById('serie').value = data.serie;
+                document.getElementById('correlativo').value = data.correlativo;
+
+                // Cargar los productos en el listado de productos
+                let table = $('#tbl_ListadoProductos').DataTable();
+                if (data && data.detalleCompras) {
+                    table.clear().draw();
+                    data.detalleCompras.forEach(item => {
+                        table.row.add({
+                            idProductoTalla: item.productoTallaId,
+                            descripcionProducto: item.descripcionProducto,
+                            cantidad: `<input type='number' class='form-control text-center iptCantidad p-0 m-0 px-2' value='${item.cantidad}' style='width:80px; height:28px;' />`,
+                            precioUnitario: `<input type='number' class='form-control text-center iptCostoUnitario p-0 m-0 px-2' value='${item.precioUnitario.toFixed(2)}' style='width:80px; height:28px;' />`,
+                            subtotal: item.subtotal.toFixed(2),
+                            impuesto: item.impuesto.toFixed(2),
+                            total: item.importeTotal.toFixed(2)
+                        }).draw();
+                    });
+                    actualizarResumenCompra();
+                }
+            })
+            .catch(error => console.error('Error al cargar los datos de la compra:', error));
+    }
+    
+    function confirmarCompra(compraId) {
+        fetch('/api/compras/confirmar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: compraId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.fire({
+                position: 'top-center',
+                icon: data.status, // Respuesta de CompraController POST data.status contiene 'success' o 'error'
+                title: data.mensaje,
+                showConfirmButton: true
+            }).then(() => {
+                if (data.status === "success") {
+                    fnc_CargarDataTableCompras(); // Recargar la tabla de compras
+                }
+            });
+        })
+        .catch(error => {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Error al confirmar la compra: ' + error.message,
+                showConfirmButton: true
+            });
+        });
+    }
+    
+    function imprimirCompra(compraId) {
+        fetch(`/api/compras/imprimir/${compraId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/pdf'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            } else {
+                throw new Error('No se pudo generar el PDF');
+            }
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `Compra_${compraId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo generar el PDF'
+            });
+        });
+    }
+    
+    
+    // funcion para limpiar todo lo que hay en el div registrar compras
+    function limpiarFormularioCompras() {
+        //Regresa el valor de la pestaña a Registrar Compra
+        $("#registrar-compras-tab").html('<i class="fas fa-file-signature"></i> Registrar Compra');
+        $('#btnGuardarCompra').find('i').removeClass('fa-edit').addClass('fa-save');
+        $('#btnGuardarCompra span.text-button').text('GUARDAR');
+        
+        // Limpiar todos los campos de texto, select y hidden en el formulario
+        $('#frm-datos-registro-compras').find('input[type="text"], input[type="hidden"], input[type="number"], select').val('');
+
+        // Restablecer los select a su opción por defecto
+        $('#frm-datos-registro-compras').find('select').prop('selectedIndex', 0);
+
+        // Limpiar las validaciones anteriores
+        $('#frm-datos-registro-compras').removeClass('was-validated');
+
+        // Limpiar el contenido de la tabla de productos seleccionados
+        $('#tbl_ListadoProductos').DataTable().clear().draw();
+
+        // Restablecer los valores del resumen de la compra
+        $('#resumen_subtotal').text('S/ 0.00');
+        $('#resumen_total_igv').text('S/ 0.00');
+        $('#resumen_total_venta').text('S/ 0.00');
+    }
+    
+    function ajustarHeadersDataTables(element) {
+        var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+            entries.forEach(function(entry) {
+                $(entry.target).DataTable().columns.adjust();
+            });
+        }) : null;
+        // Function to add a datatable to the ResizeObserver entries array
+        resizeHandler = function($table) {
+            if (observer)
+                observer.observe($table[0]);
+        };
+        // Initiate additional resize handling on datatable
+        resizeHandler(element);
+    }
+    
+</script>
+

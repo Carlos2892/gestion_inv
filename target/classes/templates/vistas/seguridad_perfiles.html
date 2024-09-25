@@ -1,0 +1,91 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">ADMINISTRAR PERFILES</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item active">Administrar Perfiles</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div><!-- /.content-header -->
+
+<div class="content">
+    <div class="row">
+        <div class="col-12 ">
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                        <!-- TAB LISTADO DE TIPOS DE DOCUMENTO -->
+                        <li class="nav-item">
+                            <a class="nav-link active my-0" id="listado-perfiles-tab" data-toggle="pill" href="#listado-perfiles" role="tab" aria-controls="listado-perfiles" aria-selected="true"><i class="fas fa-list"></i> Listado de Perfiles</a>
+                        </li>
+                        <!-- TAB REGISTRO DE TIPO DE DOCUMENTO -->
+                        <li class="nav-item">
+                            <a class="nav-link my-0" id="registrar-perfiles-tab" data-toggle="pill" href="#registrar-perfiles" role="tab" aria-controls="registrar-perfiles" aria-selected="false"><i class="fas fa-file-signature"></i> Registro de Perfil</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                        <!-- TAB CONTENT LISTADO DE SERIES -->
+                        <div class="tab-pane fade active show" id="listado-perfiles" role="tabpanel" aria-labelledby="listado-perfiles-tab">
+                            <div class="row">
+                                <!--LISTADO DE CATEGORIAS -->
+                                <div class="col-md-12">
+                                    <table id="tbl_perfiles" class="table table-striped w-100 shadow border border-secondary">
+                                        <thead class="bg-main text-left">
+                                            <th>Id</th>
+                                            <th>Descripción</th>
+                                            <th>Estado</th>
+                                        </thead>
+                                        <tbody class="small text left">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- TAB CONTENT REGISTRO DE SERIES -->
+                        <div class="tab-pane fade" id="registrar-perfiles" role="tabpanel" aria-labelledby="registrar-perfiles-tab">
+                            <form id="frm-datos-perfiles" class="needs-validation-perfiles" novalidate>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-floating mb-2">
+                                            <input type="text" id="descripcion" class="form-control text-uppercase" name="descripcion" required>
+                                            <label for="descripcion">Descripción</label>
+                                            <div class="invalid-feedback">Ingrese la descripción</div>
+                                        </div>
+                                    </div>
+                                    <!-- ESTADO -->
+                                    <div class="col-4">
+                                        <div class="form-floating mb-2">
+                                            <select class="form-select select2" id="estado" name="estado" aria-label="Floating label select example" required>
+                                                <option value="" disabled>--Seleccione un estado--</option>
+                                                <option value="1" selected>ACTIVO</option>
+                                                <option value="0">INACTIVO</option>
+                                            </select>
+                                            <label for="estado">Estado</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <div class="float-right">
+                                            <a class="btn btn-outline-danger mx-1" id="btnCancelarPerfil">CANCELAR</a>
+                                            <a class="btn btn-outline-success mx-1" id="btnRegistrarPerfil">GUARDAR TIPO DE DOCUMENTO</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

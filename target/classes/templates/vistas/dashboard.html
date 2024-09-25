@@ -1,0 +1,203 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">TABLERO PRINCIPAL</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item active">Tablero Principal</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div><!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <!-- row Tarjetas Informativas -->
+        <div class="row">
+            <div class="col-6 col-lg-2 px-1">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalProductos" class="fw-bold">100</h6>
+                        <p>Productos</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-clipboard"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- TARJETA TOTAL COMPRAS -->
+            <div class="col-6 col-lg-2 px-1">
+                <div class="small-box bg-success">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalCompras" class="fw-bold">S/9,2010.10</h6>
+                        <p>Costo Inventario</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-cash"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- TARJETA TOTAL VENTAS -->
+            <div class="col-6 col-lg-2 px-1">
+                <div class="small-box bg-warning">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalVentas" class="fw-bold">S/.410.20</h6>
+                        <p>Total Ventas</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-cart"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- TARJETA TOTAL GANANCIAS -->
+            <div class="col-6 col-lg-2 px-1">
+                <div class="small-box bg-danger">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalGanancias" class="fw-bold">S/.80.20</h6>
+                        <p>Total Ganancias</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-pie"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- TARJETA PRODUCTOS POCO STOCK -->
+            <div class="col-6 col-lg-2 px-1">
+                <div class="small-box bg-primary">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalProductosMinStock" class="fw-bold">5</h6>
+                        <p>Productos poco stock</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-remove-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- TARJETA TOTAL VENTAS DIA ACTUAL -->
+            <div class="col-6 col-lg-2 px-1">
+                <div class="small-box bg-secondary">
+                    <div class="inner px-1 text-center fw-bold">
+                        <h6 id="totalVentasHoy" class="fw-bold">10</h6>
+                        <p>Ventas del día</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-calendar"></i>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- ./row Tarjetas Informativas -->
+        <!-- row Grafico de barras y doughnut-->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title" id="title-header-ventas-mes"></h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="barChart" style="min-height: 250px; height: 300px; max-height: 350px; width: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title"> TOP VENTAS POR CATEGORÍA</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="chartContainer" style="min-height: 250px; height: 300px; max-height: 350px; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ./row Grafico de barras y doughnut -->
+        <!-- Productos mas vendidos y con poco stock -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">LOS 10 PRODUCTOS MAS VENDIDOS</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="tbl_productos_mas_vendidos">
+                                <thead>
+                                    <tr class="text-danger">
+                                        <!-- <th>Cod. producto</th> -->
+                                        <th>Producto</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-center">Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">PRODUCTOS CON POCO STOCK</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="tbl_productos_poco_stock">
+                                <thead>
+                                    <tr class="text-danger">
+                                        <!-- <th>Cod. producto</th> -->
+                                        <th>Producto</th>
+                                        <th class="text-center">Stock Actual</th>
+                                        <th class="text-center">Mín. Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</div><!-- /.content -->
+
