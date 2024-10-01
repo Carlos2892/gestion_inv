@@ -9,6 +9,7 @@ public interface ClienteService {
     List<Cliente> findAll();
     Cliente findById(Long id);
     Cliente save(ClienteDTO clienteDTO);
+    void editarCliente(Long clienteId, ClienteDTO clienteDTO);
     void deleteById(Long id);
     Optional<Cliente> buscarPorTipoYNumeroDocumento(Long tipoDocumentoId, String nroDocumento);
 }

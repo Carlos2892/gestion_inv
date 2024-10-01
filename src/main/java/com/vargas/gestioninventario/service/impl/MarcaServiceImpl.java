@@ -31,4 +31,9 @@ public class MarcaServiceImpl implements MarcaService {
     public void deleteById(Long id) {
         marcaRepository.deleteById(id);
     }
+    
+    @Override
+    public List<Marca> findByEstadoActivo() {
+        return marcaRepository.findByEstado("A"); // Llama al repositorio y filtra por estado "A"
+    }
 }

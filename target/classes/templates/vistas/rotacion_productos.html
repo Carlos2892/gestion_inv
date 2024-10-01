@@ -1,0 +1,241 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2 class="m-0 fw-bold">ROTACIÓN DE PRODUCTOS</h2>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
+                    <li class="breadcrumb-item active">Rotación Productos</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="content mb-3">
+    <div class="container-fluid">
+
+        <!-- Row para criterios de busqueda -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-gray shadow">
+                    <div class="card-header">
+                        <h3 class="card-title">PRODUCTOS VENDIDOS EN INTERVALOS DE FECHAS</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool text-warning" id="btnLimpiarBusqueda">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div> <!-- ./ end card-tools -->
+                    </div> <!-- ./ end card-header -->
+                    <div class="card-body">
+                        <form id="frmFiltroRotacionProducto">
+                            <div class="row align-items-end g-3">
+                                <!-- Fecha de Inicio -->
+                                <div class="col-12 col-md-4 col-lg-4 mb-2">
+                                    <label class="mb-0 ml-1 text-sm my-text-color">
+                                        <i class="fas fa-calendar-alt mr-1 my-text-color"></i> Fecha de Inicio
+                                    </label>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                            <i class="fas fa-calendar-alt text-white"></i>
+                                        </span>
+                                        <input type="text" class="form-control form-control-sm datetimepicker-input" 
+                                            style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;" 
+                                            id="fechaInicio" name="fechaInicio" aria-describedby="inputGroup-sizing-sm" 
+                                            required data-target="#fechaInicio" data-toggle="datetimepicker">
+                                        <div class="invalid-feedback">Ingrese Fecha de Inicio</div>
+                                    </div>
+                                </div>
+                                <!-- Fecha de Fin -->
+                                <div class="col-12 col-md-4 col-lg-4 mb-2">
+                                    <label class="mb-0 ml-1 text-sm my-text-color">
+                                        <i class="fas fa-calendar-alt mr-1 my-text-color"></i> Fecha de Fin
+                                    </label>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm" style="cursor: pointer;">
+                                            <i class="fas fa-calendar-alt text-white"></i>
+                                        </span>
+                                        <input type="text" class="form-control form-control-sm datetimepicker-input" 
+                                            style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;" 
+                                            id="fechaFin" name="fechaFin" aria-describedby="inputGroup-sizing-sm" 
+                                            required data-target="#fechaFin" data-toggle="datetimepicker">
+                                        <div class="invalid-feedback">Ingrese Fecha de Fin</div>
+                                    </div>
+                                </div>
+                                <!-- Botón Filtrar -->
+                                <div class="col-md-12 col-lg-4 mb-2 text-end">
+                                    <button type="button" class="btn btn-primary btn-sm w-100" id="btnFiltrarRotacionProducto" style="background-color: #0f3b50;">
+                                        <i class="fas fa-filter"></i> Filtrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div> <!-- ./ end card-body -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Row para el listado de productos/inventario -->
+        <div class="row">
+            <div class="col-lg-12">
+                <table id="tbl_productosR" class="table w-100 shadow border border-secondary">
+                    <thead class="bg-main">
+                        <tr style="font-size: 15px;">
+                            <th>Id</th>
+                            <th>Producto</th>
+                            <th>Can. Vendida</th>
+                            <th>Ven. Involucradas</th>
+                            <th>Stock</th>
+                            <th>Imp. Ventas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-small">
+                        <!-- Aquí se inyectará el contenido dinámicamente con JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</div>
+<script>
+    $(document).ready(function() {
+        
+        // Inicializar DateTimePicker
+        inicializarDatetimePickers();
+        inicializarTablaListProductos();
+        
+        let fechaActual = moment().format('YYYY-MM-DD'); // Fecha actual (formato YYYY-MM-DD)
+        let primerDiaMes = moment().startOf('month').format('YYYY-MM-DD'); // Primer día del mes actual (YYYY-MM-01)
+        
+        //asigna los valores al datepicker
+        $('#fechaInicio').val(primerDiaMes);
+        $('#fechaFin').val(fechaActual);
+        
+        filtrarRotacion(primerDiaMes, fechaActual);
+    });
+
+    // Función para inicializar DateTimePicker
+    function inicializarDatetimePickers() {
+        $('#fechaInicio, #fechaFin').datetimepicker({
+            format: 'YYYY-MM-DD',
+            icons: {
+                time: 'fas fa-clock',
+                date: 'fas fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
+        });
+    }
+    
+    function inicializarTablaListProductos() {
+        if ($.fn.DataTable.isDataTable('#tbl_productosR')) {
+            $('#tbl_productosR').DataTable().destroy();
+            $('#tbl_productosR tbody').empty();
+        }
+        $('#tbl_productosR').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['pageLength'],
+            order: [],
+            scrollX: true,
+            columns: [
+                { data: 'idProductoTalla' },
+                { data: 'producto' },
+                { data: 'totalCantidadVendida' },
+                { data: 'totalVentas' },
+                { data: 'stockActual' },
+                { 
+                    data: 'totalImporteVentas',   // Para la columna "Importe Ventas"
+                    'render': $.fn.dataTable.render.number( ',', '.', 2, 'S/.' )  // Renderiza con formato de moneda
+                }
+            ],
+            columnDefs: [
+                {
+                    "className": "dt-center",
+                    "targets": "_all"
+                }
+            ],
+            language: {
+                url: '/json/Spanish.json'
+            }
+        });
+        ajustarHeadersDataTables($("#tbl_productosR"));
+    }
+    
+    $('#btnFiltrarRotacionProducto').click(function() {
+        var fechaInicio = $('#fechaInicio').val();
+        var fechaFin = $('#fechaFin').val();
+        // Validar que ambas fechas estén seleccionadas
+        
+        // Verificar si la fecha de inicio es mayor que la fecha de fin
+        if (moment(fechaInicio).isAfter(fechaFin)) {
+            mensajeToast("warning", "La fecha de inicio no puede ser mayor que la fecha de fin.");
+            $('#fechaInicio').val(fechaFin);
+            return; // Detener la ejecución si las fechas son inválidas
+        }
+        
+        if (fechaInicio && fechaFin) {
+            // Hacer la petición AJAX al backend para obtener los productos más vendidos entre fechas
+            filtrarRotacion(fechaInicio, fechaFin);
+        } else {
+            mensajeToast("warning", "Por favor, selecciona ambas fechas.");
+        }
+    });
+    
+    // Cambiamos la función filtrarRotacion para usar async/await
+    async function filtrarRotacion(fechaInicio, fechaFin) {
+        try {
+            // Hacemos la primera solicitud a `/mas-vendidos`
+            const masVendidos = await $.ajax({
+                url: '/api/detalleventas/mas-vendidos',
+                method: 'GET',
+                data: { fechaInicio: fechaInicio, fechaFin: fechaFin }
+            });
+
+            // Actualizamos la tabla con los productos más vendidos
+            let table = $('#tbl_productosR').DataTable();
+            table.clear(); // Limpiar la tabla antes de mostrar los nuevos resultados
+            table.rows.add(masVendidos).draw(); // Insertar los nuevos datos a la tabla
+
+            // Hacemos la segunda solicitud a `/sin-ventas`
+            const productosSinVentas = await $.ajax({
+                url: '/api/detalleventas/sin-ventas',
+                method: 'GET',
+                data: { fechaInicio, fechaFin }
+            });
+
+            // Añadimos los productos sin ventas a la tabla
+            table.rows.add(productosSinVentas).draw();
+        } catch (err) {
+            console.error('Error al filtrar los productos:', err);
+            alert('Hubo un error al filtrar los productos. Intenta de nuevo.');
+        }
+    }
+    
+    function ajustarHeadersDataTables(element) {
+        var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+            entries.forEach(function(entry) {
+                $(entry.target).DataTable().columns.adjust();
+            });
+        }) : null;
+        // Function to add a datatable to the ResizeObserver entries array
+        resizeHandler = function($table) {
+            if (observer)
+                observer.observe($table[0]);
+        };
+        // Initiate additional resize handling on datatable
+        resizeHandler(element);
+    }
+
+    
+</script>

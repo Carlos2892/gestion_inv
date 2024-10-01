@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/tipodocumentos")
@@ -16,6 +17,12 @@ public class TipoDocumentoController {
     @GetMapping
     public List<TipoDocumento> getAllTipoDocumentos() {
         return tipoDocumentoService.findAll();
+    }
+    
+    @GetMapping("/listar")
+    public ResponseEntity<List<TipoDocumento>> listarTipoDocumentos() {
+        List<TipoDocumento> tiposDocumentos = tipoDocumentoService.listarTodosExceptoIdCero();
+        return ResponseEntity.ok(tiposDocumentos);
     }
 
     @GetMapping("/{id}")

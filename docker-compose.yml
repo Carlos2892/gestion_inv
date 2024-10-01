@@ -11,10 +11,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://gestion_inv:3306/gestion_inventario
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Carlos28
+      TZ: America/Lima  # Zona horaria de Perú para el contenedor Java
     restart: always
     depends_on:
       gestion_inv:
         condition: service_healthy
+
   gestion_inv:
     image: mysql
     ports:
@@ -23,6 +25,7 @@ services:
       MYSQL_ROOT_PASSWORD: Carlos28
       MYSQL_PASSWORD: Carlos28
       MYSQL_DATABASE: gestion_inventario
+      TZ: America/Lima  # Zona horaria de Perú para MySQL
     restart: always
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]

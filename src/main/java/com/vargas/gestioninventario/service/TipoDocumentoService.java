@@ -8,4 +8,5 @@ public interface TipoDocumentoService {
     TipoDocumento findById(Long id);
     TipoDocumento save(TipoDocumento tipoDocumento);
     void deleteById(Long id);
+    List<TipoDocumento> listarTodosExceptoIdCero();
 }

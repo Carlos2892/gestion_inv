@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -18,6 +19,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     
     @Autowired
     private RolRepository rolRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Usuario> findAll() {
@@ -42,15 +46,25 @@ public class UsuarioServiceImpl implements UsuarioService {
     
     @Override
     public Usuario save(Usuario usuario) {
+        // Encriptar la contraseña antes de guardar el usuario
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
+            usuario.setPassword(passwordEncriptada);
+        }
+
+        // Manejar los roles asociados
         if (usuario.getRoleIds() != null && !usuario.getRoleIds().isEmpty()) {
             Set<Rol> roles = new HashSet<>();
             for (Long roleId : usuario.getRoleIds()) {
-                Rol rolEntity = rolRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+                Rol rolEntity = rolRepository.findById(roleId)
+                        .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
                 roles.add(rolEntity);
             }
             usuario.setRoles(roles);
-            usuario.setEstado("A");
+            usuario.setEstado("A"); // Se asume que el estado siempre es "A" al crear un nuevo usuario
         }
+
+        // Guardar el usuario en la base de datos
         return usuarioRepository.save(usuario);
     }
 

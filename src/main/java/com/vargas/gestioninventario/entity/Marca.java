@@ -21,6 +21,8 @@ public class Marca {
     private Long id;
 
     private String nombre;
+    
+    private String estado;
 
     @OneToMany(mappedBy = "marca")
     private Set<Producto> productos;

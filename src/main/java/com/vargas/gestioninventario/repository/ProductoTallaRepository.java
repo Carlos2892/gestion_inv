@@ -17,4 +17,8 @@ public interface ProductoTallaRepository extends JpaRepository<ProductoTalla, Lo
        "WHERE pt.estado = 'A' AND inv.stockActual > 0 " +
        "AND (p.descripcion LIKE %:keyword% OR t.nombre LIKE %:keyword% OR m.nombre LIKE %:keyword%)")
     List<ProductoTalla> findAvailableProductsByKeyword(@Param("keyword") String keyword);
+    
+    // Método para contar los productos cuyo precioCompra es mayor a 0
+    @Query("SELECT COUNT(pt) FROM ProductoTalla pt WHERE pt.precioCompra > 0")
+    long contarTotalProductos();
 }

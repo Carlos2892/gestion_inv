@@ -23,6 +23,8 @@ public class Talla {
     private Long id;
 
     private String nombre;
+    
+    private String estado;
 
     @OneToMany(mappedBy = "talla")
     private Set<ProductoTalla> productoTallas;

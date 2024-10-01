@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/productotallas")
@@ -41,5 +42,11 @@ public class ProductoTallaController {
     @DeleteMapping("/{id}")
     public void deleteProductoTalla(@PathVariable Long id) {
         productoTallaService.deleteById(id);
+    }
+    
+    @GetMapping("/total")
+    public ResponseEntity<Long> contarTotalProductos() {
+        long totalProductos = productoTallaService.contarTotalProductos();
+        return ResponseEntity.ok(totalProductos);
     }
 }

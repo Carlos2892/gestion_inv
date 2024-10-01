@@ -3,6 +3,7 @@ package com.vargas.gestioninventario.service.impl;
 
 import com.vargas.gestioninventario.entity.Usuario;
 import com.vargas.gestioninventario.service.UsuarioService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UsuarioService usuarioService;
 
-    public UserDetailsServiceImpl(UsuarioService usuarioService) {
+    public UserDetailsServiceImpl(@Lazy UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 

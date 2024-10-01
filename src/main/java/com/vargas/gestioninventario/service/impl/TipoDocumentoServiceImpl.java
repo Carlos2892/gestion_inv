@@ -6,6 +6,7 @@ import com.vargas.gestioninventario.service.TipoDocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TipoDocumentoServiceImpl implements TipoDocumentoService {
@@ -15,6 +16,13 @@ public class TipoDocumentoServiceImpl implements TipoDocumentoService {
     @Override
     public List<TipoDocumento> findAll() {
         return tipoDocumentoRepository.findAll();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<TipoDocumento> listarTodosExceptoIdCero() {
+        // Llamar al repositorio para obtener los tipos de documentos cuyo ID no es igual a 0
+        return tipoDocumentoRepository.findByIdNot(0L);
     }
 
     @Override

@@ -7,7 +7,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
                     <li class="breadcrumb-item active">Inventario / Productos</li>
                 </ol>
             </div><!-- /.col -->
@@ -394,8 +394,8 @@ VENTA MODAL PARA AUMENTAR O DISMINUIR EL STOCK DEL PRODUCTO
     
     function cargarDatosModal() {
         cargarDatosEnSelector('/api/categorias/activas', 'id_categoria', '--Seleccione una categoría--');
-        cargarDatosEnSelector('/api/marcas', 'id_marca', '--Seleccione una marca--');
-        cargarDatosEnSelector('/api/tallas', 'id_tallas', '--Seleccione una talla--');
+        cargarDatosEnSelector('/api/marcas/activas', 'id_marca', '--Seleccione una marca--');
+        cargarDatosEnSelector('/api/tallas/activas', 'id_tallas', '--Seleccione una talla--');
     }
     
     function limpiarFormulario() {

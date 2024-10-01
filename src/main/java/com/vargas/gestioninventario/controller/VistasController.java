@@ -86,6 +86,26 @@ public class VistasController {
         return "vistas/categorias"; // Esto devuelve el nombre de la plantilla Thymeleaf
     }
     
+    @GetMapping("/tallas")
+    public String mostrarTallas(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        if (referer == null || !referer.contains("/vistas")) {
+            // Si no viene de la página principal, redirige al home o muestra un error
+            return "redirect:/vistas"; // O una vista de error personalizada
+        }
+        return "vistas/tallas"; // Esto devuelve el nombre de la plantilla Thymeleaf
+    }
+    
+    @GetMapping("/marcas")
+    public String mostrarMarcas(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        if (referer == null || !referer.contains("/vistas")) {
+            // Si no viene de la página principal, redirige al home o muestra un error
+            return "redirect:/vistas"; // O una vista de error personalizada
+        }
+        return "vistas/marcas"; // Esto devuelve el nombre de la plantilla Thymeleaf
+    }
+    
     @GetMapping("/compras")
     public String mostrarCompras(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
@@ -96,14 +116,14 @@ public class VistasController {
         return "vistas/compras"; // Esto devuelve el nombre de la plantilla Thymeleaf
     }
     
-    @GetMapping("/reportes")
+    @GetMapping("/rotacion_productos")
     public String mostrarReportes(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
         if (referer == null || !referer.contains("/vistas")) {
             // Si no viene de la página principal, redirige al home o muestra un error
             return "redirect:/vistas"; // O una vista de error personalizada
         }
-        return "vistas/reportes"; // Esto devuelve el nombre de la plantilla Thymeleaf
+        return "vistas/rotacion_productos"; // Esto devuelve el nombre de la plantilla Thymeleaf
     }
     
     @GetMapping("/administrar_clientes")

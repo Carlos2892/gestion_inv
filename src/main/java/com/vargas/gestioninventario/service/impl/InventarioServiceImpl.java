@@ -12,12 +12,12 @@ import com.vargas.gestioninventario.repository.InventarioRepository;
 import com.vargas.gestioninventario.repository.ProductoRepository;
 import com.vargas.gestioninventario.repository.ProductoTallaRepository;
 import com.vargas.gestioninventario.service.InventarioService;
-import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class InventarioServiceImpl implements InventarioService {
@@ -162,5 +162,26 @@ public class InventarioServiceImpl implements InventarioService {
 
         productoTalla.setEstado(nuevoEstado);
         productoTallaRepository.save(productoTalla);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public long contarProductosConPocoStock() {
+        return inventarioRepository.contarProductosConPocoStock();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductoInventarioDTO> obtenerProductosPocoStock() {
+        // Obtener la lista de Inventario y convertir cada uno a DTO
+        return inventarioRepository.obtenerProductosPocoStock().stream()
+                .map(this::convertToDTO)  // Convertir cada entidad a DTO
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public Double obtenerValorTotalInventario() {
+        Double valorTotalInventario = inventarioRepository.obtenerValorTotalInventario();
+        return valorTotalInventario != null ? valorTotalInventario : 0.0; // Evitar nulos
     }
 }

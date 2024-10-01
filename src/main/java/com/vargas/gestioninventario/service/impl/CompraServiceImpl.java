@@ -357,7 +357,7 @@ public class CompraServiceImpl implements CompraService {
             // Detalles de la compra
             for (DetalleCompra detalle : compra.getDetalleCompras()) {
                 table.addCell(getCell(String.valueOf(detalle.getProductoTalla().getId()), PdfPCell.ALIGN_CENTER, regularFont));
-                table.addCell(getCell(detalle.getProductoTalla().getProducto().getDescripcion(), PdfPCell.ALIGN_LEFT, regularFont));
+                table.addCell(getCell(detalle.getProductoTalla().getProducto().getDescripcion()+" "+detalle.getProductoTalla().getProducto().getMarca().getNombre()+" T: "+detalle.getProductoTalla().getTalla().getNombre(), PdfPCell.ALIGN_LEFT, regularFont));
                 table.addCell(getCell(String.valueOf(detalle.getCantidad()), PdfPCell.ALIGN_CENTER, regularFont));
                 table.addCell(getCell(String.format("S/ %.2f", detalle.getPrecioUnitario()), PdfPCell.ALIGN_CENTER, regularFont));
                 table.addCell(getCell(String.format("S/ %.2f", detalle.getImporteTotal()), PdfPCell.ALIGN_CENTER, regularFont));

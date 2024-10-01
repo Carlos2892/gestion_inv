@@ -1,8 +1,11 @@
 package com.vargas.gestioninventario.repository;
 
 import com.vargas.gestioninventario.entity.Proveedor;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {}
+public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
+    Optional<Proveedor> findByTipoDocumento_IdAndNumeroDocumento(Long tipoDocumentoId, String numeroDocumento);
+}

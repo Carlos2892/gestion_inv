@@ -42,18 +42,44 @@ public class ClienteServiceImpl implements ClienteService {
     
     @Override
     public Cliente save(ClienteDTO clienteDTO) {
-        Cliente cliente = convertirADominio(clienteDTO);
+        // Verificar si ya existe un cliente con el mismo tipoDocumento y numeroDocumento
+        Optional<Cliente> clienteExistente = clienteRepository.findByTipoDocumento_IdAndNumeroDocumento(
+                clienteDTO.getTipoDocumentoId(), clienteDTO.getNumeroDocumento()
+        );
+
+        if (clienteExistente.isPresent()) {
+            // Lanzar excepción si el cliente ya existe
+            throw new RuntimeException("Ya existe un cliente registrado con este tipo de documento y número de documento.");
+        }
+
+        // Si no existe, crear el cliente
+        Cliente cliente = convertirADominio(new Cliente(), clienteDTO);
         return clienteRepository.save(cliente);
     }
 
-    private Cliente convertirADominio(ClienteDTO clienteDTO) {
-        Cliente cliente = new Cliente();
-        
-        // Buscar el objeto TipoDocumento usando el ID
+    @Override
+    public void editarCliente(Long clienteId, ClienteDTO clienteDTO) {
+        // Buscar el cliente existente
+        Cliente clienteExistente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        // Reutilizar el método convertirADominio para actualizar los campos necesarios
+        Cliente clienteActualizado = convertirADominio(clienteExistente, clienteDTO);
+
+        // Guardar los cambios
+        clienteRepository.save(clienteActualizado);
+    }
+
+    /**
+     * Método para convertir un ClienteDTO a un Cliente.
+     * Si el cliente ya existe (edición), se actualizarán los campos necesarios.
+     */
+    private Cliente convertirADominio(Cliente cliente, ClienteDTO clienteDTO) {
+        // Buscar el TipoDocumento usando el ID proporcionado en el DTO
         TipoDocumento tipoDocumento = tipoDocumentoRepository.findById(clienteDTO.getTipoDocumentoId())
                 .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado"));
 
-        // Asignar los valores del DTO al objeto Cliente
+        // Asignar valores del DTO al cliente
         cliente.setTipoDocumento(tipoDocumento);
         cliente.setNumeroDocumento(clienteDTO.getNumeroDocumento());
         cliente.setNombre(clienteDTO.getNombre());

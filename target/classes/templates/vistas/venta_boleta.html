@@ -6,7 +6,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
                     <li class="breadcrumb-item active">Ventas / Boleta</li>
                 </ol>
             </div>
@@ -223,33 +223,26 @@
 
                         <!-- CONTENIDO DE LISTADO DE VENTAS -->
                         <div class="tab-pane fade" id="listado-ventas" role="tabpanel" aria-labelledby="listado-ventas-tab">
-                            <!-- Aquí puedes agregar el contenido para "Listado de Ventas" -->
-                            <!-- Ejemplo de tabla de listado de ventas -->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Listado de Ventas</h3>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table table-bordered">
-                                                <thead class="bg-primary text-white">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Fecha</th>
-                                                        <th>Cliente</th>
-                                                        <th>Tipo Documento</th>
-                                                        <th>Nro Documento</th>
-                                                        <th>Total</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Detalles de ventas -->
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <table id="tbl_ventas" class="table w-100 shadow border border-secondary">
+                                        <thead class="bg-main text-left">
+                                            <tr>
+                                                <th></th>
+                                                <th>ID</th>
+                                                <th>Comprob.</th>
+                                                <th>Fec. Emisión</th>
+                                                <th>Cliente</th>
+                                                <th>Nro Documento</th>
+                                                <th>Sub Total</th>
+                                                <th>Descu.</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Detalles de ventas -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +254,6 @@
 </div>
 
 <script>
-    
     $(document).ready(function() {
         cargarDatos('/api/tipodocumentos', 'tipoDocumento');
         cargarDatos('/api/formaspago', 'formaPago');
@@ -269,6 +261,9 @@
         
         // Inicializar el estado de los labels al cargar la página
         alternarDatosCliente(0);
+        var fechaActual = moment().format('YYYY-MM-DD');
+        $('#fechaVenta').val(fechaActual);
+        fnc_CargarDataTableVentas();
         
         if ($.fn.DataTable.isDataTable('#tbl_ListadoProductos')) {
             $('#tbl_ListadoProductos').DataTable().destroy();
@@ -314,6 +309,8 @@
                 actualizarEventos();
             }
         });
+        
+        ajustarHeadersDataTables($("#tbl_ListadoProductos"));
 
         // Evento para eliminar productos de la tabla
         $('#tbl_ListadoProductos').on('click', '.btnEliminarProducto', function () {
@@ -323,6 +320,17 @@
         });
         
         let nuevoCorrelativo;
+    });
+    
+    $('#registrar-ventas-tab').on('click', function () {
+        limpiarFormularioVentas();
+        var fechaActual = moment().format('YYYY-MM-DD');
+        $('#fechaVenta').val(fechaActual);
+    });
+    
+    $('#listado-ventas-tab').on('click', function () {
+        let tblventas = $('#tbl_ventas').DataTable();
+        tblventas.ajax.reload(null, false);
     });
     
     
@@ -752,6 +760,8 @@
                 showConfirmButton: true
             }).then(() => {
                 if (data.status === "success") {
+                    // Imprimir venta
+                    imprimirVenta(data.id);
                     // Limpiar el formulario de ventas
                     limpiarFormularioVentas();
                     // Recargar el DataTable de ventas
@@ -851,5 +861,135 @@
             $('#fechaVenta').datetimepicker('show');
         });
     });
+    
+    function fnc_CargarDataTableVentas() {
+        // Destruir y vaciar la tabla si ya está inicializada
+        if ($.fn.DataTable.isDataTable('#tbl_ventas')) {
+            $('#tbl_ventas').DataTable().clear().destroy();
+        }
+
+        // Inicializar la DataTable
+        $("#tbl_ventas").DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'excel',
+                title: function() {
+                    return 'LISTADO DE VENTAS';
+                }
+            }, 'pageLength'],
+            fixedColumns: {
+                leftColumns: 2,
+                rightColumns: 1
+            },
+            scrollCollapse: true,
+            scrollX: true,
+            pageLength: 10,
+            processing: true,
+            ajax: {
+                url: "/api/ventas",
+                dataSrc: '',
+                type: "GET"
+            },
+            columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    className: 'control',
+                    render: function(data, type, row) {
+                        // En el índice 0 solo se muestra un ícono para imprimir la venta
+                        return `<center>
+                            <span class='btnImprimirVenta px-1' style='cursor:pointer;' data-id='${row.id}' data-bs-toggle='tooltip' data-bs-placement='top' title='Imprimir Venta'>
+                                <i class='fas fa-print fs-5 text-primary'></i>
+                            </span>
+                        </center>`;
+                    }
+                },
+                { data: 'id' },
+                { data: 'correlativo' }, // Correlativo de la venta
+                { data: 'fecha' }, // Fecha de la venta
+                { 
+                    data: null, 
+                    render: function (data, type, row) {
+                        return row.clienteNombre+" "+row.clienteApellido;
+                    }
+                },
+                { data: 'clienteNumeroDocumento' }, // Documento del cliente
+                { data: 'subtotal', render: $.fn.dataTable.render.number(',', '.', 2, 'S/ ') }, // Subtotal con formato de moneda
+                { data: 'descuento', render: $.fn.dataTable.render.number(',', '.', 2, 'S/ ') }, // Descuento con formato de moneda
+                { data: 'importeTotal', render: $.fn.dataTable.render.number(',', '.', 2, 'S/ ') } // Total con formato de moneda
+            ],
+            order: [1], // Ordenar por correlativo
+            columnDefs: [
+                { "className": "dt-center", "targets": "_all" },
+                { targets: [1], visible: false }
+            ],
+            drawCallback: function(settings) {
+                // Evento para imprimir la venta
+                $('#tbl_ventas').off('click', '.btnImprimirVenta').on('click', '.btnImprimirVenta', function() {
+                    let ventaId = $(this).data('id');
+                    imprimirVenta(ventaId); // Llamar a la función para generar el PDF de la venta
+                });
+            },
+            language: {
+                url: "/json/Spanish.json" // Cargar traducción en español
+            }
+        });
+
+        ajustarHeadersDataTables($("#tbl_ventas")); // Ajustar los headers si es necesario
+    }
+    
+    function imprimirVenta(ventaId) {
+        fetch(`/api/ventas/imprimir/${ventaId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/pdf'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            } else {
+                throw new Error('No se pudo generar el PDF');
+            }
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            // Creamos un iframe oculto donde cargaremos el PDF
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+
+            // Agregamos el iframe al body
+            document.body.appendChild(iframe);
+
+            // Una vez que el iframe esté listo, llamamos a la función de impresión
+            iframe.onload = function() {
+                iframe.contentWindow.print();  // Abre el diálogo de impresión automáticamente
+            };
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo generar el PDF'
+            });
+        });
+    }
+    
+    function ajustarHeadersDataTables(element) {
+        var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+            entries.forEach(function(entry) {
+                $(entry.target).DataTable().columns.adjust();
+            });
+        }) : null;
+        // Function to add a datatable to the ResizeObserver entries array
+        resizeHandler = function($table) {
+            if (observer)
+                observer.observe($table[0]);
+        };
+        // Initiate additional resize handling on datatable
+        resizeHandler(element);
+    }
 
 </script>

@@ -1,0 +1,15 @@
+copea el archivo en una ruta el file: gestion-inventario
+dentro donde esta el docker-compose 
+en cmd: cd + ruta donde esta el docker-compose
+en cmd: docker-compose build
+en cmd: docker-compose up
+
+copiar el backup de la bd a la base de datos en docker
+cmd: docker ps // ves el contenedor de mysql
+cmd: docker cp "C:\Users\user\Desktop\backup_gestion_inventario.sql" gestion-inventario-gestion_inv-1:/tmp/backup_gestion_inventario.sql
+cmd: docker exec -it gestion-inventario-gestion_inv-1 bash  // accedes al contenedor docker mysql
+cmd: mysql -u root -p gestion_inventario < /tmp/backup_gestion_inventario.sql
+cmd: mysql -u root -p
+cmd: use gestion_inventario;
+cmd: select * from usuarios;
+cmd: INSERT INTO `roles` VALUES (1,'MASTER'),(2,'ADMIN'),(3,'LOGISTICA'),(4,'VENDEDOR');

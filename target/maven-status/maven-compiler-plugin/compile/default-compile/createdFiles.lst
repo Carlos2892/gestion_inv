@@ -8,6 +8,7 @@ com\vargas\gestioninventario\service\ProductoService.class
 com\vargas\gestioninventario\controller\ClienteController.class
 com\vargas\gestioninventario\dto\DetalleCruceInventarioDTO.class
 com\vargas\gestioninventario\entity\Proveedor.class
+com\vargas\gestioninventario\dto\VentaDTO.class
 com\vargas\gestioninventario\repository\CruceInventarioRepository.class
 com\vargas\gestioninventario\controller\ProductoTallaController.class
 com\vargas\gestioninventario\controller\CategoriaController2.class
@@ -39,6 +40,7 @@ com\vargas\gestioninventario\GestionInventarioApplication.class
 com\vargas\gestioninventario\entity\Inventario.class
 com\vargas\gestioninventario\service\impl\UsuarioServiceImpl.class
 com\vargas\gestioninventario\service\impl\CruceInventarioServiceImpl.class
+com\vargas\gestioninventario\dto\ProveedorDTO.class
 com\vargas\gestioninventario\dto\CruceInventarioListDTO.class
 com\vargas\gestioninventario\service\CruceInventarioService.class
 com\vargas\gestioninventario\service\impl\MarcaServiceImpl.class
@@ -107,6 +109,7 @@ com\vargas\gestioninventario\repository\FormaPagoRepository.class
 com\vargas\gestioninventario\service\MarcaService.class
 com\vargas\gestioninventario\entity\DetalleCompra.class
 com\vargas\gestioninventario\controller\HistoricoCambiosController.class
+com\vargas\gestioninventario\dto\ProductoMasVendidoDTO.class
 com\vargas\gestioninventario\entity\TipoDocumento.class
 com\vargas\gestioninventario\repository\DetalleVentaRepository.class
 com\vargas\gestioninventario\repository\ProductoRepository.class

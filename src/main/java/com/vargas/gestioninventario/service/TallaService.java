@@ -8,4 +8,5 @@ public interface TallaService {
     Talla findById(Long id);
     Talla save(Talla talla);
     void deleteById(Long id);
+    List<Talla> findByEstadoActivo();
 }

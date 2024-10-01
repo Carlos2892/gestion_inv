@@ -1,18 +1,252 @@
 <div class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
+        <div class="row">
+            <div class="col-md-6">
                 <h2 class="m-0 fw-bold">ADMINISTRAR PROVEEDORES</h2>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
-                    <li class="breadcrumb-item active">Administrar Proveedores</li>
+            </div>
+            <div class="col-md-6">
+                <ol class="breadcrumb float-md-right">
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
+                    <li class="breadcrumb-item">Proveedores</li>
+                    <li class="breadcrumb-item active">Listado</li>
                 </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div><!-- /.content-header -->
-
-<div class="content">
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="content pb-2">
+    <div class="row p-0 m-0">
+        <!-- LISTADO DE PROVEEDORES -->
+        <div class="col-md-8">
+            <div class="card card-gray shadow">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-list"></i> Listado de Proveedores</h3>
+                </div>
+                <div class="card-body">
+                    <table id="tbl_proveedores" class="table table-striped w-100 shadow border border-secondary">
+                        <thead class="bg-gray text-left">
+                            <tr>
+                                <th>ID</th>
+                                <th>Razón Social</th>
+                                <th>T. Doc</th>
+                                <th>Núm. Doc.</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="small text-left"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULARIO PARA REGISTRO Y EDICION -->
+        <div class="col-md-4">
+            <div class="card card-gray shadow">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-edit"></i> Registro de Proveedores</h3>
+                </div>
+                <div class="card-body">
+                    <form id="proveedorForm" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                                <select id="tipoDocumento" name="tipoDocumento" class="form-control" required>
+                                    <option value="">Seleccione...</option>
+                                    <!-- Opciones dinámicas cargadas desde API -->
+                                </select>
+                                <div class="invalid-feedback">Seleccione el tipo de documento</div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-floating mb-2">
+                                    <input type="text" id="numeroDocumento" class="form-control" name="numeroDocumento" required>
+                                    <label for="numeroDocumento">Número de Documento</label>
+                                    <div class="invalid-feedback">Ingrese el número de documento</div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-floating mb-2">
+                                    <input type="text" id="razonSocial" class="form-control" name="razonSocial" required>
+                                    <label for="razonSocial">Razón Social</label>
+                                    <div class="invalid-feedback">Ingrese la razón social</div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-floating mb-2">
+                                    <input type="text" id="direccion" class="form-control" name="direccion" required>
+                                    <label for="direccion">Dirección</label>
+                                    <div class="invalid-feedback">Ingrese la dirección</div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="form-floating mb-2">
+                                    <input type="text" id="telefono" class="form-control" name="telefono" required>
+                                    <label for="telefono">Teléfono</label>
+                                    <div class="invalid-feedback">Ingrese el teléfono</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary btn-sm w-100" id="btnGuardarProveedor">Guardar Proveedor</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-secondary btn-sm w-100" id="btnCancelar">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        // Cargar tipos de documentos
+        function cargarTiposDocumentos() {
+            $.ajax({
+                url: '/api/tipodocumentos',
+                type: 'GET',
+                success: function(data) {
+                    var tipoDocumentoSelect = $('#tipoDocumento');
+                    tipoDocumentoSelect.empty();
+                    tipoDocumentoSelect.append('<option value="">Seleccione...</option>');
+                    $.each(data, function(index, tipoDocumento) {
+                        tipoDocumentoSelect.append('<option value="' + tipoDocumento.id + '">' + tipoDocumento.descripcion + '</option>');
+                    });
+                },
+                error: function() {
+                    console.error("Error cargando tipos de documentos");
+                }
+            });
+        }
+
+        // Cargar datos de proveedores en la tabla
+        var table = $('#tbl_proveedores').DataTable({
+            "ajax": {
+                "url": "/api/proveedores",
+                "dataSrc": ""
+            },
+            scrollX: true,
+            autoWidth: true,
+            "columns": [
+                { "data": "id" },
+                { "data": "razonSocial" },
+                { "data": "tipoDocumento.descripcion" }, // Muestra el nombre del tipo de documento
+                { "data": "numeroDocumento" },
+                { "data": "direccion" },
+                { "data": "telefono" },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return '<div class="text-center">' +
+                               '<i class="fas fa-edit text-primary fs-5 clickable-icon edit-proveedor" data-id="'+ row.id +'" data-bs-toggle="tooltip" title="Editar Proveedor"></i>' +
+                               '</div>';
+                    }
+                }
+            ],
+            "language": {
+                "url": "/json/Spanish.json"
+            }
+        });
+        
+        ajustarHeadersDataTables($("#tbl_proveedores"));
+
+        // Evento para manejar la creación o edición de proveedor
+        $('#proveedorForm').on('submit', function(e) {
+            e.preventDefault();
+
+            // Validación del formulario
+            var form = this;
+            if (!form.checkValidity()) {
+                e.stopPropagation();
+                $(form).addClass('was-validated');
+                return;
+            }
+
+            var proveedorData = {
+                tipoDocumentoId: $('#tipoDocumento').val(),
+                numeroDocumento: $('#numeroDocumento').val(),
+                razonSocial: $('#razonSocial').val(),
+                direccion: $('#direccion').val(),
+                telefono: $('#telefono').val(),
+                estado: 'A' // Valor por defecto del estado al crear
+            };
+
+            var proveedorId = $(this).data('proveedorId'); // Para saber si estamos editando
+
+            var url = proveedorId ? '/api/proveedores/editar/' + proveedorId : '/api/proveedores/crear';
+            var type = proveedorId ? 'PUT' : 'POST';
+
+            $.ajax({
+                url: url,
+                type: type,
+                data: JSON.stringify(proveedorData),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response.status === "success") {
+                        mensajeToast("success", response.mensaje);
+                        table.ajax.reload(null, false);
+                        $('#proveedorForm').trigger('reset').removeClass('was-validated');
+                    }
+                },
+                error: function(xhr) {
+                    var response = xhr.responseJSON;
+                    if (response && response.status) {
+                        mensajeToast("error", response.mensaje);
+                    } else {
+                        mensajeToast("error", "Ocurrió un error al procesar la solicitud.");
+                    }
+                    console.error("Error al guardar el proveedor:", xhr);
+                }
+            });
+        });
+
+        // Evento para manejar la edición de un proveedor
+        $('#tbl_proveedores tbody').on('click', 'i.edit-proveedor', function() {
+            var proveedorId = $(this).data('id');
+
+            $.ajax({
+                url: '/api/proveedores/' + proveedorId,
+                type: 'GET',
+                success: function(proveedor) {
+                    $('#tipoDocumento').val(proveedor.tipoDocumento.id);
+                    $('#numeroDocumento').val(proveedor.numeroDocumento);
+                    $('#razonSocial').val(proveedor.razonSocial);
+                    $('#direccion').val(proveedor.direccion);
+                    $('#telefono').val(proveedor.telefono);
+                    $('#proveedorForm').data('proveedorId', proveedor.id); // Guardamos el ID del proveedor en el formulario
+                },
+                error: function() {
+                    console.error("Error cargando el proveedor");
+                }
+            });
+        });
+        
+        $('#btnCancelar').on('click', function() {
+            $('#proveedorForm').trigger('reset'); // Restablece el formulario
+            $('#proveedorForm').removeClass('was-validated'); // Elimina la validación visual
+            $('#proveedorForm').removeData('proveedorId'); // Limpia el ID del proveedor editado si existía
+        });
+        
+        function ajustarHeadersDataTables(element) {
+            var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    $(entry.target).DataTable().columns.adjust();
+                });
+            }) : null;
+            // Function to add a datatable to the ResizeObserver entries array
+            resizeHandler = function($table) {
+                if (observer)
+                    observer.observe($table[0]);
+            };
+            // Initiate additional resize handling on datatable
+            resizeHandler(element);
+        }
+
+        // Cargar tipos de documentos cuando se carga la página
+        cargarTiposDocumentos();
+    });
+</script>

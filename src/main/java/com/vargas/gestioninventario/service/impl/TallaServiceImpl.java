@@ -31,4 +31,9 @@ public class TallaServiceImpl implements TallaService {
     public void deleteById(Long id) {
         tallaRepository.deleteById(id);
     }
+    
+    @Override
+    public List<Talla> findByEstadoActivo() {
+        return tallaRepository.findByEstado("A"); // Llama al repositorio y filtra por estado "A"
+    }
 }

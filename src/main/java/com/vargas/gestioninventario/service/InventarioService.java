@@ -16,4 +16,7 @@ public interface InventarioService {
     void actualizarProductoTallaEInventario(Long id, InventarioSaveDTO inventarioSaveDTO);
     void updateStock(Long id, InventarioSaveDTO inventarioSaveDTO);
     void toggleProductoEnInventario(Long id, String nuevoEstado);
+    long contarProductosConPocoStock();
+    List<ProductoInventarioDTO> obtenerProductosPocoStock();
+    Double obtenerValorTotalInventario();
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductoTallaServiceImpl implements ProductoTallaService {
@@ -57,5 +58,11 @@ public class ProductoTallaServiceImpl implements ProductoTallaService {
         dto.setPrecioCompra(productoTalla.getPrecioCompra());
         dto.setStockActual(inventario.getStockActual());
         return dto;
+    }
+    
+    @Override
+    @Transactional(readOnly = true) // Lectura sin transacción de escritura
+    public long contarTotalProductos() {
+        return productoTallaRepository.contarTotalProductos();
     }
 }

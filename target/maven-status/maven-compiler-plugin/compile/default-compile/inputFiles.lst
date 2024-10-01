@@ -35,7 +35,10 @@ C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninven
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\KardexDTO.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\KardexFilterDTO.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\ProductoInventarioDTO.java
+C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\ProductoMasVendidoDTO.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\ProductoVentaDTO.java
+C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\ProveedorDTO.java
+C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\VentaDTO.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\dto\VentaSaveDTO.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\entity\Categoria.java
 C:\Users\user\Downloads\gestion-inventario\src\main\java\com\vargas\gestioninventario\entity\Cliente.java

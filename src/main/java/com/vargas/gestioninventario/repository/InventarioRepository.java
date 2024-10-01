@@ -32,4 +32,18 @@ public interface InventarioRepository extends JpaRepository<Inventario, Long> {
     @Query("SELECT i FROM Inventario i WHERE i.productoTalla = :productoTalla")
     Inventario findByProductoTalla(@Param("productoTalla") ProductoTalla productoTalla);
     
+    // Método para contar productos con precioCompra > 0 y stockActual < stockMinimo
+    @Query("SELECT COUNT(i) FROM Inventario i WHERE i.productoTalla.precioCompra > 0 AND i.stockActual <= i.stockMinimo")
+    long contarProductosConPocoStock();
+    
+    @Query("SELECT i FROM Inventario i WHERE i.stockActual <= i.stockMinimo AND i.productoTalla.precioCompra > 0")
+    List<Inventario> obtenerProductosPocoStock();
+    
+    // Consulta para obtener el valor total del inventario (solo productos con precio de compra mayor a 0)
+    @Query("SELECT SUM(pt.precioCompra * i.stockActual) " +
+           "FROM Inventario i " +
+           "JOIN i.productoTalla pt " +
+           "WHERE pt.precioCompra > 0")
+    Double obtenerValorTotalInventario();
+    
 }

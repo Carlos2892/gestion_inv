@@ -6,7 +6,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
                     <li class="breadcrumb-item active">Administrar Usuarios</li>
                 </ol>
             </div><!-- /.col -->
@@ -244,6 +244,8 @@
                 "url": "/api/usuarios",
                 "dataSrc": ""
             },
+            scrollX: true,
+            autoWidth: true,
             "columns": [
                 { "data": "id" },
                 { "data": "nombre" },
@@ -298,6 +300,8 @@
                 "url": "/json/Spanish.json"
             }
         });
+        
+        ajustarHeadersDataTables($("#tbl_usuarios"));
 
         // Initialize tooltips
         $('body').tooltip({
@@ -469,6 +473,21 @@
         $('#desmarcar_roles_create').on('click', function() {
             $('#roles2').jstree('uncheck_all');
         });
+        
+        function ajustarHeadersDataTables(element) {
+            var observer = window.ResizeObserver ? new ResizeObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    $(entry.target).DataTable().columns.adjust();
+                });
+            }) : null;
+            // Function to add a datatable to the ResizeObserver entries array
+            resizeHandler = function($table) {
+                if (observer)
+                    observer.observe($table[0]);
+            };
+            // Initiate additional resize handling on datatable
+            resizeHandler(element);
+        }
     });
 </script>
 

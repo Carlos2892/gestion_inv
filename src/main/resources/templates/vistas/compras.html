@@ -7,7 +7,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
                     <li class="breadcrumb-item active">Administrar Compras</li>
                 </ol>
             </div><!-- /.col -->
@@ -657,8 +657,7 @@ MODAL MOSTRAR DETALLE DE COMPRA
                 }
             }, 'pageLength'],
             fixedColumns: {
-                leftColumns: 2,
-                rightColumns: 2
+                leftColumns: 2
             },
             scrollCollapse: true,
             scrollX: true,
@@ -994,14 +993,6 @@ MODAL MOSTRAR DETALLE DE COMPRA
         $("#tbl_productos").DataTable({
             dom: 'Bfrtip',
             buttons: [
-                {
-                    text: 'Agregar Producto',
-                    className: 'addNewRecord',
-                    action: function(e, dt, node, config) {
-                        $(".titulo-modal-productos").html("Registrar Producto");
-                        $("#mdlGestionarProducto").modal('show');
-                    }
-                },
                 'pageLength'
             ],
             scrollX: true,
@@ -1060,7 +1051,7 @@ MODAL MOSTRAR DETALLE DE COMPRA
                 url: '/json/Spanish.json' // Asegúrate de tener el archivo de traducción al español
             },
             drawCallback: function(settings) {
-                $('.btnSeleccionarProducto').on('click', function() {
+                $('#tbl_productos').off('click', '.btnSeleccionarProducto').on('click', '.btnSeleccionarProducto', function() {
                     let data = $('#tbl_productos').DataTable().row($(this).parents('tr')).data();
                     seleccionarProducto(data);
                 });

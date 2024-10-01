@@ -10,4 +10,5 @@ public interface ProductoTallaService {
     ProductoTalla save(ProductoTalla productoTalla);
     void deleteById(Long id);
     List<ProductoVentaDTO> buscarProductosDisponibles(String keyword);
+    long contarTotalProductos();
 }

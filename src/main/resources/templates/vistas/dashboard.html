@@ -7,7 +7,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="vistas">Inicio</a></li>
                     <li class="breadcrumb-item active">Tablero Principal</li>
                 </ol>
             </div><!-- /.col -->
@@ -23,7 +23,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalProductos" class="fw-bold">100</h6>
+                        <h6 id="totalProductos" class="fw-bold">0</h6>
                         <p>Productos</p>
                     </div>
                     <div class="icon">
@@ -35,7 +35,7 @@
             <div class="col-6 col-lg-2 px-1">
                 <div class="small-box bg-success">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalCompras" class="fw-bold">S/9,2010.10</h6>
+                        <h6 id="totalCompras" class="fw-bold">S/0.00</h6>
                         <p>Costo Inventario</p>
                     </div>
                     <div class="icon">
@@ -47,8 +47,8 @@
             <div class="col-6 col-lg-2 px-1">
                 <div class="small-box bg-warning">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalVentas" class="fw-bold">S/.410.20</h6>
-                        <p>Total Ventas</p>
+                        <h6 id="totalVentas" class="fw-bold">S/.0.00</h6>
+                        <p>Total Ventas Mes</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-cart"></i>
@@ -59,8 +59,8 @@
             <div class="col-6 col-lg-2 px-1">
                 <div class="small-box bg-danger">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalGanancias" class="fw-bold">S/.80.20</h6>
-                        <p>Total Ganancias</p>
+                        <h6 id="totalGanancias" class="fw-bold">S/.0.00</h6>
+                        <p>Total Ganancias Mes</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-pie"></i>
@@ -71,7 +71,7 @@
             <div class="col-6 col-lg-2 px-1">
                 <div class="small-box bg-primary">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalProductosMinStock" class="fw-bold">5</h6>
+                        <h6 id="totalProductosMinStock" class="fw-bold">0</h6>
                         <p>Productos poco stock</p>
                     </div>
                     <div class="icon">
@@ -83,7 +83,7 @@
             <div class="col-6 col-lg-2 px-1">
                 <div class="small-box bg-secondary">
                     <div class="inner px-1 text-center fw-bold">
-                        <h6 id="totalVentasHoy" class="fw-bold">10</h6>
+                        <h6 id="totalVentasHoy" class="fw-bold">0</h6>
                         <p>Ventas del día</p>
                     </div>
                     <div class="icon">
@@ -97,7 +97,7 @@
             <div class="col-12">
                 <div class="card card-gray shadow">
                     <div class="card-header">
-                        <h3 class="card-title" id="title-header-ventas-mes"></h3>
+                        <h3 class="card-title" id="title-header-ventas-año">VENTAS DEL AÑO: S/.0.00</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -117,7 +117,7 @@
             <div class="col-12">
                 <div class="card card-gray shadow">
                     <div class="card-header">
-                        <h3 class="card-title"> TOP VENTAS POR CATEGORÍA</h3>
+                        <h3 class="card-title"> TOP DEL MES DE VENTAS POR CATEGORÍA</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -129,7 +129,7 @@
                     </div>
                     <div class="card-body">
                         <div class="chart">
-                            <div id="chartContainer" style="min-height: 250px; height: 300px; max-height: 350px; width: 100%;"></div>
+                            <canvas id="chartContainer" style="min-height: 250px; height: 300px; max-height: 350px; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
             <div class="col-lg-6">
                 <div class="card card-gray shadow">
                     <div class="card-header">
-                        <h3 class="card-title">LOS 10 PRODUCTOS MAS VENDIDOS</h3>
+                        <h3 class="card-title">LOS 10 PRODUCTOS MAS VENDIDOS DEL MES</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -200,4 +200,234 @@
         </div>
     </div><!-- /.container-fluid -->
 </div><!-- /.content -->
+
+<script>
+    $(document).ready(function() {
+    // Llamada AJAX para obtener el total de productos
+        $.ajax({
+            url: '/api/productotallas/total',  // Ruta al endpoint del backend
+            type: 'GET',
+            success: function(totalProductos) {
+                // Actualizar el valor en el HTML
+                $('#totalProductos').text(totalProductos);
+            },
+            error: function(error) {
+                console.error('Error al obtener el total de productos:', error);
+            }
+        });
+        
+        // Llamada AJAX para obtener el total de productos con poco stock
+        $.ajax({
+            url: '/api/inventarios/poco-stock',  // Ruta del backend
+            type: 'GET',
+            success: function(totalProductosPocoStock) {
+                // Actualizar el valor en el HTML
+                $('#totalProductosMinStock').text(totalProductosPocoStock);
+            },
+            error: function(error) {
+                console.error('Error al obtener el total de productos con poco stock:', error);
+            }
+        });
+        
+        // Llamada AJAX para obtener el total de ventas del día actual
+        $.ajax({
+            url: '/api/ventas/ventas-hoy',  // Ruta del backend
+            type: 'GET',
+            success: function(totalVentasHoy) {
+                // Actualizar el valor en el HTML
+                $('#totalVentasHoy').text(totalVentasHoy);
+            },
+            error: function(error) {
+                console.error('Error al obtener el total de ventas del día:', error);
+            }
+        });
+        
+        $.ajax({
+            url: '/api/ventas/total-dia', // URL del nuevo endpoint del controlador
+            type: 'GET',
+            dataType: 'json',
+            success: function(totalVentasDelDia) {
+                // Formatear el total en formato de moneda y actualizar el HTML
+                $('#totalVentas').text('S/. ' + totalVentasDelDia.toFixed(2));
+            },
+            error: function() {
+                console.error('Error al obtener el total de ventas del día');
+            }
+        });
+        
+        $.ajax({
+            url: '/api/inventarios/valor-total', // URL del endpoint en el backend
+            type: 'GET',
+            dataType: 'json',
+            success: function(valorTotalInventario) {
+                // Formatear el total en formato de moneda y actualizar el HTML
+                $('#totalCompras').text('S/. ' + valorTotalInventario.toFixed(2));
+            },
+            error: function() {
+                console.error('Error al obtener el valor total del inventario');
+            }
+        });
+        
+        $.ajax({
+            url: 'api/detalleventas/ganancias-mes', // URL del nuevo endpoint en el backend
+            type: 'GET',
+            dataType: 'json',
+            success: function(gananciasDelMes) {
+                // Formatear el total en formato de moneda y actualizar el HTML
+                $('#totalGanancias').text('S/. ' + gananciasDelMes.toFixed(2));
+            },
+            error: function() {
+                console.error('Error al obtener las ganancias del mes');
+            }
+        });
+        
+        $.ajax({
+            url: '/api/inventarios/poco-stock-lista',  // Ruta del backend
+            type: 'GET',
+            success: function(productosPocoStock) {
+                // Limpiar el tbody de la tabla
+                $('#tbl_productos_poco_stock tbody').empty();
+
+                // Iterar sobre los productos y agregar filas a la tabla
+                productosPocoStock.forEach(function(producto) {
+                    let row = `
+                        <tr>
+                            <td>${producto.descripcionCompletaproducto}</td>
+                            <td class="text-center">${producto.stockActual}</td>
+                            <td class="text-center">${producto.stockMinimo}</td>
+                        </tr>`;
+                    $('#tbl_productos_poco_stock tbody').append(row);
+                });
+            },
+            error: function(error) {
+                console.error('Error al obtener los productos con poco stock:', error);
+            }
+        });
+        
+        $.ajax({
+            url: '/api/detalleventas/top10-productos-vendidos',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#tbl_productos_mas_vendidos tbody').empty();
+
+                response.forEach(function(producto) {
+                    let row = `
+                        <tr>
+                            <td>${producto.producto}</td>
+                            <td class="text-center">${producto.totalCantidadVendida}</td>
+                            <td class="text-center">${producto.totalVentas}</td>
+                        </tr>
+                    `;
+                    $('#tbl_productos_mas_vendidos tbody').append(row);
+                });
+            },
+            error: function() {
+                console.error('Error al obtener los productos más vendidos');
+            }
+        });
+        
+        $.ajax({
+            url: '/api/ventas/mensuales',
+            type: 'GET',
+            success: function(data) {
+                // Procesar los datos obtenidos
+                const labels = [];
+                const ventasTotales = [];
+                let ventasAnuales = 0;
+                
+                const nombresMeses = [
+                    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                ];
+
+                // Recorremos los datos y los agregamos a los arrays
+                data.forEach(item => {
+                    const mes = item[0];  // El primer elemento es el mes
+                    const totalVentas = item[1];  // El segundo es el total de ventas
+                    labels.push(nombresMeses[mes - 1]); // Por ejemplo, 'Mes 1' para enero, 'Mes 2' para febrero, etc.
+                    ventasTotales.push(totalVentas);
+                    // Acumulamos el total de ventas del año
+                    ventasAnuales += totalVentas;
+                });
+                
+                $('#title-header-ventas-año').text(`VENTAS DEL AÑO: S/. ${ventasAnuales.toFixed(2)}`);
+
+                // Configuración del gráfico
+                const ctx = document.getElementById('barChart').getContext('2d');
+                const barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,  // Etiquetas para los meses
+                        datasets: [{
+                            label: 'Ventas Mensuales',
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            data: ventasTotales  // Datos de ventas
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true  // El eje Y comenzará en 0
+                            }
+                        }
+                    }
+                });
+            },
+            error: function(error) {
+                console.error('Error obteniendo ventas mensuales:', error);
+            }
+        });
+        
+        $.ajax({
+            url: '/api/ventas/ventas-por-categoria',
+            type: 'GET',
+            success: function(data) {
+                const labels = [];
+                const ventasTotales = [];
+
+                // Acumulamos las ventas por categoría
+                data.forEach(item => {
+                    labels.push(item.categoria);  // Nombre de la categoría
+                    ventasTotales.push(item.totalVentas);  // Total de ventas
+                });
+
+                // Configuración del gráfico Doughnut
+                const ctx = document.getElementById('chartContainer').getContext('2d');
+                const doughnutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,  // Nombres de las categorías
+                        datasets: [{
+                            label: 'Ventas por Categoría',
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71', '#e74c3c'], // Puedes personalizar los colores
+                            data: ventasTotales  // Datos de ventas
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const totalVentas = ventasTotales.reduce((a, b) => a + b, 0);  // Total de todas las ventas
+                                        const porcentaje = (context.raw / totalVentas * 100).toFixed(2);  // Calcula el porcentaje
+                                        return `${context.label}: ${context.raw} (${porcentaje}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function(error) {
+                console.error('Error obteniendo ventas por categoría:', error);
+            }
+        });
+    }); 
+</script>
 

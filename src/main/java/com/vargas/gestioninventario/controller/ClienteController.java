@@ -34,13 +34,12 @@ public class ClienteController {
         Map<String, String> response = new HashMap<>();
         try {
             Cliente nuevoCliente = clienteService.save(clienteDTO); // El servicio ahora se encarga de la conversión
-
             response.put("status", "success");
             response.put("id", nuevoCliente.getId().toString());
             response.put("mensaje", "Cliente registrado con éxito");
             return ResponseEntity.ok(response);
-
         } catch (RuntimeException e) {
+            // Si se lanza una excepción, devolver un error de cliente duplicado
             response.put("status", "error");
             response.put("mensaje", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -51,15 +50,22 @@ public class ClienteController {
         }
     }
 
-    //@PutMapping("/{id}")
-    //public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
-    //    Cliente existingCliente = clienteService.findById(id);
-    //    if (existingCliente != null) {
-    //        cliente.setId(id);
-    //        return clienteService.save(cliente);
-    //    }
-    //    return null;
-    //}
+    @PutMapping("/editar/{clienteId}")
+    public ResponseEntity<Map<String, String>> editarCliente(@PathVariable Long clienteId, @RequestBody ClienteDTO clienteDTO) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            // Delegamos la lógica de edición al servicio
+            clienteService.editarCliente(clienteId, clienteDTO);
+
+            response.put("status", "success");
+            response.put("mensaje", "Cliente actualizado con éxito");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("mensaje", "Ocurrió un error al actualizar el cliente");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public void deleteCliente(@PathVariable Long id) {

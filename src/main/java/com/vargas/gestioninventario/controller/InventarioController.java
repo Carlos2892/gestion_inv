@@ -98,4 +98,22 @@ public class InventarioController {
         response.put("mensaje", "Se actualizó el estado del producto en Inventario");
         return ResponseEntity.ok(response);
     }
+    
+    @GetMapping("/poco-stock")
+    public ResponseEntity<Long> contarProductosConPocoStock() {
+        long totalProductosPocoStock = inventarioService.contarProductosConPocoStock();
+        return ResponseEntity.ok(totalProductosPocoStock);
+    }
+    
+    @GetMapping("/poco-stock-lista")
+    public ResponseEntity<List<ProductoInventarioDTO>> obtenerProductosPocoStock() {
+        List<ProductoInventarioDTO> productosPocoStock = inventarioService.obtenerProductosPocoStock();
+        return ResponseEntity.ok(productosPocoStock);
+    }
+    
+    @GetMapping("/valor-total")
+    public ResponseEntity<Double> obtenerValorTotalInventario() {
+        Double valorTotalInventario = inventarioService.obtenerValorTotalInventario();
+        return ResponseEntity.ok(valorTotalInventario);
+    }
 }
